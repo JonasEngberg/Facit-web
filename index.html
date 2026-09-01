@@ -117,8 +117,13 @@
 
     /* ---------- hero ---------- */
     .hero{padding-block:clamp(44px, 5vw, 76px) clamp(52px, 6vw, 88px)}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px, 452px);gap:clamp(32px, 5vw, 60px);align-items:start}
-    @media (max-width:940px){.hero-grid{grid-template-columns:1fr}}
+    .hero-grid{display:grid;grid-template-columns:minmax(300px, 360px) minmax(0,1fr);gap:clamp(32px, 5vw, 60px);align-items:start}
+    .hero-grid .builder-side{grid-column:1;grid-row:1}
+    .hero-grid .hero-copy{grid-column:2;grid-row:1}
+    @media (max-width:940px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-grid .builder-side,.hero-grid .hero-copy{grid-column:auto;grid-row:auto}
+    }
     .hero .kicker{font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
     .hero p.lead{font-size:1.18rem;line-height:1.55;color:var(--ink);margin-top:20px;max-width:34ch}
     .hero p.lead b{font-weight:600}
@@ -160,8 +165,18 @@
     .remove-btn{flex:none;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1;color:var(--fade);background:transparent;border:1px solid var(--rule);border-radius:8px;cursor:pointer}
     .remove-btn:hover{background:color-mix(in srgb, var(--fade) 12%, transparent);border-color:color-mix(in srgb, var(--fade) 40%, var(--rule))}
 
-    .builder-top{margin-top:14px;padding-bottom:20px;margin-bottom:6px;border-bottom:1px solid var(--rule)}
-    .builder-top .btn{width:100%;margin-top:14px}
+    .builder-side{
+      background:var(--surface);
+      border:1px solid var(--rule);
+      border-radius:16px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      align-self:start;
+    }
+    .builder-side .btn{width:100%;margin-top:14px}
+    .builder-side .qr-preview{flex-direction:column;align-items:center;gap:12px}
+    .builder-side .qr-side{width:100%}
+    #builder{margin-top:clamp(28px, 4vw, 44px)}
     .builder-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
     .btn{appearance:none;font:inherit;font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:9px;border:1px solid transparent;cursor:pointer;background:var(--violet);color:var(--on-violet)}
     .btn:hover{filter:brightness(1.06)}
@@ -268,31 +283,26 @@
 
   <main>
     <section class="hero" id="top">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <div class="kicker">Flashcards, made smarter</div>
-          <h1>Facit remembers what you're about&nbsp;to forget.</h1>
-          <p class="lead">Flashcards that schedule themselves. Build a deck from your notes — or a table from <b>ChatGPT</b> — and beam it to your phone with a single animated QR&nbsp;code.</p>
-          <div class="cta-row" id="get">
-            <a class="store-btn" href="#">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.13-.46 2.26-1.22 3.07-.81.9-2.16 1.6-3.28 1.5-.14-1.08.42-2.24 1.15-3.01.82-.86 2.26-1.5 3.35-1.56zM20.5 17c-.55 1.27-.82 1.84-1.53 2.96-1 1.56-2.4 3.5-4.14 3.52-1.55.02-1.95-1.01-4.05-1-2.1.02-2.53 1.02-4.08 1-1.74-.03-3.07-1.78-4.07-3.34C-.02 17.87-.3 13.17 1.35 10.67c1.13-1.73 2.9-2.73 4.56-2.73 1.7 0 2.76 1.03 4.17 1.03 1.36 0 2.19-1.03 4.18-1.03 1.5 0 3.07.82 4.2 2.24-3.69 2.02-3.09 7.31.84 8.82z"/></svg>
-              <span class="t"><small>Download on the</small><b>App Store</b></span>
-            </a>
-            <a class="store-btn" href="#">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 2.1v19.8c0 .5.5.83.95.6l16.2-9.9c.42-.28.42-.9 0-1.18L4.45 1.5c-.45-.26-.95.06-.95.6z"/></svg>
-              <span class="t"><small>Get it on</small><b>Google Play</b></span>
-            </a>
-          </div>
-          <p class="note">Free. No account. The deck builder runs entirely in your browser.</p>
-        </div>
-
-        <div class="builder" id="builder">
-          <div class="builder-head">
-            <h3>Deck builder</h3>
-            <span class="tag">browser · offline</span>
+      <div class="wrap">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="kicker">Flashcards, made smarter</div>
+            <h1>Facit remembers what you're about&nbsp;to forget.</h1>
+            <p class="lead">Flashcards that schedule themselves. Build a deck from your notes — or a table from <b>ChatGPT</b> — and beam it to your phone with a single animated QR&nbsp;code.</p>
+            <div class="cta-row" id="get">
+              <a class="store-btn" href="#">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.13-.46 2.26-1.22 3.07-.81.9-2.16 1.6-3.28 1.5-.14-1.08.42-2.24 1.15-3.01.82-.86 2.26-1.5 3.35-1.56zM20.5 17c-.55 1.27-.82 1.84-1.53 2.96-1 1.56-2.4 3.5-4.14 3.52-1.55.02-1.95-1.01-4.05-1-2.1.02-2.53 1.02-4.08 1-1.74-.03-3.07-1.78-4.07-3.34C-.02 17.87-.3 13.17 1.35 10.67c1.13-1.73 2.9-2.73 4.56-2.73 1.7 0 2.76 1.03 4.17 1.03 1.36 0 2.19-1.03 4.18-1.03 1.5 0 3.07.82 4.2 2.24-3.69 2.02-3.09 7.31.84 8.82z"/></svg>
+                <span class="t"><small>Download on the</small><b>App Store</b></span>
+              </a>
+              <a class="store-btn" href="#">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 2.1v19.8c0 .5.5.83.95.6l16.2-9.9c.42-.28.42-.9 0-1.18L4.45 1.5c-.45-.26-.95.06-.95.6z"/></svg>
+                <span class="t"><small>Get it on</small><b>Google Play</b></span>
+              </a>
+            </div>
+            <p class="note">Free. No account. The deck builder runs entirely in your browser.</p>
           </div>
 
-          <div class="builder-top">
+          <div class="builder-side">
             <div class="qr-preview">
               <div id="qrcodes"></div>
               <div class="qr-side">
@@ -304,6 +314,13 @@
             <button id="pasteBtn" class="btn btn--ai" title="Paste a two-column table (term, answer) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
             <p class="builder-hint">Fill the deck fast: copy a <b>two-column table</b> — a term in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
+          </div>
+        </div>
+
+        <div class="builder" id="builder">
+          <div class="builder-head">
+            <h3>Deck builder</h3>
+            <span class="tag">browser · offline</span>
           </div>
 
           <label for="deckName">Deck name</label>
