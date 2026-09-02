@@ -222,13 +222,23 @@
     .paste-msg code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:color-mix(in srgb, var(--amber) 22%, var(--surface));padding:1px 5px;border-radius:5px}
 
     .qr-preview{display:flex;gap:14px;align-items:center}
-    #qrcodes{position:relative;width:196px;height:196px;flex:none;background:#fff;border-radius:10px;box-shadow:0 0 0 2px var(--amber)}
-    .qr-frame{position:absolute;inset:0;display:none;align-items:center;justify-content:center}
-    .qr-canvas canvas{display:block;width:172px;height:172px}
+    #qrcodes{
+      position:relative;width:200px;height:200px;flex:none;
+      background:#fff;border-radius:14px;
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--amber) 45%, var(--rule)),
+        0 14px 32px -18px rgba(30,27,75,.35);
+    }
+    /* inset creates even padding between the white plate and the code */
+    .qr-frame{position:absolute;inset:14px;display:none;align-items:center;justify-content:center}
+    .qr-canvas img,.qr-canvas canvas{display:block;width:172px;height:172px}
     .qr-side{flex:1;min-width:0}
     .qr-side .lead-sm{font-size:.82rem;color:var(--ink)}
     #qrInfo{margin-top:8px;font-family:"JetBrains Mono",monospace;font-size:.66rem;color:var(--muted)}
-    @media (max-width:420px){#qrcodes{width:168px;height:168px}.qr-canvas canvas{width:148px;height:148px}}
+    @media (max-width:420px){
+      #qrcodes{width:180px;height:180px}
+      .qr-canvas img,.qr-canvas canvas{width:152px;height:152px}
+    }
 
     /* ---------- concept lists ---------- */
     .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;list-style:none;padding:0}
