@@ -12,6 +12,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
   <style>
     :root{
       --paper:#F3F4F8;
@@ -165,6 +169,35 @@
     .remove-btn{flex:none;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1;color:var(--fade);background:transparent;border:1px solid var(--rule);border-radius:8px;cursor:pointer}
     .remove-btn:hover{background:color-mix(in srgb, var(--fade) 12%, transparent);border-color:color-mix(in srgb, var(--fade) 40%, var(--rule))}
 
+    /* card field: Markdown/LaTeX preview with click-to-edit */
+    .card-field{position:relative;flex:1;min-width:0}
+    .card-field textarea{width:100%}
+    .card-preview{
+      padding:9px 11px;font-size:.92rem;line-height:1.5;
+      color:var(--ink);background:var(--raise);
+      border:1px solid var(--rule);border-radius:9px;
+      min-height:38px;overflow-x:auto;cursor:text;
+    }
+    .card-preview:hover{border-color:color-mix(in srgb, var(--violet) 35%, var(--rule))}
+
+    /* preview / edit toggle switch */
+    .builder label.switch{display:inline-flex;align-items:center;gap:10px;margin:0;cursor:pointer;user-select:none;font-family:"Public Sans",system-ui,sans-serif;font-size:.9rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink)}
+    .switch input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+    .switch-track{position:relative;flex:none;width:40px;height:22px;border-radius:999px;background:var(--rule);border:1px solid var(--rule);transition:background .15s ease,border-color .15s ease}
+    .switch-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s ease}
+    .switch input:checked + .switch-track{background:var(--violet);border-color:var(--violet)}
+    .switch input:checked + .switch-track .switch-thumb{transform:translateX(18px)}
+    .switch input:focus-visible + .switch-track{outline:2px solid var(--violet);outline-offset:2px}
+    .card-preview > :first-child{margin-top:0}
+    .card-preview > :last-child{margin-bottom:0}
+    .card-preview p{margin:0 0 .5em}
+    .card-preview ul,.card-preview ol{margin:.3em 0;padding-left:1.4em}
+    .card-preview code{font-family:"JetBrains Mono",monospace;font-size:.88em;background:color-mix(in srgb, var(--muted) 16%, transparent);padding:1px 4px;border-radius:4px}
+    .card-preview pre{background:color-mix(in srgb, var(--muted) 12%, transparent);padding:8px 10px;border-radius:7px;overflow-x:auto}
+    .card-preview pre code{background:none;padding:0}
+    .card-preview .preview-empty{color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:.72rem}
+    .card-preview .katex-display{margin:.4em 0}
+
     .builder-side{
       background:var(--surface);
       border:1px solid var(--rule);
@@ -177,7 +210,7 @@
     .builder-side .qr-preview{flex-direction:column;align-items:center;gap:12px}
     .builder-side .qr-side{width:100%}
     #builder{margin-top:clamp(28px, 4vw, 44px)}
-    .builder-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .builder-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:16px}
     .btn{appearance:none;font:inherit;font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:9px;border:1px solid transparent;cursor:pointer;background:var(--violet);color:var(--on-violet)}
     .btn:hover{filter:brightness(1.06)}
     .btn--ai{background:var(--ink);color:var(--paper)}
@@ -311,8 +344,8 @@
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" title="Paste a two-column table (term, answer) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
-            <p class="builder-hint">Fill the deck fast: copy a <b>two-column table</b> — a term in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. The QR updates as you edit.</p>
+            <button id="pasteBtn" class="btn btn--ai" title="Paste a two-column table (question, answer) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
+            <p class="builder-hint">Fill the deck fast: copy a <b>two-column table</b> — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
           </div>
         </div>
@@ -336,7 +369,13 @@
 
           <div class="builder-controls">
             <button id="addCardBtn" class="btn btn--add">Add card</button>
+            <label class="switch" for="modeToggle">
+              <input type="checkbox" id="modeToggle" role="switch" />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span>Edit all cards</span>
+            </label>
           </div>
+          <p class="builder-hint">Cards render as <b>Markdown</b> + <b>LaTeX</b> — wrap math in <b>$…$</b> or <b>$$…$$</b>. Click a question or answer to edit it, or flip <b>Edit all cards</b>.</p>
         </div>
       </div>
     </section>
@@ -477,6 +516,10 @@
             <p>There's no fixed limit. Bigger decks simply add QR frames and take a few seconds longer to scan.</p>
           </details>
           <details>
+            <summary>Can cards use Markdown or math?</summary>
+            <p>Yes. Card text takes Markdown for emphasis, lists and code, and LaTeX for formulas — write <code>$E=mc^2$</code> inline or <code>$$…$$</code> for a centred block. The builder shows every card rendered; click a question or answer to edit it.</p>
+          </details>
+          <details>
             <summary>Where does my data go?</summary>
             <p>The builder runs in your browser. Nothing is uploaded; the QR code is generated locally on this page.</p>
           </details>
@@ -518,14 +561,16 @@
   const PipeToken = '__PIPE__';
   const SemicolonToken = '__SEMICOLON__';
 
-  // Example initial deck
+  // Example initial deck — a few plain cards plus Markdown and LaTeX samples
   let deck = {
-    name: 'Capitals',
+    name: 'Sample deck',
     dueDate: null,
     cards: [
-      { question: 'France', answer: 'Paris' },
-      { question: 'Sweden', answer: 'Stockholm' },
-      { question: 'Australia', answer: 'Canberra' }
+      { question: 'Capital of France', answer: 'Paris' },
+      { question: 'Capital of Sweden', answer: 'Stockholm' },
+      { question: "Newton's second law", answer: 'Force equals mass times acceleration:\n\n$$F = ma$$' },
+      { question: 'Area of a circle of radius $r$', answer: 'Inline math: $A = \\pi r^2$' },
+      { question: 'Markdown formatting', answer: '**Bold**, *italic*, `code`, and a list:\n\n- first point\n- second point' }
     ]
   };
 
@@ -657,13 +702,76 @@
     el.style.overflowY = el.scrollHeight > 220 ? 'auto' : 'hidden';
   }
 
+  // Whether the builder shows cards rendered (true) or as raw editable text (false)
+  let previewMode = true;
+
+  // A card field: a rendered Markdown + LaTeX preview you click to edit, plus its textarea
   function makeCardField(value, placeholder, onChange) {
+    const wrap = document.createElement('div');
+    wrap.className = 'card-field';
+
     const t = document.createElement('textarea');
     t.rows = 1;
     t.value = value || '';
     t.placeholder = placeholder;
     t.oninput = () => { onChange(t.value); autoGrow(t); };
-    return t;
+    t.addEventListener('blur', () => { if (previewMode) setEditing(false); });
+
+    const preview = document.createElement('div');
+    preview.className = 'card-preview';
+    preview.tabIndex = 0;
+    preview.title = 'Click to edit';
+    preview.setAttribute('aria-label', placeholder + ' — click to edit');
+    preview.addEventListener('click', () => setEditing(true, true));
+    preview.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEditing(true, true); }
+    });
+
+    function setEditing(on, focus) {
+      t.style.display = on ? 'block' : 'none';
+      preview.hidden = on;
+      if (on) { autoGrow(t); if (focus) t.focus(); }
+      else renderRichInto(preview, t.value);
+    }
+
+    setEditing(!previewMode, false);
+
+    wrap.append(t, preview);
+    wrap._setEditing = setEditing;
+    return wrap;
+  }
+
+  // Render Markdown + LaTeX source into an element
+  function renderRichInto(el, src) {
+    const source = src || '';
+    if (!source.trim()) {
+      el.innerHTML = '<span class="preview-empty">Nothing to preview yet</span>';
+      return;
+    }
+    // Shield math spans from the Markdown parser, then hand them back to KaTeX
+    const math = [];
+    const shielded = source.replace(
+      /\$\$[\s\S]+?\$\$|\$[^\n$]+?\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)/g,
+      (m) => { math.push(m); return `M${math.length - 1}`; }
+    );
+    let html = window.marked
+      ? marked.parse(shielded, { breaks: true })
+      : shielded.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+    html = html.replace(/M(\d+)/g, (_, i) => math[+i]);
+    el.innerHTML = html;
+    if (window.renderMathInElement) {
+      try {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (e) { /* leave the raw math visible */ }
+    }
   }
 
   function renderCards() {
@@ -680,11 +788,24 @@
       del.onclick = () => { deck.cards.splice(i,1); renderCards(); generateQRCodes(); };
       row.appendChild(q); row.appendChild(a); row.appendChild(del);
       list.appendChild(row);
-      autoGrow(q); autoGrow(a);
+      // Size any textarea that's visible now that it's in the DOM
+      [q, a].forEach((f) => {
+        const ta = f.querySelector('textarea');
+        if (ta.style.display !== 'none') autoGrow(ta);
+      });
     });
   }
 
-  function addCard() { deck.cards = deck.cards || []; deck.cards.push({question:'',answer:''}); renderCards(); generateQRCodes(); }
+  function addCard() {
+    deck.cards = deck.cards || [];
+    deck.cards.push({ question: '', answer: '' });
+    renderCards();
+    generateQRCodes();
+    // Drop straight into editing the new card even when the builder is in preview mode
+    const rows = document.querySelectorAll('#cardsList .card-row');
+    const last = rows[rows.length - 1];
+    if (last) last.querySelector('.card-field')._setEditing(true, true);
+  }
 
   // parse HTML clipboard tables (like earlier)
   async function readHtmlClipboard() {
@@ -716,7 +837,7 @@
       // Fallback: plain text — Markdown table, tab-separated, then comma/semicolon
       const text = await navigator.clipboard.readText();
       if (!text || !text.trim()) {
-        showPasteMsg('Your clipboard is empty. Copy a two-column table (term, answer) first.');
+        showPasteMsg('Your clipboard is empty. Copy a two-column table (question, answer) first.');
         return;
       }
 
@@ -729,7 +850,7 @@
       const fromDelim = parseDelimited(text);
       if (fromDelim && fromDelim.length>0) { applyParsedCards(fromDelim); return; }
 
-      showPasteMsg('That clipboard content isn\'t a two-column table. Give AI paste rows like <code>France, Paris</code> — a term, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table.');
+      showPasteMsg('That clipboard content isn\'t a two-column table. Give AI paste rows like <code>France, Paris</code> — a question, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table.');
     } catch (e) {
       console.error('Clipboard read failed', e);
       showPasteMsg('Couldn\'t read your clipboard. Allow clipboard access for this page, then copy your table again.');
@@ -842,6 +963,13 @@
   };
   document.getElementById('addCardBtn').addEventListener('click', () => { addCard(); });
   document.getElementById('pasteBtn').addEventListener('click', readHtmlClipboard);
+
+  const modeToggle = document.getElementById('modeToggle');
+  modeToggle.checked = !previewMode;
+  modeToggle.addEventListener('change', () => {
+    previewMode = !modeToggle.checked;
+    renderCards();
+  });
 
   // Push the current deck object into the form controls
   function syncForm() {
