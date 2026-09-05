@@ -663,7 +663,9 @@
     if (window.__qrAnimationTimer) clearInterval(window.__qrAnimationTimer);
     qrElements.forEach(el => el.style.display = 'none');
     qrElements[index].style.display = 'flex';
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (total === 1) return;
+    // The frames must always cycle — it's how the deck transfers, not decoration —
+    // so this deliberately ignores prefers-reduced-motion / Low Power Mode.
     window.__qrAnimationTimer = setInterval(() => { qrElements[index].style.display = 'none'; index = (index+1)%total; qrElements[index].style.display = 'flex'; }, interval);
   }
 
