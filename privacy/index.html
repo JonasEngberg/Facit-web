@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Privacy Policy — Facit</title>
+  <meta name="description" content="Facit's privacy policy. Facit collects no personal data.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    :root{
+      --paper:#F3F4F8;
+      --surface:#FFFFFF;
+      --ink:#17161F;
+      --muted:#5C5B6E;
+      --rule:#E3E3EC;
+      --grid:rgba(75,63,207,.055);
+      --violet:#4B3FCF;
+      --shadow:0 26px 60px -30px rgba(30,27,75,.34);
+    }
+    :root:not([data-theme="light"]){
+      @media (prefers-color-scheme: dark){
+        --paper:#100F17;
+        --surface:#17161F;
+        --ink:#ECEBF4;
+        --muted:#9B99AE;
+        --rule:#2B2A38;
+        --grid:rgba(255,255,255,.035);
+        --violet:#8B81F3;
+        --shadow:0 26px 60px -30px rgba(0,0,0,.62);
+      }
+    }
+    :root[data-theme="dark"]{
+      --paper:#100F17;
+      --surface:#17161F;
+      --ink:#ECEBF4;
+      --muted:#9B99AE;
+      --rule:#2B2A38;
+      --grid:rgba(255,255,255,.035);
+      --violet:#8B81F3;
+      --shadow:0 26px 60px -30px rgba(0,0,0,.62);
+    }
+
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      font-family:"Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size:16px;
+      line-height:1.65;
+      color:var(--ink);
+      background-color:var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size:30px 30px;
+      background-position:-1px -1px;
+    }
+    ::selection{background:var(--violet);color:#fff}
+
+    .wrap{max-width:680px;margin:0 auto;padding:clamp(28px,6vw,64px) clamp(20px,5vw,40px)}
+
+    .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.2rem;letter-spacing:-.01em}
+    .brand img{width:24px;height:24px;border-radius:6px;box-shadow:0 0 0 1px var(--rule)}
+
+    .card{
+      margin-top:clamp(20px,4vw,32px);
+      background:var(--surface);
+      border:1px solid var(--rule);
+      border-radius:16px;
+      padding:clamp(22px,5vw,40px);
+      box-shadow:var(--shadow);
+    }
+
+    h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(1.8rem,1.3rem+1.6vw,2.4rem);line-height:1.1;letter-spacing:-.015em;margin:0}
+    .updated{margin-top:8px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+    .prose{margin-top:22px}
+    .prose p{margin:0 0 1rem}
+    .prose p:last-child{margin-bottom:0}
+    .prose a{color:var(--violet);text-decoration:underline;text-underline-offset:2px}
+
+    .back{display:inline-block;margin-top:26px;font-size:.9rem;color:var(--muted);text-decoration:none}
+    .back:hover{color:var(--ink)}
+
+    a:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Facit</a>
+
+    <div class="card">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: 6 September 2026</p>
+
+      <div class="prose">
+        <p>Facit does not collect any personal data.</p>
+
+        <p>Your flashcard decks are stored on your device. If you are signed in to
+        iCloud, they also sync through Apple's iCloud (CloudKit) to your other
+        devices, in your private database. We have no access to that data.</p>
+
+        <p>Facit has no user accounts, contains no advertising, uses no analytics
+        or tracking, and includes no third-party SDKs. The camera is used only, on
+        your request, to scan a deck QR code; camera frames are processed
+        on-device and never stored or transmitted.</p>
+
+        <p>Questions: <a href="mailto:jonas@int32consulting.se">jonas@int32consulting.se</a></p>
+      </div>
+    </div>
+
+    <a class="back" href="/">&larr; Back to facit.study</a>
+  </div>
+</body>
+</html>
