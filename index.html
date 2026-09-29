@@ -169,6 +169,18 @@
     .remove-btn{flex:none;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1;color:var(--fade);background:transparent;border:1px solid var(--rule);border-radius:8px;cursor:pointer}
     .remove-btn:hover{background:color-mix(in srgb, var(--fade) 12%, transparent);border-color:color-mix(in srgb, var(--fade) 40%, var(--rule))}
 
+    /* answer column: the answer, then a quiz card's wrong answers */
+    .answer-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+    .opt-line{display:flex;gap:6px;align-items:flex-start}
+    .opt-mark{flex:none;width:16px;margin-top:9px;text-align:center;font-weight:800;font-size:.9rem;line-height:1.4}
+    .opt-mark--right{color:var(--grow)}
+    .opt-mark--wrong{color:var(--fade)}
+    .wrong-remove{flex:none;width:28px;height:28px;margin-top:5px;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem;line-height:1;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer}
+    .wrong-remove:hover{color:var(--fade);border-color:var(--rule)}
+    .add-wrong{align-self:flex-start;margin-left:22px;padding:2px 0;font:inherit;font-size:.78rem;color:var(--muted);background:none;border:none;cursor:pointer}
+    .add-wrong:hover{color:var(--ink);text-decoration:underline}
+    .card-row:not(.card-row--quiz) .add-wrong{margin-left:0}
+
     /* card field: Markdown/LaTeX preview with click-to-edit */
     .card-field{position:relative;flex:1;min-width:0}
     .card-field textarea{width:100%}
@@ -277,6 +289,7 @@
     .feature .fi{font-family:"JetBrains Mono",monospace;font-size:.7rem;color:var(--amber);letter-spacing:.06em}
     .feature h3{margin:10px 0 6px}
     .feature p{font-size:.88rem;color:var(--muted)}
+    .new-tag{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:999px;vertical-align:3px;font-family:"JetBrains Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--on-violet);background:var(--violet)}
 
     /* ---------- faq ---------- */
     .faq{margin-top:24px;max-width:70ch}
@@ -351,8 +364,8 @@
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" title="Paste a two-column table (question, answer) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
-            <p class="builder-hint">Fill the deck fast: copy a <b>two-column table</b> — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. The QR updates as you edit.</p>
+            <button id="pasteBtn" class="btn btn--ai" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
+            <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. Add more columns of <b>wrong answers</b> and a row becomes a <b>multiple-choice</b> card. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
           </div>
         </div>
@@ -382,7 +395,7 @@
               <span>Edit all cards</span>
             </label>
           </div>
-          <p class="builder-hint">Cards render as <b>Markdown</b> + <b>LaTeX</b> — wrap math in <b>$…$</b> or <b>$$…$$</b>. Click a question or answer to edit it, or flip <b>Edit all cards</b>.</p>
+          <p class="builder-hint">Cards render as <b>Markdown</b> + <b>LaTeX</b> — wrap math in <b>$…$</b> or <b>$$…$$</b>. Click a question or answer to edit it, or flip <b>Edit all cards</b>. Give a card a <b>wrong answer</b> to make it multiple choice: the answer marked ✓ is the correct one.</p>
         </div>
       </div>
     </section>
@@ -447,7 +460,7 @@
         <ol class="steps">
           <li>
             <h3>Ask for a table</h3>
-            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer.</p>
+            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers.</p>
           </li>
           <li>
             <h3>Press AI paste</h3>
@@ -475,17 +488,17 @@
           <div class="feature">
             <div class="fi">// input</div>
             <h3>AI paste</h3>
-            <p>Markdown, TSV/CSV and HTML tables from ChatGPT, Sheets or Notion become cards in one click.</p>
+            <p>Markdown, TSV/CSV and HTML tables from ChatGPT, Sheets or Notion become cards in one click — then fix any question or answer in the builder before you scan.</p>
+          </div>
+          <div class="feature">
+            <div class="fi">// quiz</div>
+            <h3>Multiple choice<span class="new-tag">New</span></h3>
+            <p>Give a card wrong answers — or paste a table with extra columns — and it becomes a quiz: pick the right one from shuffled options. Right counts as known; wrong comes back to repeat.</p>
           </div>
           <div class="feature">
             <div class="fi">// schedule</div>
             <h3>Self-scheduling reviews</h3>
             <p>Every card carries a strength and a next-due date. Facit computes the interval; you just show up.</p>
-          </div>
-          <div class="feature">
-            <div class="fi">// review</div>
-            <h3>Fix cards before they land</h3>
-            <p>AI decks are rough. Edit any question or answer in the builder and the QR updates before you scan.</p>
           </div>
           <div class="feature">
             <div class="fi">// pacing</div>
@@ -516,7 +529,11 @@
           </details>
           <details>
             <summary>Which AI tools work with AI paste?</summary>
-            <p>Any that can output a two-column table — ChatGPT, Claude, Gemini — or a plain spreadsheet. Facit parses the table, not the tool.</p>
+            <p>Any that can output a table — ChatGPT, Claude, Gemini — or a plain spreadsheet. Two columns make flashcards; further columns are wrong answers for multiple-choice cards. Facit parses the table, not the tool.</p>
+          </details>
+          <details>
+            <summary>Can I make multiple-choice cards?</summary>
+            <p>Yes. Add wrong answers to a card and Facit shows the correct answer and the wrong ones as buttons in random order — pick right and the card counts as known, pick wrong and it comes back to repeat. From an AI, ask for a table like: <code>Question | Correct answer | Wrong answer 1 | Wrong answer 2 | Wrong answer 3</code>. Column 2 is always the correct answer. Flashcards and multiple-choice cards can share a deck. Older versions of the app import multiple-choice cards as ordinary flashcards.</p>
           </details>
           <details>
             <summary>How large can a deck be?</summary>
@@ -571,7 +588,8 @@
       { question: 'Capital of Sweden', answer: 'Stockholm' },
       { question: "Newton's second law", answer: 'Force equals mass times acceleration:\n\n$$F = ma$$' },
       { question: 'Area of a circle of radius $r$', answer: 'Inline math: $A = \\pi r^2$' },
-      { question: 'Markdown formatting', answer: '**Bold**, *italic*, `code`, and a list:\n\n- first point\n- second point' }
+      { question: 'Markdown formatting', answer: '**Bold**, *italic*, `code`, and a list:\n\n- first point\n- second point' },
+      { question: 'Capital of Switzerland', answer: 'Bern', wrongAnswers: ['Zürich', 'Geneva', 'Basel'] }
     ]
   };
 
@@ -610,6 +628,19 @@
     return value.replace(/\|/g, PipeToken).replace(/;/g, SemicolonToken);
   }
 
+  // A quiz card's wrong answers, trimmed, without blanks, duplicates or copies of
+  // the correct answer (case-insensitive). Mirrors CardDraft.cleanedWrongAnswers (iOS).
+  function cleanWrongAnswers(wrongAnswers, correct) {
+    const key = (s) => (s || '').trim().toLowerCase();
+    const seen = new Set([key(correct)]);
+    const out = [];
+    for (const w of wrongAnswers || []) {
+      const t = (w || '').trim();
+      if (t && !seen.has(key(t))) { seen.add(key(t)); out.push(t); }
+    }
+    return out;
+  }
+
   function encodeDeckText(deck) {
     const parts = [];
     if (deck.name) parts.push(`d:${encodeMetadataValue(deck.name)}`);
@@ -638,6 +669,14 @@
       cardValues.push(encodeCardValue(c.answer || ''));
     }
     if (cardValues.length > 0) parts.push(`c:${cardValues.join('|')}`);
+
+    // Multiple-choice cards: w:<n>|<wrong1>|<wrong2>|… where n is the card's
+    // 0-based pair index in c:. Readers that don't know w: skip it and import
+    // the card as a plain flashcard.
+    (deck.cards || []).forEach((c, i) => {
+      const wrong = cleanWrongAnswers(c.wrongAnswers, c.answer);
+      if (wrong.length > 0) parts.push(`w:${[i, ...wrong.map(encodeCardValue)].join('|')}`);
+    });
 
     return parts.join(';');
   }
@@ -781,27 +820,72 @@
     const list = document.getElementById('cardsList'); list.innerHTML = '';
     deck.cards = deck.cards || [];
     deck.cards.forEach((c, i) => {
-      const row = document.createElement('div'); row.className = 'card-row';
+      c.wrongAnswers = c.wrongAnswers || [];
+      const isQuiz = c.wrongAnswers.length > 0;
+      const row = document.createElement('div');
+      row.className = 'card-row' + (isQuiz ? ' card-row--quiz' : '');
       const q = makeCardField(c.question, 'Question', (v) => { c.question = v; generateQRCodes(); });
-      const a = makeCardField(c.answer, 'Answer', (v) => { c.answer = v; generateQRCodes(); });
+      const a = makeCardField(c.answer, isQuiz ? 'Correct answer' : 'Answer', (v) => { c.answer = v; generateQRCodes(); });
+
+      // Answer column: the answer (✓ on a quiz card), each wrong answer (✕),
+      // then "+ wrong answer", which turns a flashcard into a quiz card.
+      const answerCol = document.createElement('div'); answerCol.className = 'answer-col';
+      const fields = [q, a];
+      answerCol.appendChild(isQuiz ? optionLine(a, 'right') : a);
+      c.wrongAnswers.forEach((w, wi) => {
+        const f = makeCardField(w, 'Wrong answer', (v) => { c.wrongAnswers[wi] = v; generateQRCodes(); });
+        const line = optionLine(f, 'wrong');
+        const rm = document.createElement('button');
+        rm.className = 'wrong-remove'; rm.innerHTML = '×'; rm.title = 'Remove wrong answer';
+        rm.setAttribute('aria-label', 'Remove wrong answer');
+        rm.onclick = () => { c.wrongAnswers.splice(wi, 1); renderCards(); generateQRCodes(); };
+        line.appendChild(rm);
+        answerCol.appendChild(line);
+        fields.push(f);
+      });
+      const addWrong = document.createElement('button');
+      addWrong.className = 'add-wrong'; addWrong.textContent = '+ wrong answer';
+      addWrong.title = 'Add a wrong answer to make this a multiple-choice card';
+      addWrong.onclick = () => {
+        c.wrongAnswers.push('');
+        renderCards();
+        // Straight into editing the new wrong answer
+        const rows = document.querySelectorAll('#cardsList .card-row');
+        const lines = rows[i] && rows[i].querySelectorAll('.opt-line .card-field');
+        if (lines && lines.length) lines[lines.length - 1]._setEditing(true, true);
+      };
+      answerCol.appendChild(addWrong);
+
       const del = document.createElement('button');
       del.innerHTML = '×';
       del.className = 'remove-btn';
       del.title = 'Remove card';
       del.onclick = () => { deck.cards.splice(i,1); renderCards(); generateQRCodes(); };
-      row.appendChild(q); row.appendChild(a); row.appendChild(del);
+      row.appendChild(q); row.appendChild(answerCol); row.appendChild(del);
       list.appendChild(row);
       // Size any textarea that's visible now that it's in the DOM
-      [q, a].forEach((f) => {
+      fields.forEach((f) => {
         const ta = f.querySelector('textarea');
         if (ta.style.display !== 'none') autoGrow(ta);
       });
     });
   }
 
+  // A field with a ✓ (correct answer) or ✕ (wrong answer) mark in front
+  function optionLine(field, kind) {
+    const line = document.createElement('div'); line.className = 'opt-line';
+    const mark = document.createElement('span');
+    mark.className = 'opt-mark opt-mark--' + kind;
+    mark.textContent = kind === 'right' ? '✓' : '✕';
+    mark.title = kind === 'right' ? 'Correct answer' : 'Wrong answer';
+    mark.setAttribute('aria-hidden', 'true');
+    line.append(mark, field);
+    return line;
+  }
+
   function addCard() {
     deck.cards = deck.cards || [];
-    deck.cards.push({ question: '', answer: '' });
+    deck.cards.push({ question: '', answer: '', wrongAnswers: [] });
     renderCards();
     generateQRCodes();
     // Drop straight into editing the new card even when the builder is in preview mode
@@ -853,22 +937,45 @@
       const fromDelim = parseDelimited(text);
       if (fromDelim && fromDelim.length>0) { applyParsedCards(fromDelim); return; }
 
-      showPasteMsg('That clipboard content isn\'t a two-column table. Give AI paste rows like <code>France, Paris</code> — a question, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table.');
+      showPasteMsg('That clipboard content isn\'t a table. Give AI paste rows like <code>France, Paris</code> — a question, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table. Extra columns are wrong answers for a multiple-choice card: <code>Capital of France, Paris, Lyon, Nice</code>.');
     } catch (e) {
       console.error('Clipboard read failed', e);
       showPasteMsg('Couldn\'t read your clipboard. Allow clipboard access for this page, then copy your table again.');
     }
   }
 
-  // Comma / semicolon / tab separated rows — only accepted when most lines split into columns
+  // One table row → a card: column 1 the question, column 2 the (correct) answer,
+  // columns 3+ wrong answers, which make it a multiple-choice card. Mirrors
+  // ClipboardParser.card(fromColumns:) in the iOS app.
+  function cardFromColumns(cols) {
+    if (!cols || cols.length < 2) return null;
+    return { question: cols[0], answer: cols[1], wrongAnswers: cleanWrongAnswers(cols.slice(2), cols[1]) };
+  }
+
+  // Split a line on `sep`, honouring "double quotes" so a quoted comma stays in its cell
+  function splitQuoted(line, sep) {
+    const out = []; let cur = ''; let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQuotes = !inQuotes; continue; }
+      if (ch === sep && !inQuotes) { out.push(cur.trim()); cur = ''; continue; }
+      cur += ch;
+    }
+    out.push(cur.trim());
+    return out;
+  }
+
+  // Comma or semicolon separated rows — only accepted when most lines split into columns
   function parseDelimited(text) {
     if (!text) return [];
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    // The separator is whichever of , and ; the first line uses more
+    const first = lines[0] || '';
+    const sep = (first.match(/;/g) || []).length > (first.match(/,/g) || []).length ? ';' : ',';
     const rows = [];
     for (const l of lines) {
-      const parts = l.split(/\t|,|;/).map(p => p.trim());
-      const answer = parts.slice(1).join(', ').trim();
-      if (parts.length >= 2 && parts[0] && answer) rows.push({ question: parts[0], answer });
+      const card = cardFromColumns(splitQuoted(l, sep));
+      if (card && card.question && card.answer) rows.push(card);
     }
     return rows.length >= Math.max(1, Math.ceil(lines.length * 0.6)) ? rows : [];
   }
@@ -885,7 +992,7 @@
     // find a header + separator row pattern
     let headerIndex = -1;
     for (let i = 0; i < lines.length - 1; i++) {
-      if (/^\|?.*\|.*$/.test(lines[i]) && /^\|?\s*-{3,}\s*\|/.test(lines[i+1])) { headerIndex = i; break; }
+      if (/^\|?.*\|.*$/.test(lines[i]) && /^\|?\s*:?-{3,}:?\s*\|/.test(lines[i+1])) { headerIndex = i; break; }
     }
     if (headerIndex === -1) return [];
 
@@ -895,7 +1002,8 @@
       if (!/^\|?.*\|.*$/.test(row)) continue;
       // split on '|' and remove empty leading/trailing
       const cols = row.split('|').map(c => c.trim()).filter((c, idx, arr) => !(c === '' && (idx === 0 || idx === arr.length-1)));
-      if (cols.length >= 2) rows.push({ question: cols[0], answer: cols[1] });
+      const card = cardFromColumns(cols);
+      if (card) rows.push(card);
     }
     return rows;
   }
@@ -906,8 +1014,8 @@
     const rows = [];
     for (const l of lines) {
       if (!l) continue;
-      const parts = l.split('\t').map(p => p.trim());
-      if (parts.length >= 2) rows.push({ question: parts[0], answer: parts[1] });
+      const card = cardFromColumns(l.split('\t').map(p => p.trim()));
+      if (card) rows.push(card);
     }
     return rows;
   }
@@ -918,7 +1026,11 @@
     try {
       const parser = new DOMParser(); const doc = parser.parseFromString(html, 'text/html');
       const rows = doc.querySelectorAll('table tr');
-      rows.forEach(row => { const cols = row.querySelectorAll('td'); if (cols.length<2) return; const q = cols[0].innerText.trim(); const a = cols[1].innerText.trim(); cards.push({question:q, answer:a}); });
+      rows.forEach(row => {
+        const cols = Array.from(row.querySelectorAll('td')).map(td => td.innerText.trim());
+        const card = cardFromColumns(cols);
+        if (card) cards.push(card);
+      });
     } catch (e) { console.error('parseClipboardHtml', e); }
     return cards;
   }
