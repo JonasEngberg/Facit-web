@@ -22,5 +22,4 @@ QR code.
 
 ## Get the app
 
-<!-- TODO: swap for the real App Store URL once the app is live -->
-**iOS** — [Download on the App Store](#)
+**iOS** — [Download on the App Store](https://apps.apple.com/app/id6809219720)
