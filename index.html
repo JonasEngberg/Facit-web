@@ -283,6 +283,27 @@
     .step-cta{margin-top:26px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;text-decoration:none;color:var(--violet)}
     .step-cta:hover{text-decoration:underline}
 
+    /* ---------- copyable AI prompts ---------- */
+    .prompts{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+    .prompt{border:1px solid var(--rule);border-radius:12px;background:var(--surface)}
+    .prompt summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;font-weight:600;font-size:.92rem}
+    .prompt summary::-webkit-details-marker{display:none}
+    .prompt summary::after{content:"+";font-family:"JetBrains Mono",monospace;color:var(--muted)}
+    .prompt[open] summary::after{content:"–"}
+    .prompt summary small{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px}
+    .prompt-body{position:relative;padding:0 12px 12px}
+    .prompt pre{margin:0;padding:12px 40px 12px 12px;border-radius:9px;background:var(--raise);border:1px solid var(--rule);font-family:"JetBrains Mono",monospace;font-size:.72rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+    .prompt-hint{margin-top:8px;font-size:.78rem;line-height:1.45;color:var(--muted)}
+    .copy-prompt{position:absolute;top:6px;right:18px;display:grid;place-items:center;width:30px;height:30px;padding:0;border-radius:7px;border:1px solid var(--rule);background:var(--surface);color:var(--muted);cursor:pointer;opacity:0;transition:opacity .15s}
+    .copy-prompt:hover{color:var(--ink)}
+    .copy-prompt svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .copy-prompt .i-done{display:none}
+    .copy-prompt.copied{color:var(--grow);opacity:1}
+    .copy-prompt.copied .i-copy{display:none}
+    .copy-prompt.copied .i-done{display:block}
+    .prompt-body:hover .copy-prompt,.copy-prompt:focus-visible{opacity:1}
+    @media (hover:none){.copy-prompt{opacity:1}}
+
     /* ---------- features ---------- */
     .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:16px;margin-top:28px}
     .feature{background:var(--surface);border:1px solid var(--rule);border-radius:13px;padding:18px}
@@ -366,6 +387,47 @@
             <button id="pasteBtn" class="btn btn--ai" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
             <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. Add more columns of <b>wrong answers</b> and a row becomes a <b>multiple-choice</b> card. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
+            <div class="prompts">
+              <details class="prompt">
+                <summary><span>🤖 Prompt for flashcards<small>Question on the front, answer on the back</small></span></summary>
+                <div class="prompt-body">
+                  <button type="button" class="copy-prompt" data-target="promptFlash" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+                  <pre id="promptFlash">Make flashcards from the material I've attached or pasted below.
+If there's no material, ask me what topic I want first.
+
+- About 20 cards, unless I ask for a different number.
+- Match the level of the material.
+- Write in the same language as the material (or as my message, if there's no material).
+
+Reply with only a Markdown table with two columns: Question | Answer.
+- One card per row.
+- Keep each question to one clear fact or idea.
+- Keep each answer short — a word, a phrase or one sentence.
+- Use $…$ for any math (LaTeX).</pre>
+                  <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini, then attach your notes, a photo or a file — or just name a topic.</p>
+                </div>
+              </details>
+              <details class="prompt">
+                <summary><span>🤖 Prompt for multiple choice<small>One right answer, three wrong ones</small></span></summary>
+                <div class="prompt-body">
+                  <button type="button" class="copy-prompt" data-target="promptQuiz" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+                  <pre id="promptQuiz">Make multiple-choice questions from the material I've attached or pasted below.
+If there's no material, ask me what topic I want first.
+
+- About 20 questions, unless I ask for a different number.
+- Match the level of the material.
+- Write in the same language as the material (or as my message, if there's no material).
+
+Reply with only a Markdown table with five columns: Question | Correct answer | Wrong answer 1 | Wrong answer 2 | Wrong answer 3.
+- One question per row.
+- Exactly one answer per row is correct.
+- Make the wrong answers believable — common mistakes, not jokes.
+- Keep all answers short and about the same length.
+- Use $…$ for any math (LaTeX).</pre>
+                  <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini, then attach your notes, a photo or a file — or just name a topic.</p>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
 
@@ -459,7 +521,7 @@
         <ol class="steps">
           <li>
             <h3>Ask for a table</h3>
-            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers.</p>
+            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers — or copy a ready-made prompt from the deck builder.</p>
           </li>
           <li>
             <h3>Press AI paste</h3>
@@ -1077,6 +1139,21 @@
   };
   document.getElementById('addCardBtn').addEventListener('click', () => { addCard(); });
   document.getElementById('pasteBtn').addEventListener('click', readHtmlClipboard);
+
+  // Copy an example AI prompt to the clipboard
+  document.querySelectorAll('.copy-prompt').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = document.getElementById(btn.dataset.target).textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.classList.add('copied');
+        btn.title = 'Copied';
+        setTimeout(() => { btn.classList.remove('copied'); btn.title = 'Copy prompt'; }, 2000);
+      } catch (e) {
+        btn.title = 'Couldn\'t copy — select the text and copy it';
+      }
+    });
+  });
 
   const modeToggle = document.getElementById('modeToggle');
   modeToggle.checked = !previewMode;
