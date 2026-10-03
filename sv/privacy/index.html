@@ -1,18 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script>
-    // Swedish browsers (or anyone who picked Svenska) go to /sv/ — an explicit choice always wins
-    try {
-      const pref = localStorage.getItem('lang');
-      const sv = pref === 'sv' || (!pref && (navigator.languages || [navigator.language]).some(l => /^sv\b/i.test(l)));
-      if (sv && location.protocol.startsWith('http')) location.replace('/sv' + location.pathname + location.search + location.hash);
-    } catch (e) { }
-  </script>
-  <title>Privacy Policy — Facit</title>
-  <meta name="description" content="Facit's privacy policy. Facit collects no personal data.">
+  <title>Integritetspolicy — Facit</title>
+  <meta name="description" content="Facits integritetspolicy. Facit samlar inte in några personuppgifter.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="alternate" hreflang="en" href="https://facit.study/privacy/">
@@ -114,38 +106,37 @@
 <body>
   <div class="wrap">
     <div class="top">
-      <a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Facit</a>
-      <nav class="lang" aria-label="Language">
-        <a href="/sv/privacy/" hreflang="sv" lang="sv" data-lang="sv"><svg viewBox="0 0 16 10" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/></svg><span class="code">SV</span></a>
-        <a href="/privacy/" hreflang="en" data-lang="en" aria-current="page"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><clipPath id="flag-gb"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#flag-gb)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg><span class="code">EN</span></a>
+      <a class="brand" href="/sv/"><img src="/favicon.svg" alt="" width="24" height="24">Facit</a>
+      <nav class="lang" aria-label="Språk">
+        <a href="/sv/privacy/" hreflang="sv" data-lang="sv" aria-current="page"><svg viewBox="0 0 16 10" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/></svg><span class="code">SV</span></a>
+        <a href="/privacy/" hreflang="en" lang="en" data-lang="en"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><clipPath id="flag-gb"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#flag-gb)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg><span class="code">EN</span></a>
       </nav>
     </div>
 
     <div class="card">
-      <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 3 October 2026</p>
+      <h1>Integritetspolicy</h1>
+      <p class="updated">Senast uppdaterad: 3 oktober 2026</p>
 
       <div class="prose">
-        <p>Facit does not collect any personal data.</p>
+        <p>Facit samlar inte in några personuppgifter.</p>
 
-        <p>Your flashcard decks are stored on your device. If you are signed in to
-        iCloud, they also sync through Apple's iCloud (CloudKit) to your other
-        devices, in your private database. We have no access to that data.</p>
+        <p>Dina kortlekar lagras på din enhet. Om du är inloggad i iCloud synkas de
+        också via Apples iCloud (CloudKit) till dina andra enheter, i din privata
+        databas. Vi har ingen åtkomst till den datan.</p>
 
-        <p>The facit.study website sets no cookies. If you pick a language, the
-        choice is saved in your browser's local storage and never leaves your
-        device.</p>
+        <p>Webbplatsen facit.study sätter inga cookies. Om du väljer språk sparas
+        valet i din webbläsares lokala lagring och lämnar aldrig din enhet.</p>
 
-        <p>Facit has no user accounts, contains no advertising, uses no analytics
-        or tracking, and includes no third-party SDKs. The camera is used only, on
-        your request, to scan a deck QR code; camera frames are processed
-        on-device and never stored or transmitted.</p>
+        <p>Facit har inga användarkonton, ingen reklam, ingen analys eller spårning
+        och inga SDK:er från tredje part. Kameran används bara när du ber om det,
+        för att skanna en kortleks QR-kod; kamerabilderna behandlas på enheten och
+        sparas eller skickas aldrig.</p>
 
-        <p>Questions: <a href="mailto:jonas@int32consulting.se">jonas@int32consulting.se</a></p>
+        <p>Frågor: <a href="mailto:jonas@int32consulting.se">jonas@int32consulting.se</a></p>
       </div>
     </div>
 
-    <a class="back" href="/">&larr; Back to facit.study</a>
+    <a class="back" href="/sv/">&larr; Tillbaka till facit.study</a>
   </div>
 </body>
 </html>
