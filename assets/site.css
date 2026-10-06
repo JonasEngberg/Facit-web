@@ -126,6 +126,12 @@ section{scroll-margin-top:80px}
 .hero p.lead b{font-weight:600}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .note{margin-top:16px;font-size:.86rem;color:var(--muted)}
+.promises{list-style:none;margin:28px 0 0;padding:16px 18px;display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--rule);border-radius:16px}
+.promises li{display:flex;gap:14px;align-items:flex-start}
+.promises svg{flex:none;width:22px;height:22px;margin-top:2px;fill:none;stroke:var(--violet);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.promises b{display:block;font-size:.95rem;font-weight:600}
+.promises span{font-size:.86rem;line-height:1.45;color:var(--muted)}
+.promises b{color:var(--ink)}
 
 .store-btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;padding:9px 16px;border-radius:11px;background:var(--ink);color:var(--paper);border:1px solid transparent}
 .store-btn svg{width:19px;height:19px;flex:none;fill:currentColor}
