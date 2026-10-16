@@ -125,8 +125,7 @@ section{scroll-margin-top:80px}
 /* Same columns as .hero-grid, so the pitch lines up under the QR side and
    the promises under the headline. */
 .hero-row{display:grid;grid-template-columns:minmax(300px, 360px) minmax(0,1fr);gap:clamp(32px, 5vw, 60px);align-items:start;margin-top:clamp(36px,4vw,56px)}
-.hero-row .hero-pitch p.lead{margin-top:0}
-.hero-row .promises{margin-top:0}
+.hero-row .cta-row,.hero-row .promises{margin-top:0}
 /* Phones: headline and try-it, then the pitch and promises, then the QR side. */
 @media (max-width:940px){
   .hero .wrap{display:flex;flex-direction:column;gap:clamp(32px,5vw,60px)}
