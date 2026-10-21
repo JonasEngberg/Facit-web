@@ -39,6 +39,7 @@
         <a href="#flashcards">Flashcards</a>
         <a href="#timing">Timing</a>
         <a href="#ai">AI decks</a>
+        <a href="#parents">Parents</a>
         <a href="#faq">FAQ</a>
       </nav>
       <div class="nav-end">
@@ -73,10 +74,10 @@
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
+            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
             <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. Add more columns of <b>wrong answers</b> and a row becomes a <b>multiple-choice</b> card. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
-            <div class="prompts">
+            <div class="prompts" id="prompts">
               <details class="prompt">
                 <summary><span>🤖 Prompt for flashcards<small>Question on the front, answer on the back</small></span></summary>
                 <div class="prompt-body">
@@ -147,8 +148,11 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
         <div class="builder" id="builder">
           <div class="builder-head">
             <h3>Deck builder</h3>
+            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste</button>
+            <a class="prompt-link" href="#prompts">Need a table? Get a prompt ↑</a>
             <span class="tag">browser · offline</span>
           </div>
+          <div id="pasteMsgBuilder" class="paste-msg" role="status" aria-live="polite" hidden></div>
 
           <label for="deckName">Deck name</label>
           <input id="deckName" type="text" />
@@ -234,7 +238,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
         <ol class="steps">
           <li>
             <h3>Ask for a table</h3>
-            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers — or copy a ready-made prompt from the deck builder.</p>
+            <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers — or copy a <a href="#prompts">ready-made prompt</a> from the top of the page.</p>
           </li>
           <li>
             <h3>Press AI paste</h3>
@@ -249,9 +253,34 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
       </div>
     </section>
 
+    <section class="band" id="parents">
+      <div class="wrap">
+        <span class="eyebrow"><b>04</b> · For parents</span>
+        <h2>Help your child study</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Making a good deck is the hard part, and it's easier on a computer than on a phone. Build it here from your child's notes or homework. They study it in Facit on their own phone, and Facit brings each card back just before they'd forget it.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Take a photo of the homework</h3>
+            <p>The page from the textbook, the word list or the notes for the test. Or just know the topic.</p>
+          </li>
+          <li>
+            <h3>Let an AI make the deck</h3>
+            <p>Copy a <a href="#prompts">ready-made prompt</a> from the top of the page, paste it into ChatGPT, Claude or Gemini and attach the photo. Copy the table it answers with and hit <b>AI paste</b>. Read through the cards and fix anything that's off.</p>
+          </li>
+          <li>
+            <h3>Your child scans it</h3>
+            <p>In Facit, your child taps <b>Scan QR code</b> and points the phone at your screen. The deck is on their phone in seconds — no account for either of you.</p>
+          </li>
+        </ol>
+        <a class="step-cta" href="#builder">↑ Open the deck builder</a>
+      </div>
+    </section>
+
     <section class="band" id="features">
       <div class="wrap">
-        <span class="eyebrow"><b>04</b> · Under the hood</span>
+        <span class="eyebrow"><b>05</b> · Under the hood</span>
         <h2>What's in the app</h2>
         <div class="features">
           <div class="feature">
@@ -290,7 +319,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
 
     <section class="band" id="faq">
       <div class="wrap">
-        <span class="eyebrow"><b>05</b> · Questions</span>
+        <span class="eyebrow"><b>06</b> · Questions</span>
         <h2>Before you download</h2>
         <div class="faq">
           <details open>

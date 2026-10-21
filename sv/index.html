@@ -31,6 +31,7 @@
         <a href="#flashcards">Flashkort</a>
         <a href="#timing">Intervaller</a>
         <a href="#ai">AI-kortlekar</a>
+        <a href="#parents">Föräldrar</a>
         <a href="#faq">Frågor</a>
       </nav>
       <div class="nav-end">
@@ -65,10 +66,10 @@
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">AI-klistra in tabell</button>
+            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">AI-klistra in tabell</button>
             <p class="builder-hint">Fyll kortleken snabbt: kopiera en tabell — en fråga i första kolumnen och svaret i den andra — från ChatGPT, ett kalkylark eller en webbsida, och tryck på AI-klistra in. Lägg till fler kolumner med <b>fel svar</b> så blir raden ett <b>flervalskort</b>. QR-koden uppdateras medan du redigerar.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
-            <div class="prompts">
+            <div class="prompts" id="prompts">
               <details class="prompt">
                 <summary><span>🤖 Prompt för flashkort<small>Fråga på framsidan, svar på baksidan</small></span></summary>
                 <div class="prompt-body">
@@ -139,8 +140,11 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <div class="builder" id="builder">
           <div class="builder-head">
             <h3>Kortleksbyggare</h3>
+            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">AI-klistra in</button>
+            <a class="prompt-link" href="#prompts">Behöver du en tabell? Hämta en prompt ↑</a>
             <span class="tag">webbläsare · offline</span>
           </div>
+          <div id="pasteMsgBuilder" class="paste-msg" role="status" aria-live="polite" hidden></div>
 
           <label for="deckName">Kortlekens namn</label>
           <input id="deckName" type="text" />
@@ -226,7 +230,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <ol class="steps">
           <li>
             <h3>Be om en tabell</h3>
-            <p>Be ChatGPT, Claude eller Gemini om en tabell med två kolumner: ord och översättning, begrepp och definition, fråga och svar. Vill du ha flerval? Be om extra kolumner med fel svar — eller kopiera en färdig prompt från kortleksbyggaren.</p>
+            <p>Be ChatGPT, Claude eller Gemini om en tabell med två kolumner: ord och översättning, begrepp och definition, fråga och svar. Vill du ha flerval? Be om extra kolumner med fel svar — eller kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan.</p>
           </li>
           <li>
             <h3>Tryck på AI-klistra in</h3>
@@ -241,9 +245,34 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
       </div>
     </section>
 
+    <section class="band" id="parents">
+      <div class="wrap">
+        <span class="eyebrow"><b>04</b> · För föräldrar</span>
+        <h2>Hjälp ditt barn att plugga</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Det svåra är att göra en bra kortlek, och det går lättare på en dator än på en mobil. Bygg den här från ditt barns anteckningar eller läxa. Barnet pluggar sedan i Facit på sin egen mobil, och Facit visar varje kort igen precis innan det glöms bort.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Fota läxan</h3>
+            <p>Sidan i läroboken, glosorna eller anteckningarna inför provet. Eller bara vilket ämne det gäller.</p>
+          </li>
+          <li>
+            <h3>Låt en AI göra kortleken</h3>
+            <p>Kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan, klistra in den i ChatGPT, Claude eller Gemini och bifoga bilden. Kopiera tabellen du får tillbaka och tryck på <b>AI-klistra in tabell</b>. Läs igenom korten och rätta det som blivit fel.</p>
+          </li>
+          <li>
+            <h3>Barnet skannar den</h3>
+            <p>I Facit trycker barnet på <b>Skanna QR-kod</b> och riktar mobilen mot din skärm. Kortleken finns i mobilen på några sekunder — inget konto för någon av er.</p>
+          </li>
+        </ol>
+        <a class="step-cta" href="#builder">↑ Öppna kortleksbyggaren</a>
+      </div>
+    </section>
+
     <section class="band" id="features">
       <div class="wrap">
-        <span class="eyebrow"><b>04</b> · Under huven</span>
+        <span class="eyebrow"><b>05</b> · Under huven</span>
         <h2>Det här finns i appen</h2>
         <div class="features">
           <div class="feature">
@@ -282,7 +311,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
 
     <section class="band" id="faq">
       <div class="wrap">
-        <span class="eyebrow"><b>05</b> · Frågor</span>
+        <span class="eyebrow"><b>06</b> · Frågor</span>
         <h2>Innan du laddar ned</h2>
         <div class="faq">
           <details open>

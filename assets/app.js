@@ -88,14 +88,15 @@ function applyParsedCards(parsed) {
   hidePasteMsg();
 }
 
+// The message shows under whichever AI paste button was pressed
+let pasteMsgId = 'pasteMsg';
 function showPasteMsg(html) {
-  const el = document.getElementById('pasteMsg');
+  const el = document.getElementById(pasteMsgId);
   el.innerHTML = html;
   el.hidden = false;
 }
 function hidePasteMsg() {
-  const el = document.getElementById('pasteMsg');
-  if (el) { el.hidden = true; el.textContent = ''; }
+  document.querySelectorAll('.paste-msg').forEach(el => { el.hidden = true; el.textContent = ''; });
 }
 
 // --- Encoding logic (mirrors QrPayloadParser.EncodeDeckText) ---
@@ -558,7 +559,9 @@ document.getElementById('dueDate').onchange = (e) => {
   generateQRCodes();
 };
 document.getElementById('addCardBtn').addEventListener('click', () => { addCard(); });
-document.getElementById('pasteBtn').addEventListener('click', readHtmlClipboard);
+document.querySelectorAll('.btn--ai').forEach(btn => {
+  btn.addEventListener('click', () => { pasteMsgId = btn.dataset.msg; readHtmlClipboard(); });
+});
 
 // Copy an example AI prompt to the clipboard
 document.querySelectorAll('.copy-prompt').forEach(btn => {
