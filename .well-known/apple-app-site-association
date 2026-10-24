@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["6QS9YFCB52.se.int32consulting.facit"],
+        "components": [
+          { "/": "/join", "comment": "A Facit group's invite code" },
+          { "/": "/join/", "comment": "A Facit group's invite code" }
+        ]
+      }
+    ]
+  }
+}

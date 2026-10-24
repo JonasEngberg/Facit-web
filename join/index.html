@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>
+    // Swedish browsers (or anyone who picked Svenska) go to /sv/ — an explicit choice always wins
+    try {
+      const pref = localStorage.getItem('lang');
+      const sv = pref === 'sv' || (!pref && (navigator.languages || [navigator.language]).some(l => /^sv\b/i.test(l)));
+      if (sv && location.protocol.startsWith('http')) location.replace('/sv' + location.pathname + location.search + location.hash);
+    } catch (e) { }
+  </script>
+  <title>Join a group — Facit</title>
+  <meta name="description" content="Join a Facit group by scanning its invite code in the app.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="alternate" hreflang="en" href="https://facit.study/join/">
+  <link rel="alternate" hreflang="sv" href="https://facit.study/sv/join/">
+  <link rel="alternate" hreflang="x-default" href="https://facit.study/join/">
+  <script src="/assets/lang.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    :root{
+      --paper:#F3F4F8;
+      --surface:#FFFFFF;
+      --ink:#17161F;
+      --muted:#5C5B6E;
+      --rule:#E3E3EC;
+      --grid:rgba(75,63,207,.055);
+      --violet:#4B3FCF;
+      --shadow:0 26px 60px -30px rgba(30,27,75,.34);
+    }
+    :root:not([data-theme="light"]){
+      @media (prefers-color-scheme: dark){
+        --paper:#100F17;
+        --surface:#17161F;
+        --ink:#ECEBF4;
+        --muted:#9B99AE;
+        --rule:#2B2A38;
+        --grid:rgba(255,255,255,.035);
+        --violet:#8B81F3;
+        --shadow:0 26px 60px -30px rgba(0,0,0,.62);
+      }
+    }
+    :root[data-theme="dark"]{
+      --paper:#100F17;
+      --surface:#17161F;
+      --ink:#ECEBF4;
+      --muted:#9B99AE;
+      --rule:#2B2A38;
+      --grid:rgba(255,255,255,.035);
+      --violet:#8B81F3;
+      --shadow:0 26px 60px -30px rgba(0,0,0,.62);
+    }
+
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      font-family:"Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size:16px;
+      line-height:1.65;
+      color:var(--ink);
+      background-color:var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size:30px 30px;
+      background-position:-1px -1px;
+    }
+    ::selection{background:var(--violet);color:#fff}
+
+    .wrap{max-width:680px;margin:0 auto;padding:clamp(28px,6vw,64px) clamp(20px,5vw,40px)}
+
+    .top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .lang{display:flex;gap:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.74rem;letter-spacing:.04em}
+    .lang a{padding:4px 6px;border-radius:6px;color:var(--muted);text-decoration:none}
+    .lang a:hover{color:var(--ink)}
+    .lang a[aria-current]{color:var(--ink);font-weight:500}
+    .lang a{display:inline-flex;align-items:center;gap:5px}
+    .lang svg{width:16px;height:12px;flex:none;border-radius:2px;box-shadow:0 0 0 1px var(--rule)}
+    .lang a:not([aria-current]) svg{opacity:.55}
+    .lang a:hover svg{opacity:1}
+    @media (max-width:400px){.lang .code{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.lang{gap:6px}}
+    .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.2rem;letter-spacing:-.01em}
+    .brand img{width:24px;height:24px;border-radius:6px;box-shadow:0 0 0 1px var(--rule)}
+
+    .card{
+      margin-top:clamp(20px,4vw,32px);
+      background:var(--surface);
+      border:1px solid var(--rule);
+      border-radius:16px;
+      padding:clamp(22px,5vw,40px);
+      box-shadow:var(--shadow);
+    }
+
+    h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(1.8rem,1.3rem+1.6vw,2.4rem);line-height:1.1;letter-spacing:-.015em;margin:0}
+    .updated{margin-top:8px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+    .prose{margin-top:22px}
+    .prose p{margin:0 0 1rem}
+    .prose p:last-child{margin-bottom:0}
+    .prose a{color:var(--violet);text-decoration:underline;text-underline-offset:2px}
+
+    .prose ol{margin:0 0 1rem;padding-left:1.3rem}
+    .prose li{margin:0 0 .5rem}
+    .store{display:inline-block;margin-top:6px;padding:10px 16px;border-radius:10px;background:var(--violet);color:#fff !important;text-decoration:none !important;font-weight:600}
+    .back{display:inline-block;margin-top:26px;font-size:.9rem;color:var(--muted);text-decoration:none}
+    .back:hover{color:var(--ink)}
+
+    a:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="/"><img src="/favicon.svg" alt="" width="24" height="24">Facit</a>
+      <nav class="lang" aria-label="Language">
+        <a href="/sv/join/" hreflang="sv" lang="sv" data-lang="sv"><svg viewBox="0 0 16 10" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/></svg><span class="code">SV</span></a>
+        <a href="/join/" hreflang="en" data-lang="en" aria-current="page"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><clipPath id="flag-gb"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><path d="M0,0v30h60v-30z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#flag-gb)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg><span class="code">EN</span></a>
+      </nav>
+    </div>
+
+    <div class="card">
+      <h1>Join a group in Facit</h1>
+
+      <div class="prose">
+        <p>You scanned the invite code for a group in Facit, the flashcard app.
+        Join it in the app:</p>
+        <ol>
+          <li>Get Facit, or open it if you have it.</li>
+          <li>Tap <b>Scan QR code</b> on its main screen.</li>
+          <li>Point it at the invite code on the admin's phone, and tap <b>Ask to join</b>.</li>
+        </ol>
+        <p><a class="store" href="https://apps.apple.com/app/id6809219720">Download Facit on the App Store</a></p>
+        <p>With Facit installed, the iPhone Camera opens the invite code in Facit
+        directly.</p>
+      </div>
+    </div>
+
+    <a class="back" href="/">&larr; Back to facit.study</a>
+  </div>
+</body>
+</html>
