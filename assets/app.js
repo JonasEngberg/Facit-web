@@ -21,18 +21,21 @@ const STRINGS = {
     correctAnswer: 'Correct answer',
     wrongAnswer: 'Wrong answer',
     clickToEdit: 'Click to edit',
-    nothingToPreview: 'Nothing to preview yet',
+    nothingToPreview: 'Nothing to preview',
     removeWrong: 'Remove wrong answer',
     addWrong: '+ wrong answer',
-    addWrongTitle: 'Add a wrong answer to make this a multiple-choice card',
-    removeCard: 'Remove card',
+    addWrongTitle: 'Add wrong answers to make this a multiple-choice quiz card.',
+    removeCard: 'Delete card',
     qrInfo: (frames, chars) => `frames: ${frames} · payload: ${chars} chars`,
     clipboardEmpty: 'Your clipboard is empty. Copy a two-column table (question, answer) first.',
-    notATable: 'That clipboard content isn\'t a table. Give AI paste rows like <code>France, Paris</code> — a question, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table. Extra columns are wrong answers for a multiple-choice card: <code>Capital of France, Paris, Lyon, Nice</code>.',
+    notATable: 'That didn\'t look like a table. Copy rows like <code>France, Paris</code> — a question, then its answer, separated by a comma, a tab, or the <code>|</code> of a Markdown table. Extra columns are wrong answers for a multiple-choice card: <code>Capital of France, Paris, Lyon, Nice</code>.',
     clipboardFailed: 'Couldn\'t read your clipboard. Allow clipboard access for this page, then copy your table again.',
     copied: 'Copied',
     copyPrompt: 'Copy prompt',
-    copyFailed: 'Couldn\'t copy — select the text and copy it'
+    copyFailed: 'Couldn\'t copy — select the text and copy it',
+    dueKinds: { exam: 'Exam', test: 'Test', homework: 'Homework', other: 'Other' },
+    customEmoji: 'Type an emoji or letter',
+    colorNames: ['Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan', 'Blue', 'Indigo', 'Purple', 'Pink', 'Brown', 'Grey']
   },
   sv: {
     sampleDeck: {
@@ -51,32 +54,53 @@ const STRINGS = {
     correctAnswer: 'Rätt svar',
     wrongAnswer: 'Fel svar',
     clickToEdit: 'Klicka för att redigera',
-    nothingToPreview: 'Inget att förhandsvisa än',
+    nothingToPreview: 'Inget att förhandsvisa',
     removeWrong: 'Ta bort fel svar',
     addWrong: '+ fel svar',
-    addWrongTitle: 'Lägg till ett fel svar så blir kortet ett flervalskort',
-    removeCard: 'Ta bort kort',
+    addWrongTitle: 'Lägg till fel svar för att göra det här till ett flervalskort.',
+    removeCard: 'Radera kort',
     qrInfo: (frames, chars) => `bildrutor: ${frames} · data: ${chars} tecken`,
     clipboardEmpty: 'Urklippet är tomt. Kopiera först en tabell med två kolumner (fråga, svar).',
-    notATable: 'Det du har kopierat är ingen tabell. Ge AI-inklistringen rader som <code>Frankrike, Paris</code> — en fråga och sedan svaret, åtskilda av komma, semikolon, tabb eller <code>|</code> i en Markdown-tabell. Extra kolumner blir fel svar på ett flervalskort: <code>Frankrikes huvudstad, Paris, Lyon, Nice</code>.',
+    notATable: 'Det där ser inte ut som en tabell. Kopiera rader som <code>Frankrike, Paris</code> — en fråga och sedan svaret, åtskilda av komma, semikolon, tabb eller <code>|</code> i en Markdown-tabell. Extra kolumner blir fel svar på ett flervalskort: <code>Frankrikes huvudstad, Paris, Lyon, Nice</code>.',
     clipboardFailed: 'Kunde inte läsa urklippet. Tillåt åtkomst till urklipp för den här sidan och kopiera tabellen igen.',
     copied: 'Kopierat',
     copyPrompt: 'Kopiera prompt',
-    copyFailed: 'Kunde inte kopiera — markera texten och kopiera den'
+    copyFailed: 'Kunde inte kopiera — markera texten och kopiera den',
+    dueKinds: { exam: 'Prov', test: 'Förhör', homework: 'Läxa', other: 'Annat' },
+    customEmoji: 'Skriv en emoji eller bokstav',
+    colorNames: ['Röd', 'Orange', 'Gul', 'Grön', 'Blågrön', 'Cyan', 'Blå', 'Indigo', 'Lila', 'Rosa', 'Brun', 'Grå']
   }
 };
 const T = STRINGS[document.documentElement.lang.startsWith('sv') ? 'sv' : 'en'];
+
+// The subject picker's choices. Mirror EmojiPicker.presets and
+// ColorDotsPicker.hexColors (iOS); the first colour is the default.
+const SubjectEmojis = [
+  '🇬🇧', '🇪🇸', '🇫🇷', '🇩🇪', '🇮🇹', '🇯🇵',
+  '📜', '🌍', '🔢', '🔬', '🧪', '🧬',
+  '📖', '🎨', '🎵', '🩺', '💻'
+];
+const SubjectColors = [
+  '#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#30B0C7', '#34C3FF',
+  '#007AFF', '#5856D6', '#AF52DE', '#FF2D55', '#A2845E', '#8E8E93'
+];
+
+function emptySubject() {
+  return { title: '', emoji: '', color: SubjectColors[0] };
+}
 
 // Example initial deck — a few plain cards plus Markdown and LaTeX samples
 let deck = {
   name: T.sampleDeck.name,
   dueDate: null,
+  dueKind: '',
+  subject: emptySubject(),
   cards: T.sampleDeck.cards
 };
 
 // Reset the deck to an empty slate (used before importing an AI-parsed deck)
 function clearDeck() {
-  deck = { name: '', dueDate: null, cards: [] };
+  deck = { name: '', dueDate: null, dueKind: '', subject: emptySubject(), cards: [] };
 }
 
 // Replace the whole deck with cards parsed from an AI table / clipboard
@@ -88,7 +112,7 @@ function applyParsedCards(parsed) {
   hidePasteMsg();
 }
 
-// The message shows under whichever AI paste button was pressed
+// The message shows under whichever Paste from AI button was pressed
 let pasteMsgId = 'pasteMsg';
 function showPasteMsg(html) {
   const el = document.getElementById(pasteMsgId);
@@ -123,6 +147,8 @@ function cleanWrongAnswers(wrongAnswers, correct) {
   return out;
 }
 
+const DueKinds = ['exam', 'test', 'homework', 'other'];
+
 function encodeDeckText(deck) {
   const parts = [];
   if (deck.name) parts.push(`d:${encodeMetadataValue(deck.name)}`);
@@ -143,7 +169,18 @@ function encodeDeckText(deck) {
       const mm = (d.getMonth()+1).toString().padStart(2,'0');
       const dd = d.getDate().toString().padStart(2,'0');
       parts.push(`u:${yyyy}${mm}${dd}`);
+      // What the date is for: exam / test / homework / other. Readers that
+      // don't know uk: skip it and import a plain due date.
+      if (DueKinds.includes(deck.dueKind)) parts.push(`uk:${deck.dueKind}`);
     }
+  }
+  // The deck's subject: s:<title>, with se:<emoji> and sc:<#RRGGBB>. Facit
+  // files the deck under the user's subject of that name, or makes one like it.
+  const subjectTitle = (deck.subject && deck.subject.title || '').trim();
+  if (subjectTitle) {
+    parts.push(`s:${encodeMetadataValue(subjectTitle)}`);
+    if (deck.subject.emoji) parts.push(`se:${encodeMetadataValue(deck.subject.emoji)}`);
+    if (deck.subject.color) parts.push(`sc:${deck.subject.color}`);
   }
   const cardValues = [];
   for (const c of deck.cards || []) {
@@ -179,15 +216,17 @@ function splitString(str, maxLen = 170) {
   return parts;
 }
 
+// qrElements[i] holds frame i of every QR plate, so the plates cycle in step
 function animateQRCodes(qrElements, interval) {
   let index = 0; const total = qrElements.length; if (total === 0) return;
   if (window.__qrAnimationTimer) clearInterval(window.__qrAnimationTimer);
-  qrElements.forEach(el => el.style.display = 'none');
-  qrElements[index].style.display = 'flex';
+  const show = (i, display) => qrElements[i].forEach(el => el.style.display = display);
+  qrElements.forEach((_, i) => show(i, 'none'));
+  show(index, 'flex');
   if (total === 1) return;
   // The frames must always cycle — it's how the deck transfers, not decoration —
   // so this deliberately ignores prefers-reduced-motion / Low Power Mode.
-  window.__qrAnimationTimer = setInterval(() => { qrElements[index].style.display = 'none'; index = (index+1)%total; qrElements[index].style.display = 'flex'; }, interval);
+  window.__qrAnimationTimer = setInterval(() => { show(index, 'none'); index = (index+1)%total; show(index, 'flex'); }, interval);
 }
 
 function generateQRCodes() {
@@ -196,25 +235,27 @@ function generateQRCodes() {
   const parts = splitString(payload, 170);
   const total = parts.length;
 
-  const container = document.getElementById('qrcodes');
-  container.innerHTML = '';
+  // One plate in the hero, one beside the deck builder
+  const plates = document.querySelectorAll('.qr-plate');
+  plates.forEach(plate => { plate.innerHTML = ''; });
   const qrElements = [];
   parts.forEach((part, idx) => {
     // facit + index(2) + total(2) + part
     const partStr = `facit${String(idx).padStart(2,'0')}${String(total).padStart(2,'0')}${part}`;
 
-    const frame = document.createElement('div');
-    frame.className = 'qr-frame';
-    const qrDiv = document.createElement('div'); qrDiv.className = 'qr-canvas';
-    frame.appendChild(qrDiv);
-    container.appendChild(frame);
-
-    new QRCode(qrDiv, { text: partStr, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
-    qrElements.push(frame);
+    qrElements.push([...plates].map(plate => {
+      const frame = document.createElement('div');
+      frame.className = 'qr-frame';
+      const qrDiv = document.createElement('div'); qrDiv.className = 'qr-canvas';
+      frame.appendChild(qrDiv);
+      plate.appendChild(frame);
+      new QRCode(qrDiv, { text: partStr, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
+      return frame;
+    }));
   });
 
   animateQRCodes(qrElements, 300);
-  document.getElementById('qrInfo').textContent = T.qrInfo(total, payload.length);
+  document.querySelectorAll('.qr-info').forEach(el => { el.textContent = T.qrInfo(total, payload.length); });
 }
 
 // --- UI helpers ---
@@ -558,9 +599,103 @@ document.getElementById('dueDate').onchange = (e) => {
   deck.dueDate = e.target.value ? e.target.value : null;
   generateQRCodes();
 };
+
+// Due date type: a row of buttons — tap one to pick it, tap it again for none
+DueKinds.forEach(kind => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'due-kind';
+  b.dataset.kind = kind;
+  b.textContent = T.dueKinds[kind];
+  b.addEventListener('click', () => {
+    deck.dueKind = deck.dueKind === kind ? '' : kind;
+    renderDueKinds();
+    generateQRCodes();
+  });
+  document.getElementById('dueKinds').append(b);
+});
+function renderDueKinds() {
+  document.querySelectorAll('.due-kind').forEach(b => b.setAttribute('aria-pressed', b.dataset.kind === deck.dueKind));
+}
+
+// Subject: name, emoji and colour. The emoji and colour pickers show once
+// there's a name, since the QR code only carries them with one.
+function firstGrapheme(s) {
+  s = (s || '').trim();
+  if (!s) return '';
+  if (window.Intl && Intl.Segmenter) return new Intl.Segmenter().segment(s)[Symbol.iterator]().next().value.segment;
+  return Array.from(s)[0];
+}
+function setSubject(changes) {
+  Object.assign(deck.subject, changes);
+  renderSubject();
+  generateQRCodes();
+}
+SubjectEmojis.forEach(emoji => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'emoji-tile';
+  b.dataset.emoji = emoji;
+  b.textContent = emoji;
+  b.addEventListener('click', () => setSubject({ emoji }));
+  document.getElementById('emojiGrid').append(b);
+});
+// The last tile takes any other emoji, or a letter, from the keyboard
+const emojiCustom = document.createElement('input');
+emojiCustom.type = 'text';
+emojiCustom.className = 'emoji-tile';
+emojiCustom.id = 'emojiCustom';
+emojiCustom.placeholder = ' ';  // keeps :placeholder-shown, which draws the keyboard icon
+emojiCustom.autocomplete = 'off';
+emojiCustom.setAttribute('aria-label', T.customEmoji);
+emojiCustom.title = T.customEmoji;
+emojiCustom.addEventListener('focus', () => emojiCustom.select());
+emojiCustom.addEventListener('input', () => {
+  const emoji = firstGrapheme(emojiCustom.value);
+  emojiCustom.value = emoji;
+  setSubject({ emoji });
+});
+document.getElementById('emojiGrid').append(emojiCustom);
+SubjectColors.forEach((color, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'color-dot';
+  b.dataset.color = color;
+  b.style.setProperty('--dot', color);
+  b.setAttribute('aria-label', T.colorNames[i]);
+  b.title = T.colorNames[i];
+  b.addEventListener('click', () => setSubject({ color }));
+  document.getElementById('colorDots').append(b);
+});
+document.getElementById('subjectTitle').addEventListener('input', (e) => setSubject({ title: e.target.value }));
+
+function renderSubject() {
+  const s = deck.subject;
+  const badge = document.getElementById('subjectBadge');
+  badge.textContent = s.emoji || '🙂';
+  badge.classList.toggle('subject-badge--empty', !s.emoji);
+  badge.style.setProperty('--subject', s.color);
+  document.getElementById('subjectStyle').hidden = !s.title.trim();
+  const custom = !!s.emoji && !SubjectEmojis.includes(s.emoji);
+  document.querySelectorAll('#emojiGrid button').forEach(b => {
+    b.classList.toggle('is-selected', b.dataset.emoji === s.emoji);
+    b.setAttribute('aria-pressed', b.dataset.emoji === s.emoji);
+  });
+  emojiCustom.classList.toggle('is-selected', custom);
+  if (document.activeElement !== emojiCustom) emojiCustom.value = custom ? s.emoji : '';
+  document.querySelectorAll('.color-dot').forEach(b => b.setAttribute('aria-pressed', b.dataset.color === s.color));
+}
 document.getElementById('addCardBtn').addEventListener('click', () => { addCard(); });
 document.querySelectorAll('.btn--ai').forEach(btn => {
   btn.addEventListener('click', () => { pasteMsgId = btn.dataset.msg; readHtmlClipboard(); });
+});
+
+// Links to the AI prompts land with one open: the flashcard prompt, unless
+// one is open already. The prompts share a name, so only one is open at a time.
+document.querySelectorAll('a[href="#prompts"]').forEach(link => {
+  link.addEventListener('click', () => {
+    if (!document.querySelector('#prompts details[open]')) document.querySelector('#prompts details').open = true;
+  });
 });
 
 // Copy an example AI prompt to the clipboard
@@ -592,6 +727,9 @@ function syncForm() {
   document.getElementById('useDueDate').checked = use;
   document.getElementById('dueDateField').hidden = !use;
   document.getElementById('dueDate').value = formatDueDateForInput(deck.dueDate);
+  renderDueKinds();
+  document.getElementById('subjectTitle').value = deck.subject.title;
+  renderSubject();
   renderCards();
 }
 

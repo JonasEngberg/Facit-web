@@ -40,6 +40,7 @@
         <a href="#timing">Timing</a>
         <a href="#ai">AI decks</a>
         <a href="#parents">Parents</a>
+        <a href="#groups">Groups</a>
         <a href="#faq">FAQ</a>
       </nav>
       <div class="nav-end">
@@ -67,18 +68,18 @@
 
           <div class="builder-side">
             <div class="qr-preview">
-              <div id="qrcodes"></div>
+              <div class="qr-plate" id="qrcodes"></div>
               <div class="qr-side">
                 <div class="lead-sm">Open Facit and point it here — the frames reassemble into the deck on your phone.</div>
-                <div id="qrInfo"></div>
+                <div class="qr-info"></div>
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste a table</button>
-            <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit AI paste. Add more columns of <b>wrong answers</b> and a row becomes a <b>multiple-choice</b> card. The QR updates as you edit.</p>
+            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">Paste from AI</button>
+            <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit Paste from AI. Add more columns of <b>wrong answers</b> and a row becomes a <b>quiz card</b>. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
             <div class="prompts" id="prompts">
-              <details class="prompt">
+              <details class="prompt" name="ai-prompt">
                 <summary><span>🤖 Prompt for flashcards<small>Question on the front, answer on the back</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptFlash" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
@@ -100,8 +101,8 @@ Reply with only a Markdown table with two columns: Question | Answer.
                   <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini, then attach your notes, a photo or a file — or just name a topic.</p>
                 </div>
               </details>
-              <details class="prompt">
-                <summary><span>🤖 Prompt for multiple choice<small>One right answer, three wrong ones</small></span></summary>
+              <details class="prompt" name="ai-prompt">
+                <summary><span>🤖 Prompt for quiz cards<small>One right answer, three wrong ones</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptQuiz" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
                   <pre id="promptQuiz">Make multiple-choice questions from the material I've attached or pasted below.
@@ -140,7 +141,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
           <ul class="promises">
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 21v-1a7 7 0 0 1 11-5.7"/><path d="M17 15l4 4M21 15l-4 4"/></svg><span><b>No account</b>Nothing to sign up for. Just open and study.</span></li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7c2 0 3.8.7 5.2 1.6M22 12s-3.5 7-10 7c-2 0-3.8-.7-5.2-1.6"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg><span><b>No ads, no tracking</b>Facit doesn't collect anything about you.</span></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Your decks stay yours</b>On your phone, and in your own iCloud if it's on. We never see them.</span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Your decks stay yours</b>On your phone, and in your own iCloud if it's on. We never see them. A deck you share with a group reaches only its members.</span></li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="M2 9h20"/><path d="M5.5 6.5h.01M8.5 6.5h.01"/></svg><span><b>Built in your browser</b>The deck builder runs entirely on this page. Your cards are never uploaded.</span></li>
           </ul>
         </div>
@@ -148,32 +149,63 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
         <div class="builder" id="builder">
           <div class="builder-head">
             <h3>Deck builder</h3>
-            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">AI paste</button>
+            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">Paste from AI</button>
             <a class="prompt-link" href="#prompts">Need a table? Get a prompt ↑</a>
-            <span class="tag">browser · offline</span>
           </div>
           <div id="pasteMsgBuilder" class="paste-msg" role="status" aria-live="polite" hidden></div>
 
-          <label for="deckName">Deck name</label>
-          <input id="deckName" type="text" />
+          <div class="builder-body">
+            <div class="builder-form">
+              <label for="deckName">Title</label>
+              <input id="deckName" type="text" />
 
-          <label class="check"><input type="checkbox" id="useDueDate" /> Use due date</label>
-          <div id="dueDateField" hidden>
-            <label for="dueDate">Due date</label>
-            <input id="dueDate" type="date" />
+              <label for="subjectTitle">Subject</label>
+              <div class="subject-row">
+                <span class="subject-badge" id="subjectBadge" aria-hidden="true"></span>
+                <input id="subjectTitle" type="text" placeholder="Optional — like Spanish or Biology" />
+              </div>
+              <div id="subjectStyle" hidden>
+                <div>
+                  <label id="emojiLabel">Emoji</label>
+                  <div class="emoji-grid" id="emojiGrid" role="group" aria-labelledby="emojiLabel"></div>
+                </div>
+                <div>
+                  <label id="colorLabel">Colour</label>
+                  <div class="color-dots" id="colorDots" role="group" aria-labelledby="colorLabel"></div>
+                </div>
+              </div>
+
+              <label class="switch switch--field" for="useDueDate">
+                <input type="checkbox" id="useDueDate" role="switch" />
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+                <span>Due date</span>
+              </label>
+              <div id="dueDateField" hidden>
+                <label for="dueDate">Date</label>
+                <input id="dueDate" type="date" />
+                <label id="dueKindLabel">Type</label>
+                <div class="due-kinds" id="dueKinds" role="group" aria-labelledby="dueKindLabel"></div>
+              </div>
+
+              <div class="cards-list" id="cardsList"></div>
+
+              <div class="builder-controls">
+                <button id="addCardBtn" class="btn btn--add">Add card</button>
+                <label class="switch" for="modeToggle">
+                  <input type="checkbox" id="modeToggle" role="switch" />
+                  <span class="switch-track"><span class="switch-thumb"></span></span>
+                  <span>Edit all cards</span>
+                </label>
+              </div>
+              <p class="builder-hint">Cards render as <b>Markdown</b> + <b>LaTeX</b> — wrap math in <b>$…$</b> or <b>$$…$$</b>. Click a question or answer to edit it, or flip <b>Edit all cards</b>. Give a card a <b>wrong answer</b> to make it multiple choice: the answer marked ✓ is the correct one.</p>
+            </div>
+
+            <aside class="builder-qr">
+              <div class="qr-plate"></div>
+              <p class="lead-sm">Scan it in Facit — the code updates as you edit.</p>
+              <div class="qr-info"></div>
+            </aside>
           </div>
-
-          <div class="cards-list" id="cardsList"></div>
-
-          <div class="builder-controls">
-            <button id="addCardBtn" class="btn btn--add">Add card</button>
-            <label class="switch" for="modeToggle">
-              <input type="checkbox" id="modeToggle" role="switch" />
-              <span class="switch-track"><span class="switch-thumb"></span></span>
-              <span>Edit all cards</span>
-            </label>
-          </div>
-          <p class="builder-hint">Cards render as <b>Markdown</b> + <b>LaTeX</b> — wrap math in <b>$…$</b> or <b>$$…$$</b>. Click a question or answer to edit it, or flip <b>Edit all cards</b>. Give a card a <b>wrong answer</b> to make it multiple choice: the answer marked ✓ is the correct one.</p>
         </div>
       </div>
     </section>
@@ -241,8 +273,8 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
             <p>Prompt ChatGPT, Claude or Gemini for a two-column table: term and translation, concept and definition, question and answer. Want multiple choice? Ask for extra columns of wrong answers — or copy a <a href="#prompts">ready-made prompt</a> from the top of the page.</p>
           </li>
           <li>
-            <h3>Press AI paste</h3>
-            <p>Copy the table, open the builder, hit <b>AI paste</b>. Facit reads Markdown tables, spreadsheet rows and HTML tables from your clipboard and fills every card.</p>
+            <h3>Press Paste from AI</h3>
+            <p>Copy the table, open the builder, hit <b>Paste from AI</b>. Facit reads Markdown tables, spreadsheet rows and HTML tables from your clipboard and fills every card.</p>
           </li>
           <li>
             <h3>Scan the signal</h3>
@@ -267,7 +299,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
           </li>
           <li>
             <h3>Let an AI make the deck</h3>
-            <p>Copy a <a href="#prompts">ready-made prompt</a> from the top of the page, paste it into ChatGPT, Claude or Gemini and attach the photo. Copy the table it answers with and hit <b>AI paste</b>. Read through the cards and fix anything that's off.</p>
+            <p>Copy a <a href="#prompts">ready-made prompt</a> from the top of the page, paste it into ChatGPT, Claude or Gemini and attach the photo. Copy the table it answers with and hit <b>Paste from AI</b>. Read through the cards and fix anything that's off.</p>
           </li>
           <li>
             <h3>Your child scans it</h3>
@@ -278,9 +310,34 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
       </div>
     </section>
 
+    <section class="band" id="groups">
+      <div class="wrap">
+        <span class="eyebrow"><b>05</b> · Groups</span>
+        <h2>Study together</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Make a group with friends, your class or family. Members see each other's streaks and how far they are with today's cards, subject by subject, and can cheer each other on.</p>
+          <p>Each group sees your streak and how you're doing in the subjects you share with it — never your cards, unless you share a deck.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Create a group</h3>
+            <p>In Facit, open <b>Groups</b> and tap <b>Create group</b>. Give it a name and an emoji. You're its admin: only you can add people.</p>
+          </li>
+          <li>
+            <h3>Add members</h3>
+            <p>The new member opens <b>Groups › Join a group</b> and shows their code. You scan it with <b>Add member</b>, and they say yes on their phone. A code works for that person's iCloud account only.</p>
+          </li>
+          <li>
+            <h3>Cheer each other on</h3>
+            <p>Send a cheer or a high five, or nudge someone who hasn't started today. <b>Coming up</b> shows everyone's due dates and how ready they are. Share a deck, and everyone in the group can add their own copy for 30 days.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <section class="band" id="features">
       <div class="wrap">
-        <span class="eyebrow"><b>05</b> · Under the hood</span>
+        <span class="eyebrow"><b>06</b> · Under the hood</span>
         <h2>What's in the app</h2>
         <div class="features">
           <div class="feature">
@@ -290,13 +347,18 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
           </div>
           <div class="feature">
             <div class="fi">// input</div>
-            <h3>AI paste</h3>
+            <h3>Paste from AI</h3>
             <p>Markdown, TSV/CSV and HTML tables from ChatGPT, Sheets or Notion become cards in one click — then fix any question or answer in the builder before you scan.</p>
           </div>
           <div class="feature">
             <div class="fi">// quiz</div>
-            <h3>Multiple choice<span class="new-tag">New</span></h3>
-            <p>Give a card wrong answers — or paste a table with extra columns — and it becomes a quiz: pick the right one from shuffled options. Right counts as known; wrong comes back to repeat.</p>
+            <h3>Quiz cards<span class="new-tag">New</span></h3>
+            <p>Give a card wrong answers — or paste a table with extra columns — and it becomes multiple choice: pick the right one from shuffled options. Right counts as known; wrong comes back to repeat.</p>
+          </div>
+          <div class="feature">
+            <div class="fi">// together</div>
+            <h3>Groups<span class="new-tag">New</span></h3>
+            <p>Friends, a class or a family see each other's streaks and progress subject by subject, cheer each other on and share decks. Never your cards, unless you share a deck.</p>
           </div>
           <div class="feature">
             <div class="fi">// schedule</div>
@@ -319,7 +381,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
 
     <section class="band" id="faq">
       <div class="wrap">
-        <span class="eyebrow"><b>06</b> · Questions</span>
+        <span class="eyebrow"><b>07</b> · Questions</span>
         <h2>Before you download</h2>
         <div class="faq">
           <details open>
@@ -331,12 +393,20 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
             <p>No. The animated QR code carries the entire deck, so there's nothing to sign up for and nothing to sync.</p>
           </details>
           <details>
-            <summary>Which AI tools work with AI paste?</summary>
-            <p>Any that can output a table — ChatGPT, Claude, Gemini — or a plain spreadsheet. Two columns make flashcards; further columns are wrong answers for multiple-choice cards. Facit parses the table, not the tool.</p>
+            <summary>Can my group see my cards?</summary>
+            <p>No. A group sees your first name, your streak and which days you studied. For the subjects you choose to share, it sees each subject's title, colour, today's progress, how many cards you know and your due dates with how ready you are. Never the cards or your notes. If you share a deck with the group, everyone in it can add their own copy for 30 days — the cards, title, languages, due date and subject, but never your progress or notes.</p>
           </details>
           <details>
-            <summary>Can I make multiple-choice cards?</summary>
-            <p>Yes. Add wrong answers to a card and Facit shows the correct answer and the wrong ones as buttons in random order — pick right and the card counts as known, pick wrong and it comes back to repeat. From an AI, ask for a table like: <code>Question | Correct answer | Wrong answer 1 | Wrong answer 2 | Wrong answer 3</code>. Column 2 is always the correct answer. Flashcards and multiple-choice cards can share a deck. Older versions of the app import multiple-choice cards as ordinary flashcards.</p>
+            <summary>What do I need for groups?</summary>
+            <p>Facit on each phone, signed in to iCloud with iCloud on for Facit. A group lives in its admin's iCloud — there's no Facit account and no Facit server. Leave a group any time: it stops seeing your stats, and your own cards and stats stay. If the admin leaves, the group is deleted for everyone.</p>
+          </details>
+          <details>
+            <summary>Which AI tools work with Paste from AI?</summary>
+            <p>Any that can output a table — ChatGPT, Claude, Gemini — or a plain spreadsheet. Two columns make flashcards; further columns are wrong answers for quiz cards. Facit parses the table, not the tool.</p>
+          </details>
+          <details>
+            <summary>Can I make quiz cards?</summary>
+            <p>Yes. Add wrong answers to a card and Facit shows the correct answer and the wrong ones as buttons in random order — pick right and the card counts as known, pick wrong and it comes back to repeat. From an AI, ask for a table like: <code>Question | Correct answer | Wrong answer 1 | Wrong answer 2 | Wrong answer 3</code>. Column 2 is always the correct answer. Flashcards and quiz cards can share a deck. Older versions of the app import quiz cards as ordinary flashcards.</p>
           </details>
           <details>
             <summary>How large can a deck be?</summary>

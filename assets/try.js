@@ -1,5 +1,5 @@
 // "Try it": the app's three ways of studying, in the page. Flashcard (flip,
-// then swipe or press Mark as known / Keep to repeat), Quiz (pick the capital
+// then swipe or press Mark as known / Still learning), Quiz (pick the capital
 // of Sweden) and Game (three questions against made-up players in the same
 // room, with a countdown, who-picked-what tags and a scoreboard). Mirrors the
 // iOS empty screen; nothing is saved and nothing leaves the page.
@@ -14,15 +14,15 @@
     tryIt: 'Prova',
     cards: [['Största planeten?', 'Jupiter'], ['Kemiska tecknet för guld?', 'Au'], ['Hur många ben har en spindel?', '8']],
     flip: 'Vänd', known: 'Kan det', repeat: 'Igen',
-    knownLabel: 'Markera som kan', repeatLabel: 'Spara för repetition',
+    knownLabel: 'Kan den', repeatLabel: 'Övar fortfarande',
     capHint: 'Tryck för att vända. Svep åt höger om du kunde det, åt vänster för att se det igen.',
     capKnown: 'Kan det — det kommer tillbaka om några dagar, sedan allt mer sällan.',
-    capRepeat: 'Det kommer tillbaka senare i dag, tills du kan det.',
+    capRepeat: 'Det kommer tillbaka senare idag, tills du kan det.',
     quizQ: 'Vad är Sveriges huvudstad?',
     quizOptions: ['Stockholm', 'Göteborg', 'Oslo', 'Köpenhamn'],
     correct: 'Rätt!', wrong: 'Fel', tryAgain: 'Försök igen',
-    gamePromo: 'En kortlek med bara quizkort kan spelas som ett spel med vänner i samma rum.',
-    gameTitle: 'Quizspel', you: 'Du',
+    gamePromo: 'En kortlek med bara quizkort kan spelas som ett spel med vänner i närheten.',
+    gameTitle: 'Quiz', you: 'Du',
     question: (n, t) => `Fråga ${n} av ${t}`,
     getReady: 'Gör dig redo…',
     pick: 'Välj ett svar innan tiden tar slut.',
@@ -45,14 +45,14 @@
     tryIt: 'Try it',
     cards: [['Largest planet?', 'Jupiter'], ['Chemical symbol for gold?', 'Au'], ['How many legs does a spider have?', '8']],
     flip: 'Flip', known: 'Knew it', repeat: 'Again',
-    knownLabel: 'Mark as known', repeatLabel: 'Keep to repeat',
+    knownLabel: 'Mark as known', repeatLabel: 'Still learning',
     capHint: 'Tap to flip. Swipe right if you knew it, left to see it again.',
     capKnown: 'Known — it comes back in a few days, then less and less.',
     capRepeat: 'It comes back later today, until you know it.',
     quizQ: 'What is the capital of Sweden?',
     quizOptions: ['Stockholm', 'Gothenburg', 'Oslo', 'Copenhagen'],
     correct: 'Correct!', wrong: 'Wrong', tryAgain: 'Try again',
-    gamePromo: 'A deck of only quiz cards can be played as a game with friends in the same room.',
+    gamePromo: 'A deck of only quiz cards can be played as a game with friends nearby.',
     gameTitle: 'Quiz game', you: 'You',
     question: (n, t) => `Question ${n} of ${t}`,
     getReady: 'Get ready…',

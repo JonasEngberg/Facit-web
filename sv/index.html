@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Facit Flashkort</title>
-  <meta name="description" content="Facit gör dina anteckningar — eller en tabell från ChatGPT — till flashkort med spaced repetition, och skickar dem till mobilen med en animerad QR-kod.">
+  <meta name="description" content="Facit gör dina anteckningar — eller en tabell från ChatGPT — till flashkort med spaced repetition, och skickar dem till telefonen med en animerad QR-kod.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="apple-touch-icon" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +32,7 @@
         <a href="#timing">Intervaller</a>
         <a href="#ai">AI-kortlekar</a>
         <a href="#parents">Föräldrar</a>
+        <a href="#groups">Grupper</a>
         <a href="#faq">Frågor</a>
       </nav>
       <div class="nav-end">
@@ -53,24 +54,24 @@
           <div class="hero-copy">
             <div class="kicker">Flashkort, fast smartare</div>
             <h1>Facit minns det du håller på att&nbsp;glömma.</h1>
-            <p class="lead">Flashkort som schemalägger sig själva. Bygg en kortlek av dina anteckningar — eller en tabell från <b>ChatGPT</b> — och skicka den till mobilen med en enda animerad QR&#8209;kod.</p>
+            <p class="lead">Flashkort som schemalägger sig själva. Bygg en kortlek av dina anteckningar — eller en tabell från <b>ChatGPT</b> — och skicka den till telefonen med en enda animerad QR&#8209;kod.</p>
             <div class="try try--hero" id="try" aria-label="Prova"></div>
           </div>
 
           <div class="builder-side">
             <div class="qr-preview">
-              <div id="qrcodes"></div>
+              <div class="qr-plate" id="qrcodes"></div>
               <div class="qr-side">
-                <div class="lead-sm">Öppna Facit och rikta kameran hit — bildrutorna sätts ihop till kortleken i din mobil.</div>
-                <div id="qrInfo"></div>
+                <div class="lead-sm">Öppna Facit och rikta kameran hit — bildrutorna sätts ihop till kortleken på din telefon.</div>
+                <div class="qr-info"></div>
               </div>
             </div>
 
-            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">AI-klistra in tabell</button>
-            <p class="builder-hint">Fyll kortleken snabbt: kopiera en tabell — en fråga i första kolumnen och svaret i den andra — från ChatGPT, ett kalkylark eller en webbsida, och tryck på AI-klistra in. Lägg till fler kolumner med <b>fel svar</b> så blir raden ett <b>flervalskort</b>. QR-koden uppdateras medan du redigerar.</p>
+            <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">Klistra in från AI</button>
+            <p class="builder-hint">Fyll kortleken snabbt: kopiera en tabell — en fråga i första kolumnen och svaret i den andra — från ChatGPT, ett kalkylark eller en webbsida, och tryck på Klistra in från AI. Lägg till fler kolumner med <b>fel svar</b> så blir raden ett <b>quizkort</b>. QR-koden uppdateras medan du redigerar.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
             <div class="prompts" id="prompts">
-              <details class="prompt">
+              <details class="prompt" name="ai-prompt">
                 <summary><span>🤖 Prompt för flashkort<small>Fråga på framsidan, svar på baksidan</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptFlash" aria-label="Kopiera prompt" title="Kopiera prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
@@ -92,8 +93,8 @@ Svara bara med en Markdown-tabell med två kolumner: Fråga | Svar.
                   <p class="prompt-hint">Klistra in den i ChatGPT, Claude eller Gemini och bifoga sedan dina anteckningar, ett foto eller en fil — eller skriv bara ett ämne.</p>
                 </div>
               </details>
-              <details class="prompt">
-                <summary><span>🤖 Prompt för flerval<small>Ett rätt svar, tre fel</small></span></summary>
+              <details class="prompt" name="ai-prompt">
+                <summary><span>🤖 Prompt för quizkort<small>Ett rätt svar, tre fel</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptQuiz" aria-label="Kopiera prompt" title="Kopiera prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
                   <pre id="promptQuiz">Gör flervalsfrågor av materialet som jag har bifogat eller klistrat in nedan.
@@ -130,9 +131,9 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
             <p class="note">Gratis att ladda ned.</p>
           </div>
           <ul class="promises">
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 21v-1a7 7 0 0 1 11-5.7"/><path d="M17 15l4 4M21 15l-4 4"/></svg><span><b>Inget konto</b>Inget att registrera sig för. Bara öppna och plugga.</span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 21v-1a7 7 0 0 1 11-5.7"/><path d="M17 15l4 4M21 15l-4 4"/></svg><span><b>Inget konto</b>Ingen registrering. Öppna och plugga.</span></li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7c2 0 3.8.7 5.2 1.6M22 12s-3.5 7-10 7c-2 0-3.8-.7-5.2-1.6"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg><span><b>Ingen reklam, ingen spårning</b>Facit samlar inte in något om dig.</span></li>
-            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Dina kortlekar är dina</b>I din mobil, och i din egen iCloud om den är på. Vi ser dem aldrig.</span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Dina kortlekar förblir dina</b>På din telefon, och i din egen iCloud om den är på. Vi ser dem aldrig. En kortlek du delar med en grupp når bara dess medlemmar.</span></li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="M2 9h20"/><path d="M5.5 6.5h.01M8.5 6.5h.01"/></svg><span><b>Byggs i din webbläsare</b>Kortleksbyggaren körs helt på den här sidan. Dina kort laddas aldrig upp.</span></li>
           </ul>
         </div>
@@ -140,32 +141,63 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <div class="builder" id="builder">
           <div class="builder-head">
             <h3>Kortleksbyggare</h3>
-            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">AI-klistra in</button>
+            <button id="pasteBtnBuilder" class="btn btn--ai" data-msg="pasteMsgBuilder" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">Klistra in från AI</button>
             <a class="prompt-link" href="#prompts">Behöver du en tabell? Hämta en prompt ↑</a>
-            <span class="tag">webbläsare · offline</span>
           </div>
           <div id="pasteMsgBuilder" class="paste-msg" role="status" aria-live="polite" hidden></div>
 
-          <label for="deckName">Kortlekens namn</label>
-          <input id="deckName" type="text" />
+          <div class="builder-body">
+            <div class="builder-form">
+              <label for="deckName">Titel</label>
+              <input id="deckName" type="text" />
 
-          <label class="check"><input type="checkbox" id="useDueDate" /> Använd datum för prov/läxa</label>
-          <div id="dueDateField" hidden>
-            <label for="dueDate">Prov/läxa</label>
-            <input id="dueDate" type="date" />
+              <label for="subjectTitle">Ämne</label>
+              <div class="subject-row">
+                <span class="subject-badge" id="subjectBadge" aria-hidden="true"></span>
+                <input id="subjectTitle" type="text" placeholder="Valfritt — t.ex. Spanska eller Biologi" />
+              </div>
+              <div id="subjectStyle" hidden>
+                <div>
+                  <label id="emojiLabel">Emoji</label>
+                  <div class="emoji-grid" id="emojiGrid" role="group" aria-labelledby="emojiLabel"></div>
+                </div>
+                <div>
+                  <label id="colorLabel">Färg</label>
+                  <div class="color-dots" id="colorDots" role="group" aria-labelledby="colorLabel"></div>
+                </div>
+              </div>
+
+              <label class="switch switch--field" for="useDueDate">
+                <input type="checkbox" id="useDueDate" role="switch" />
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+                <span>Datum</span>
+              </label>
+              <div id="dueDateField" hidden>
+                <label for="dueDate">Datum</label>
+                <input id="dueDate" type="date" />
+                <label id="dueKindLabel">Typ</label>
+                <div class="due-kinds" id="dueKinds" role="group" aria-labelledby="dueKindLabel"></div>
+              </div>
+
+              <div class="cards-list" id="cardsList"></div>
+
+              <div class="builder-controls">
+                <button id="addCardBtn" class="btn btn--add">Lägg till kort</button>
+                <label class="switch" for="modeToggle">
+                  <input type="checkbox" id="modeToggle" role="switch" />
+                  <span class="switch-track"><span class="switch-thumb"></span></span>
+                  <span>Redigera alla kort</span>
+                </label>
+              </div>
+              <p class="builder-hint">Korten visas som <b>Markdown</b> + <b>LaTeX</b> — omge matematik med <b>$…$</b> eller <b>$$…$$</b>. Klicka på en fråga eller ett svar för att redigera, eller slå på <b>Redigera alla kort</b>. Ge ett kort ett <b>fel svar</b> så blir det flerval: svaret markerat med ✓ är det rätta.</p>
+            </div>
+
+            <aside class="builder-qr">
+              <div class="qr-plate"></div>
+              <p class="lead-sm">Skanna den i Facit — koden uppdateras när du redigerar.</p>
+              <div class="qr-info"></div>
+            </aside>
           </div>
-
-          <div class="cards-list" id="cardsList"></div>
-
-          <div class="builder-controls">
-            <button id="addCardBtn" class="btn btn--add">Lägg till kort</button>
-            <label class="switch" for="modeToggle">
-              <input type="checkbox" id="modeToggle" role="switch" />
-              <span class="switch-track"><span class="switch-thumb"></span></span>
-              <span>Redigera alla kort</span>
-            </label>
-          </div>
-          <p class="builder-hint">Korten visas som <b>Markdown</b> + <b>LaTeX</b> — omge matematik med <b>$…$</b> eller <b>$$…$$</b>. Klicka på en fråga eller ett svar för att redigera, eller slå på <b>Redigera alla kort</b>. Ge ett kort ett <b>fel svar</b> så blir det flerval: svaret markerat med ✓ är det rätta.</p>
         </div>
       </div>
     </section>
@@ -190,8 +222,8 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <h2>Spaced repetition, uppritad</h2>
         <div class="chart-block">
           <div class="prose">
-            <p>Ett nytt faktum bleknar längs en förutsägbar kurva — starkt i dag, osäkert om två dagar, nästan borta efter en vecka. Repetera det <em>precis innan</em> det glider undan, så börjar kurvan om och planar ut lite mer varje gång. Nästa säkra uppehåll växer: dagar, sedan veckor, sedan månader.</p>
-            <p>Facit håller koll på varje korts styrka och väljer det ögonblicket åt dig. Kort du tycker är svåra kommer tillbaka i morgon; kort du kan utantill håller sig ur vägen. Du pluggar bara de få som du är på väg att tappa.</p>
+            <p>Ett nytt faktum bleknar längs en förutsägbar kurva — starkt idag, osäkert om två dagar, nästan borta efter en vecka. Repetera det <em>precis innan</em> det glider undan, så börjar kurvan om och planar ut lite mer varje gång. Nästa säkra uppehåll växer: dagar, sedan veckor, sedan månader.</p>
+            <p>Facit håller koll på varje korts styrka och väljer det ögonblicket åt dig. Kort du tycker är svåra kommer tillbaka imorgon; kort du kan utantill håller sig ur vägen. Du pluggar bara de få som du är på väg att tappa.</p>
             <ul class="legend">
               <li><span class="sw once"></span> Plugga en gång, sedan ingenting</li>
               <li><span class="sw spaced"></span> Repeterat precis innan du glömmer</li>
@@ -233,8 +265,8 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
             <p>Be ChatGPT, Claude eller Gemini om en tabell med två kolumner: ord och översättning, begrepp och definition, fråga och svar. Vill du ha flerval? Be om extra kolumner med fel svar — eller kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan.</p>
           </li>
           <li>
-            <h3>Tryck på AI-klistra in</h3>
-            <p>Kopiera tabellen, öppna byggaren och tryck på <b>AI-klistra in</b>. Facit läser Markdown-tabeller, rader från kalkylark och HTML-tabeller från urklipp och fyller i alla kort.</p>
+            <h3>Tryck på Klistra in från AI</h3>
+            <p>Kopiera tabellen, öppna byggaren och tryck på <b>Klistra in från AI</b>. Facit läser Markdown-tabeller, rader från kalkylark och HTML-tabeller från urklipp och fyller i alla kort.</p>
           </li>
           <li>
             <h3>Skanna signalen</h3>
@@ -250,7 +282,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <span class="eyebrow"><b>04</b> · För föräldrar</span>
         <h2>Hjälp ditt barn att plugga</h2>
         <div class="prose" style="margin-top:20px">
-          <p>Det svåra är att göra en bra kortlek, och det går lättare på en dator än på en mobil. Bygg den här från ditt barns anteckningar eller läxa. Barnet pluggar sedan i Facit på sin egen mobil, och Facit visar varje kort igen precis innan det glöms bort.</p>
+          <p>Det svåra är att göra en bra kortlek, och det går lättare på en dator än på en telefon. Bygg den här från ditt barns anteckningar eller läxa. Barnet pluggar sedan i Facit på sin egen telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
         </div>
         <ol class="steps">
           <li>
@@ -259,20 +291,45 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
           </li>
           <li>
             <h3>Låt en AI göra kortleken</h3>
-            <p>Kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan, klistra in den i ChatGPT, Claude eller Gemini och bifoga bilden. Kopiera tabellen du får tillbaka och tryck på <b>AI-klistra in tabell</b>. Läs igenom korten och rätta det som blivit fel.</p>
+            <p>Kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan, klistra in den i ChatGPT, Claude eller Gemini och bifoga bilden. Kopiera tabellen du får tillbaka och tryck på <b>Klistra in från AI</b>. Läs igenom korten och rätta det som blivit fel.</p>
           </li>
           <li>
             <h3>Barnet skannar den</h3>
-            <p>I Facit trycker barnet på <b>Skanna QR-kod</b> och riktar mobilen mot din skärm. Kortleken finns i mobilen på några sekunder — inget konto för någon av er.</p>
+            <p>I Facit trycker barnet på <b>Skanna QR-kod</b> och riktar telefonen mot din skärm. Kortleken finns på telefonen på några sekunder — inget konto för någon av er.</p>
           </li>
         </ol>
         <a class="step-cta" href="#builder">↑ Öppna kortleksbyggaren</a>
       </div>
     </section>
 
+    <section class="band" id="groups">
+      <div class="wrap">
+        <span class="eyebrow"><b>05</b> · Grupper</span>
+        <h2>Plugga tillsammans</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Gör en grupp med kompisar, klassen eller familjen. Medlemmarna ser varandras streaks och hur långt de kommit med dagens kort, ämne för ämne, och kan heja på varandra.</p>
+          <p>Varje grupp ser din streak och hur det går för dig i de ämnen du delar med den – aldrig dina kort, om du inte delar en kortlek.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Skapa en grupp</h3>
+            <p>Öppna <b>Grupper</b> i Facit och tryck på <b>Skapa grupp</b>. Ge den ett namn och en emoji. Du är admin: bara du kan lägga till folk.</p>
+          </li>
+          <li>
+            <h3>Lägg till medlemmar</h3>
+            <p>Den nya medlemmen öppnar <b>Grupper › Gå med i en grupp</b> och visar sin kod. Du skannar den med <b>Lägg till medlem</b>, och de tackar ja i sin telefon. En kod fungerar bara för den personens iCloud-konto.</p>
+          </li>
+          <li>
+            <h3>Heja på varandra</h3>
+            <p>Heja, ge en high five eller peta på någon som inte har börjat idag. <b>Kommande</b> visar allas deadlines och hur redo de är. Dela en kortlek, så kan alla i gruppen lägga till en egen kopia i 30 dagar.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <section class="band" id="features">
       <div class="wrap">
-        <span class="eyebrow"><b>05</b> · Under huven</span>
+        <span class="eyebrow"><b>06</b> · Under huven</span>
         <h2>Det här finns i appen</h2>
         <div class="features">
           <div class="feature">
@@ -282,13 +339,18 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
           </div>
           <div class="feature">
             <div class="fi">// inmatning</div>
-            <h3>AI-inklistring</h3>
+            <h3>Klistra in från AI</h3>
             <p>Markdown-, TSV/CSV- och HTML-tabeller från ChatGPT, Sheets eller Notion blir kort med ett klick — rätta sedan valfri fråga eller svar i byggaren innan du skannar.</p>
           </div>
           <div class="feature">
             <div class="fi">// quiz</div>
-            <h3>Flerval<span class="new-tag">Nytt</span></h3>
-            <p>Ge ett kort fel svar — eller klistra in en tabell med extra kolumner — så blir det ett quiz: välj rätt bland blandade alternativ. Rätt räknas som kan; fel kommer tillbaka för repetition.</p>
+            <h3>Quizkort<span class="new-tag">Nytt</span></h3>
+            <p>Ge ett kort fel svar — eller klistra in en tabell med extra kolumner — så blir det flerval: välj rätt bland blandade alternativ. Rätt räknas som kan; fel kommer tillbaka för repetition.</p>
+          </div>
+          <div class="feature">
+            <div class="fi">// tillsammans</div>
+            <h3>Grupper<span class="new-tag">Nytt</span></h3>
+            <p>Kompisar, en klass eller en familj ser varandras streaks och framsteg ämne för ämne, hejar på varandra och delar kortlekar. Aldrig dina kort, om du inte delar en kortlek.</p>
           </div>
           <div class="feature">
             <div class="fi">// schema</div>
@@ -297,7 +359,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
           </div>
           <div class="feature">
             <div class="fi">// datum</div>
-            <h3>Prov/läxa</h3>
+            <h3>Datum</h3>
             <p>Ange dagen för provet, förhöret eller läxan. Ämnet visar datumet och hur redo du är, och ett tryck pluggar alla kort inför den.</p>
           </div>
           <div class="feature">
@@ -311,7 +373,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
 
     <section class="band" id="faq">
       <div class="wrap">
-        <span class="eyebrow"><b>06</b> · Frågor</span>
+        <span class="eyebrow"><b>07</b> · Frågor</span>
         <h2>Innan du laddar ned</h2>
         <div class="faq">
           <details open>
@@ -323,12 +385,20 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
             <p>Nej. Den animerade QR-koden bär hela kortleken, så det finns inget att registrera sig för och inget att synka.</p>
           </details>
           <details>
-            <summary>Vilka AI-verktyg fungerar med AI-inklistring?</summary>
-            <p>Alla som kan skapa en tabell — ChatGPT, Claude, Gemini — eller ett vanligt kalkylark. Två kolumner blir flashkort; fler kolumner blir fel svar för flervalskort. Facit tolkar tabellen, inte verktyget.</p>
+            <summary>Kan min grupp se mina kort?</summary>
+            <p>Nej. En grupp ser ditt förnamn, din streak och vilka dagar du har pluggat. För de ämnen du väljer att dela ser den varje ämnes namn, färg, dagens framsteg, hur många kort du kan och dina deadlines med hur redo du är. Aldrig korten eller dina anteckningar. Delar du en kortlek med gruppen kan alla i den lägga till en egen kopia i 30 dagar – korten, namnet, språken, deadline och ämnet, men aldrig dina framsteg eller anteckningar.</p>
           </details>
           <details>
-            <summary>Kan jag göra flervalskort?</summary>
-            <p>Ja. Lägg till fel svar på ett kort, så visar Facit det rätta svaret och de felaktiga som knappar i slumpad ordning — väljer du rätt räknas kortet som kan, väljer du fel kommer det tillbaka för repetition. Be en AI om en tabell som: <code>Fråga | Rätt svar | Fel svar 1 | Fel svar 2 | Fel svar 3</code>. Kolumn 2 är alltid det rätta svaret. Flashkort och flervalskort kan finnas i samma kortlek. Äldre versioner av appen importerar flervalskort som vanliga flashkort.</p>
+            <summary>Vad behöver jag för grupper?</summary>
+            <p>Facit på varje telefon, inloggad på iCloud med iCloud på för Facit. En grupp finns i adminens iCloud – det finns inget Facit-konto och ingen Facit-server. Du kan lämna en grupp när du vill: gruppen slutar se din statistik, och dina egna kort och din statistik finns kvar. Lämnar admin gruppen raderas den för alla.</p>
+          </details>
+          <details>
+            <summary>Vilka AI-verktyg fungerar med Klistra in från AI?</summary>
+            <p>Alla som kan skapa en tabell — ChatGPT, Claude, Gemini — eller ett vanligt kalkylark. Två kolumner blir flashkort; fler kolumner blir fel svar för quizkort. Facit tolkar tabellen, inte verktyget.</p>
+          </details>
+          <details>
+            <summary>Kan jag göra quizkort?</summary>
+            <p>Ja. Lägg till fel svar på ett kort, så visar Facit det rätta svaret och de felaktiga som knappar i slumpad ordning — väljer du rätt räknas kortet som kan, väljer du fel kommer det tillbaka för repetition. Be en AI om en tabell som: <code>Fråga | Rätt svar | Fel svar 1 | Fel svar 2 | Fel svar 3</code>. Kolumn 2 är alltid det rätta svaret. Flashkort och quizkort kan finnas i samma kortlek. Äldre versioner av appen importerar quizkort som vanliga flashkort.</p>
           </details>
           <details>
             <summary>Hur stor kan en kortlek vara?</summary>
@@ -348,7 +418,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
 
     <section class="band closing">
       <div class="wrap">
-        <h2>Ta med den i mobilen.</h2>
+        <h2>Ta med den i telefonen.</h2>
         <div class="cta-row">
           <a class="store-btn" href="https://apps.apple.com/app/id6809219720">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.13-.46 2.26-1.22 3.07-.81.9-2.16 1.6-3.28 1.5-.14-1.08.42-2.24 1.15-3.01.82-.86 2.26-1.5 3.35-1.56zM20.5 17c-.55 1.27-.82 1.84-1.53 2.96-1 1.56-2.4 3.5-4.14 3.52-1.55.02-1.95-1.01-4.05-1-2.1.02-2.53 1.02-4.08 1-1.74-.03-3.07-1.78-4.07-3.34C-.02 17.87-.3 13.17 1.35 10.67c1.13-1.73 2.9-2.73 4.56-2.73 1.7 0 2.76 1.03 4.17 1.03 1.36 0 2.19-1.03 4.18-1.03 1.5 0 3.07.82 4.2 2.24-3.69 2.02-3.09 7.31.84 8.82z"/></svg>
