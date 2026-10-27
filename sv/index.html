@@ -21,6 +21,7 @@
   <link rel="alternate" hreflang="sv" href="https://facit.study/sv/">
   <link rel="alternate" hreflang="x-default" href="https://facit.study/">
   <script src="../assets/lang.js" defer></script>
+  <script src="../assets/guide.js" defer></script>
 </head>
 <body>
   <header class="nav">
@@ -33,6 +34,7 @@
         <a href="#ai">AI-kortlekar</a>
         <a href="#parents">Föräldrar</a>
         <a href="#groups">Grupper</a>
+        <a href="#guide">Guide</a>
         <a href="#faq">Frågor</a>
       </nav>
       <div class="nav-end">
@@ -282,23 +284,24 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <span class="eyebrow"><b>04</b> · För föräldrar</span>
         <h2>Hjälp ditt barn att plugga</h2>
         <div class="prose" style="margin-top:20px">
-          <p>Det svåra är att göra en bra kortlek, och det går lättare på en dator än på en telefon. Bygg den här från ditt barns anteckningar eller läxa. Barnet pluggar sedan i Facit på sin egen telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
+          <p>Det svåra är att göra en bra kortlek, och det går lättare för dig än för barnet. Gör den från barnets läxa – här på en dator, eller i Facit på din egen iPhone. Barnet pluggar på sin telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
+          <p>I en familjegrupp kan du följa med: barnets streak, dagens kort och hur redo hen är inför provet. Aldrig barnets kort, och inget du kan ändra på barnets telefon.</p>
         </div>
         <ol class="steps">
           <li>
-            <h3>Fota läxan</h3>
-            <p>Sidan i läroboken, glosorna eller anteckningarna inför provet. Eller bara vilket ämne det gäller.</p>
-          </li>
-          <li>
             <h3>Låt en AI göra kortleken</h3>
-            <p>Kopiera en <a href="#prompts">färdig prompt</a> högst upp på sidan, klistra in den i ChatGPT, Claude eller Gemini och bifoga bilden. Kopiera tabellen du får tillbaka och tryck på <b>Klistra in från AI</b>. Läs igenom korten och rätta det som blivit fel.</p>
+            <p>Fota läxan, kopiera en <a href="#prompts">färdig prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden. Tryck på <b>Klistra in från AI</b> med tabellen du får tillbaka, här eller i Facit, och läs igenom korten.</p>
           </li>
           <li>
-            <h3>Barnet skannar den</h3>
-            <p>I Facit trycker barnet på <b>Skanna QR-kod</b> och riktar telefonen mot din skärm. Kortleken finns på telefonen på några sekunder — inget konto för någon av er.</p>
+            <h3>Ge den till barnet</h3>
+            <p>Barnet trycker på <b>Skanna QR-kod</b> och riktar telefonen mot din skärm – inget konto för någon av er. I en familjegrupp delar du den med barnet i stället: den hamnar direkt i barnets eget ämne.</p>
+          </li>
+          <li>
+            <h3>Följ hur det går</h3>
+            <p>Gör ämnet åt <b>Någon annan</b> i Facit och länka det till barnet i familjegruppen. Det räknas aldrig som ditt eget pluggande, och du ser hur det går: dagens kort, streaken och hur redo hen är inför provet. Heja när hen är klar.</p>
           </li>
         </ol>
-        <a class="step-cta" href="#builder">↑ Öppna kortleksbyggaren</a>
+        <a class="step-cta" href="#guide-parents">Steg för steg för föräldrar och lärare →</a>
       </div>
     </section>
 
@@ -313,23 +316,186 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <ol class="steps">
           <li>
             <h3>Skapa en grupp</h3>
-            <p>Öppna <b>Grupper</b> i Facit och tryck på <b>Skapa grupp</b>. Ge den ett namn och en emoji. Du är admin: bara du kan lägga till folk.</p>
+            <p>Öppna <b>Grupper</b> i Facit och tryck på <b>Lägg till grupp</b>. Ge den ett namn och en emoji. Du är admin: bara du kan lägga till folk.</p>
           </li>
           <li>
-            <h3>Lägg till medlemmar</h3>
-            <p>Den nya medlemmen öppnar <b>Grupper › Gå med i en grupp</b> och visar sin kod. Du skannar den med <b>Lägg till medlem</b>, och de tackar ja i sin telefon. En kod fungerar bara för den personens iCloud-konto.</p>
+            <h3>Bjud in folk</h3>
+            <p>Visa gruppens inbjudningskod. Alla skannar den med iPhone-kameran eller <b>Skanna QR-kod</b> i Facit och ber att få gå med, och du lägger till dem – eller slå på <b>Lägg till utan att fråga</b> för en familj.</p>
           </li>
           <li>
             <h3>Heja på varandra</h3>
-            <p>Heja, ge en high five eller peta på någon som inte har börjat idag. <b>Kommande</b> visar allas deadlines och hur redo de är. Dela en kortlek, så kan alla i gruppen lägga till en egen kopia i 30 dagar.</p>
+            <p><b>Heja</b> på någon som gjort klart idag, eller <b>peta</b> på någon som inte har börjat. <b>Kommande</b> visar allas deadlines och hur redo de är. Dela en kortlek, så kan alla i gruppen lägga till en egen kopia i 30 dagar.</p>
           </li>
         </ol>
+        <a class="step-cta" href="#guide-groups">Så funkar grupper, steg för steg →</a>
+      </div>
+    </section>
+
+    <section class="band" id="guide">
+      <div class="wrap">
+        <span class="eyebrow"><b>06</b> · Guide</span>
+        <h2>Så använder du Facit</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Ämnen, kortlekar, dagens kort, datum, grupper – och hur en förälder eller lärare gör kortlekar åt någon annan. Korta steg, med orden som står i appen. Öppna ett ämne.</p>
+        </div>
+        <div class="topics">
+          <details class="topic" id="guide-subjects">
+            <summary><span class="num">01</span><span>Ämnen och kortlekar</span></summary>
+            <div class="topic-body">
+            <p>Ett <b>ämne</b> är det du pluggar – spanska, biologi, historia. Varje ämne har en emoji och en färg och innehåller en eller flera <b>kortlekar</b>: veckans glosor, kapitel 4, förhöret på fredag. Facit planerar korten i varje ämne åt dig; kortlekarna håller bara ordning på dem.</p>
+            <h3>Få in en kortlek i Facit</h3>
+            <ul>
+              <li><b>Klistra in från AI.</b> Be ChatGPT, Claude eller Gemini om en tabell med två kolumner från dina anteckningar, en bild på sidan eller bara ett ämne. Kopiera den och tryck på <b>Klistra in från AI</b> på startskärmen. <a href="#prompts">Promptarna på facit.study</a> är redo att kopiera.</li>
+              <li><b>Skanna QR-kod.</b> Rikta Facit mot en kortlek som byggts på <a href="#builder">facit.study</a>, eller mot en kompis telefon som visar en kortleks QR-kod.</li>
+              <li><b>Från grupp.</b> Lägg till en kortlek som någon delat i en av dina grupper – se <a href="#guide-sharing">Dela kortlekar</a>.</li>
+            </ul>
+            <h3>Lägg den i ett ämne</h3>
+            <ol class="topic-steps">
+              <li>På <b>Lägg till kortlek</b>, tryck på <b>Ämne</b> och välj ett – eller <b>Lägg till nytt ämne…</b>.</li>
+              <li>Ett nytt ämne får ett namn, en emoji och en färg. Med i en grupp? Välj vilka grupper som ser det.</li>
+              <li>Kolla korten, rätta det som blivit fel och tryck på <b>Klar</b>.</li>
+            </ol>
+            <p class="tip">Hamnade den i fel ämne? Öppna kortleken, redigera den och välj ett annat ämne. Redigera kortlek, kort och ämne slutar alla med <b>Radera</b>.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-studying">
+            <summary><span class="num">02</span><span>Plugga varje dag</span></summary>
+            <div class="topic-body">
+            <p>Öppna Facit och tryck på ett ämne. Du får dagens kort – de du är på väg att glömma, och några nya.</p>
+            <ul>
+              <li><b>Vänd och svep.</b> Tryck för att vända. Svep höger om du kunde det, vänster för att se det igen. Ett quizkort visar i stället sina svar som knappar.</li>
+              <li><b>Upp till 20 om dagen.</b> Varje ämne ger dig högst 20 kort om dagen, så en stor ny kortlek inte hopar sig. Klar och vill ha mer? <b>Plugga 20 till</b> – de är extra.</li>
+              <li><b>Nya, övar på, kan.</b> Nya kort har du inte sett än. De du övar på kommer tillbaka snart. De du kan väntar längre varje gång du kan dem. Ett kort du missar börjar om.</li>
+              <li><b>Din streak.</b> Gör klart dagens kort i minst ett ämne så växer din streak. Dagar utan något att plugga räknas också. Missar du en dag börjar den om – din längsta streak sparas.</li>
+            </ul>
+            <p class="tip">Appikonens bricka räknar ämnena som är kvar idag, och en påminnelse på eftermiddagen nämner dem. Tryck på förloppsstapeln medan du pluggar för att se dagens kort.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-due-dates">
+            <summary><span class="num">03</span><span>Datum</span></summary>
+            <div class="topic-body">
+            <p>Pluggar du inför något en viss dag? Ge kortleken ett datum.</p>
+            <ol class="topic-steps">
+              <li>Redigera kortleken (eller bygg den på facit.study) och slå på <b>Datum</b>.</li>
+              <li>Välj <b>Datum</b> och en <b>Typ</b>: Prov, Förhör, Läxa eller Annat. Lägg till en <b>Anteckning</b> om du vill – den stannar på din telefon.</li>
+              <li>Ämnet visar datumet och hur redo du är, till exempel ”80 % redo”. Ett tryck pluggar alla kort inför det.</li>
+            </ol>
+            <p class="tip"><b>Kommande</b> på startskärmen visar dina datum – och allas i dina grupper – dag för dag.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-groups">
+            <summary><span class="num">04</span><span>Grupper</span></summary>
+            <div class="topic-body">
+            <p>En grupp är kompisar, en klass eller en familj som ser varandras streaks och hur långt de kommit med dagens kort, ämne för ämne. Grupper behöver iCloud på varje telefon; det finns inget Facit-konto och ingen Facit-server.</p>
+
+            <h3>Skapa en grupp</h3>
+            <ol class="topic-steps">
+              <li>Öppna <b>Grupper</b> och tryck på <b>Lägg till grupp</b>.</li>
+              <li>Ge den ett namn och en emoji. Du är gruppens <b>admin</b>: bara du kan lägga till folk.</li>
+              <li>Skärmen <b>Bjud in</b> öppnas med gruppens inbjudningskod.</li>
+            </ol>
+
+            <h3>Bjud in folk</h3>
+            <ol class="topic-steps">
+              <li>Visa inbjudningskoden – tryck på <b>Bjud in</b> i gruppen när du vill. Håll den öppen tills alla har skannat.</li>
+              <li>Var och en skannar den med <b>iPhone-kameran</b>, eller med <b>Skanna QR-kod</b> i Facit, och trycker på <b>Be att få gå med</b>. Stå nära: telefonerna pratar över wifi.</li>
+              <li>De dyker upp på din skärm. Lägg till var och en, eller <b>Lägg till alla</b>. För en familj, slå på <b>Lägg till utan att fråga</b> så läggs alla som skannar till.</li>
+            </ol>
+
+            <h3>Gå med i en grupp</h3>
+            <ol class="topic-steps">
+              <li>Be admin visa gruppens inbjudningskod.</li>
+              <li>Skanna den med kameran eller <b>Skanna QR-kod</b> och tryck på <b>Be att få gå med</b>.</li>
+              <li>När du har lagts till väljer du vilka av dina ämnen gruppen ser.</li>
+            </ol>
+
+            <h3>Välj vad varje grupp ser</h3>
+            <p>Varje grupp ser ditt förnamn, din streak och vilka dagar du har pluggat. För varje ämne du väljer ser den också dagens framsteg, hur många kort du kan och dina datum med hur redo du är – aldrig korten eller dina anteckningar.</p>
+            <ul>
+              <li>På ett ämnes sida har <b>Grupper som ser det</b> en knapp för varje grupp.</li>
+              <li>I <b>Gruppinställningar</b> visar <b>Gruppen ser</b> dina ämnen för den gruppen. <b>Se vad de ser</b> visar dig som gruppen ser dig.</li>
+            </ul>
+
+            <h3>Heja på varandra</h3>
+            <ul>
+              <li>Varje medlem har en knapp: <b>Heja</b> när de gjort klart idag, <b>Peta</b> innan dess. En gång om dagen var.</li>
+              <li>Ett hejarop syns på knappen Grupper och högst upp i gruppen. Slå på notiser för när någon gjort klart idag i <b>Gruppinställningar</b>.</li>
+            </ul>
+
+            <h3>Lämna en grupp</h3>
+            <p><b>Gruppinställningar › Lämna grupp.</b> Gruppen slutar se din statistik; dina egna kort och din statistik finns kvar. Lämnar admin gruppen raderas den för alla.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-sharing">
+            <summary><span class="num">05</span><span>Dela kortlekar</span></summary>
+            <div class="topic-body">
+            <ul>
+              <li><b>Med en QR-kod.</b> Öppna en kortleks <b>Dela kortlek…</b> och visa QR-koden. Den som står bredvid skannar den med Facit och får en egen kopia. Ingen grupp behövs.</li>
+              <li><b>Med en grupp.</b> Håll fingret på en kortlek och tryck på <b>Dela med grupp</b>, eller säg ja när Facit frågar direkt efter att du klistrat in en kortlek från AI. Alla i gruppen får veta det och kan lägga till en egen kopia i 30 dagar.</li>
+              <li><b>Lägga till en.</b> Tryck på notisens <b>Lägg till kortlek</b>, eller <b>Från grupp</b> på startskärmen. Den öppnas på <b>Lägg till kortlek</b> med ämnet redan valt.</li>
+            </ul>
+            <p class="tip">En delad kortlek har med sig korten, namnet, språken, datumet och ämnet – aldrig dina framsteg eller anteckningar. Bara du, som delade den, ser vem som har lagt till den.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-parents">
+            <summary><span class="num">06</span><span>För föräldrar och lärare</span></summary>
+            <div class="topic-body">
+            <p>Det svåra med att plugga med kort är att göra bra kort. Det kan du ta över från ditt barn – eller dina elever. De pluggar på sin egen telefon, och du kan följa hur det går utan att se deras kort eller röra deras telefon.</p>
+
+            <h3>Det snabba sättet: ingen app för dig</h3>
+            <ol class="topic-steps">
+              <li>Fota läxan, kopiera en <a href="#prompts">prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden.</li>
+              <li>Klistra in tabellen du får tillbaka i <a href="#builder">kortleksbyggaren</a> och läs igenom korten. Ställ in ämnet och provdatumet medan du ändå är där.</li>
+              <li>Barnet trycker på <b>Skanna QR-kod</b> i Facit och riktar telefonen mot din skärm. Kortleken är barnets, och ingen behöver ett konto.</li>
+            </ol>
+            <p>Mer än så behövs inte. Vill du följa hur det går, och skicka nästa kortlek utan att skanna, skaffar du Facit på din egen iPhone också.</p>
+
+            <h3>Med Facit på din egen iPhone</h3>
+            <ol class="topic-steps">
+              <li><b>Gör en familjegrupp</b> och låt barnet gå med – se <a href="#guide-groups">Grupper</a>.</li>
+              <li><b>Gör ett ämne åt barnet.</b> På <b>Lägg till kortlek</b>, tryck på <b>Ämne › Lägg till nytt ämne…</b>. Under <b>Vem pluggar på det här?</b> väljer du <b>Någon annan</b> och skriver barnets namn. När Facit föreslår <b>Länka till Elsa i 🏠 Familjen</b> trycker du på det – det är det som gör att du ser hur det går. Nästa gång finns namnet redan i listan.</li>
+              <li><b>Klistra in kortleken och tryck på Klar.</b> Facit frågar <b>Dela ”Europas floder”?</b> med barnet redan förvalt. Kortleken hamnar i barnets eget ämne, och bara barnet ser den och får en notis. <b>Inte nu</b> går också bra: dela-ikonen bredvid kortleken på ämnets sida gör samma sak senare.</li>
+              <li><b>Följ hur det går.</b> Ämnena du gjort åt barnet ligger under <b>Gjort för andra</b> på startskärmen, under <b>För Elsa</b>, med hur många av dagens kort hen har gjort. Tryck på namnet för barnets sida: streaken, de senaste veckorna och <b>Kommande</b> med hur redo hen är inför varje datum.</li>
+            </ol>
+
+            <h3>Det här ser du</h3>
+            <ul>
+              <li>På ämnets sida, hur det går för barnet i sin egen kopia: dagens kort, hur många hen kan och hur redo hen är inför kommande datum. Hade barnet redan ämnet under ett annat namn? Tryck på <b>Inte Elsas ämne? Välj ett annat</b>.</li>
+              <li>Bredvid varje kortlek du delat, om barnet har lagt till den än.</li>
+              <li>Barnet väljer vilka ämnen gruppen ser. Saknas ett slår hen på det under <b>Grupper som ser det</b> på ämnets sida.</li>
+              <li><b>Lägg till bild</b> på barnets sida sätter en bild från dina Kontakter bredvid namnet. Den stannar på din telefon och skickas aldrig till gruppen.</li>
+              <li>Ämnen du gör åt någon annan räknas aldrig i din egen streak, statistik eller dina grupper. Pluggar du på ett är det bara för att prova.</li>
+            </ul>
+
+            <h3>För lärare</h3>
+            <p>Gör en grupp för klassen och dela kortlekar med hela gruppen. Du ser vem som har lagt till varje kortlek – ”tillagd av Elsa och Leo · 2 av 3” – och allas provdatum under <b>Kommande</b>. Vill du följa en elev för sig gör du ett ämne åt hen; två barn som läser spanska får ett var.</p>
+            <p class="tip">Du ser aldrig barnets anteckningar eller hur det gick på varje kort, och du kan inte ändra något på barnets telefon. Pluggandet är barnets eget.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-games">
+            <summary><span class="num">07</span><span>Quizspel</span></summary>
+            <div class="topic-body">
+            <ol class="topic-steps">
+              <li>Håll fingret på en kortlek med minst tre quizkort och tryck på <b>Spela quiz</b>.</li>
+              <li>Alla i rummet skannar koden med Facit och går med med sitt namn – upp till 8 spelare. Ha bara wifi påslaget.</li>
+              <li>20 sekunder per fråga. Placeringarna visas från sist till först. Efteråt kan Facit göra en grupp med spelarna.</li>
+            </ol>
+            <p class="tip">Ett quizkort är ett kort med fel svar. Be en AI om extra kolumner med fel svar, eller lägg till dem på ett kort själv. Ett spel ändrar aldrig någons pluggschema.</p>
+            </div>
+          </details>
+          <details class="topic" id="guide-stats">
+            <summary><span class="num">08</span><span>Din statistik</span></summary>
+            <div class="topic-body">
+            <p>Tryck på din streak, eller på <b>Din statistik</b> på startskärmen: din streak och längsta streak, de senaste 12 veckorna, idag per ämne och kommande datum. <b>Så funkar Facit</b>, bredvid, har den korta versionen av den här sidan.</p>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
 
     <section class="band" id="features">
       <div class="wrap">
-        <span class="eyebrow"><b>06</b> · Under huven</span>
+        <span class="eyebrow"><b>07</b> · Under huven</span>
         <h2>Det här finns i appen</h2>
         <div class="features">
           <div class="feature">
@@ -373,7 +539,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
 
     <section class="band" id="faq">
       <div class="wrap">
-        <span class="eyebrow"><b>07</b> · Frågor</span>
+        <span class="eyebrow"><b>08</b> · Frågor</span>
         <h2>Innan du laddar ned</h2>
         <div class="faq">
           <details open>
@@ -434,7 +600,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
     <div class="wrap foot-inner">
       <span>© 2026 Facit · Byggd i Sverige för alla som har prov.</span>
       <span>
-        <a href="https://apps.apple.com/app/id6809219720">App Store</a>
+        <a href="#guide">Guide</a> · <a href="https://apps.apple.com/app/id6809219720">App Store</a>
       </span>
     </div>
   </footer>
