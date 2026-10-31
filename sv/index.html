@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Facit Flashkort</title>
-  <meta name="description" content="Facit gör dina anteckningar — eller en tabell från ChatGPT — till flashkort med spaced repetition, och skickar dem till telefonen med en animerad QR-kod.">
+  <title>Facit – glosor och flashkort av läxan. Öva med barnet inför provet</title>
+  <meta name="description" content="Fota läxan, låt en AI göra glosor och flashkort av den, och barnet skannar in dem i Facit. Öva med barnet inför provet – gratis, utan konto, annonser eller spårning.">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="apple-touch-icon" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,12 +50,33 @@
   </header>
 
   <main>
-    <section class="hero" id="top">
+    <section class="phero" id="top">
+      <div class="wrap">
+        <div class="kicker">För föräldrar</div>
+        <h1>Gör läxan till glosor och flashkort åt ditt barn – på två&nbsp;minuter</h1>
+        <p class="lead">Fota veckans glosor eller kapitlet till fredagens prov. En AI gör kort av det, och barnet övar på sin egen telefon – varje kort kommer tillbaka precis innan det glöms bort.</p>
+        <ol class="phero-steps">
+          <li><span class="phero-icon" aria-hidden="true">📸</span><b>Fota läxan</b><span>En glosläxa, en sida i boken, ett arbetsblad.</span></li>
+          <li><span class="phero-icon" aria-hidden="true">🤖</span><b>Låt en AI göra korten</b><span>Klistra in en <a href="#prompts">färdig prompt</a> i ChatGPT, Claude eller Gemini, och sedan tabellen du får tillbaka här.</span></li>
+          <li><span class="phero-icon" aria-hidden="true">📱</span><b>Barnet skannar</b><span>Rikta Facit mot QR-koden på din skärm. Inget konto för någon av er.</span></li>
+        </ol>
+        <div class="cta-row">
+          <a class="btn phero-go" href="#builder">Gör en kortlek nu ↓</a>
+          <a class="store-btn" href="https://apps.apple.com/app/id6809219720">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.13-.46 2.26-1.22 3.07-.81.9-2.16 1.6-3.28 1.5-.14-1.08.42-2.24 1.15-3.01.82-.86 2.26-1.5 3.35-1.56zM20.5 17c-.55 1.27-.82 1.84-1.53 2.96-1 1.56-2.4 3.5-4.14 3.52-1.55.02-1.95-1.01-4.05-1-2.1.02-2.53 1.02-4.08 1-1.74-.03-3.07-1.78-4.07-3.34C-.02 17.87-.3 13.17 1.35 10.67c1.13-1.73 2.9-2.73 4.56-2.73 1.7 0 2.76 1.03 4.17 1.03 1.36 0 2.19-1.03 4.18-1.03 1.5 0 3.07.82 4.2 2.24-3.69 2.02-3.09 7.31.84 8.82z"/></svg>
+            <span class="t"><small>Hämta i</small><b>App Store</b></span>
+          </a>
+        </div>
+        <p class="note">Gratis. Inga annonser, ingen prenumeration.</p>
+      </div>
+    </section>
+
+    <section class="hero" id="start">
       <div class="wrap">
         <div class="hero-grid">
           <div class="hero-copy">
             <div class="kicker">Flashkort, fast smartare</div>
-            <h1>Facit minns det du håller på att&nbsp;glömma.</h1>
+            <h2 class="hero-title">Facit minns det du håller på att&nbsp;glömma.</h2>
             <p class="lead">Flashkort som schemalägger sig själva. Bygg en kortlek av dina anteckningar — eller en tabell från <b>ChatGPT</b> — och skicka den till telefonen med en enda animerad QR&#8209;kod.</p>
             <div class="try try--hero" id="try" aria-label="Prova"></div>
           </div>
@@ -122,19 +143,21 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
                 <summary><span>🎧 Prompt för hörförståelse<small>En text som läses upp, sedan frågor om den</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptListening" aria-label="Kopiera prompt" title="Kopiera prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
-                  <pre id="promptListening">Gör en hörförståelseövning för en elev som lär sig ett språk.
-Om jag inte har sagt vilket språk, vilken årskurs och vilket ämne, fråga mig först.
+                  <pre id="promptListening">Gör en hörförståelseövning för en elev som lär sig ett språk, av materialet som jag har bifogat eller klistrat in nedan.
+Om det inte finns något material, fråga mig först vilket språk, vilken årskurs och vilket ämne jag vill ha. Om det finns material, fråga inte – utgå från dess språk och nivå.
 
-- Skriv en kort text på språket jag lär mig: ungefär 80 ord för åk 4–6, 150 för åk 7–9, 250 för gymnasiet.
+- Om materialet är en text på språket jag lär mig, använd den som text, ord för ord. Om den är mycket längre än längderna nedan, använd en del av den som går att förstå för sig.
+- Annars, skriv en kort text på språket jag lär mig utifrån materialet: använd orden i en ordlista (till exempel glosor), eller innehållet i anteckningar eller ett kapitel.
+- Längd: ungefär 80 ord för åk 4–6, 150 för åk 7–9, 250 för gymnasiet.
 - Om jag ber om en dialog, skriv en mellan två personer där varje rad börjar med talarens namn och ett kolon, som ”Ana: …”.
-- Använd ord och grammatik som passar min årskurs.
+- När du skriver texten själv, använd ord och grammatik som passar årskursen.
 
 Svara bara med detta, utan någon annan text:
 - En kort rubrik som ”# Rubrik”.
 - Texten under rubriken ”## Text”.
 - En Markdown-tabell med 5 frågor om texten, på svenska (eller på språket jag lär mig, om jag ber om det), med kolumnerna Fråga | Rätt svar | Fel svar 1 | Fel svar 2.
 - Använd aldrig tecknet | inuti en cell.</pre>
-                  <p class="prompt-hint">Klistra in den i ChatGPT, Claude eller Gemini och lägg till språk, årskurs och ämne — till exempel ”spanska, åk 7, en dag på stranden”. Kopiera hela svaret, med texten, och tryck på Klistra in från AI.</p>
+                  <p class="prompt-hint">Klistra in den i ChatGPT, Claude eller Gemini och bifoga läxan – en text, en glosläxa eller ett foto av sidan. Inget material? Skriv språk, årskurs och ämne i stället, till exempel ”spanska, åk 7, en dag på stranden”. Kopiera hela svaret, med texten, och tryck på Klistra in från AI.</p>
                 </div>
               </details>
             </div>
@@ -149,7 +172,7 @@ Svara bara med detta, utan någon annan text:
                 <span class="t"><small>Hämta i</small><b>App Store</b></span>
               </a>
             </div>
-            <p class="note">Gratis att ladda ned.</p>
+            <p class="note">Gratis. Inga annonser, ingen prenumeration.</p>
           </div>
           <ul class="promises">
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 21v-1a7 7 0 0 1 11-5.7"/><path d="M17 15l4 4M21 15l-4 4"/></svg><span><b>Inget konto</b>Ingen registrering. Öppna och plugga.</span></li>
@@ -332,10 +355,35 @@ Svara bara med detta, utan någon annan text:
     <section class="band" id="parents">
       <div class="wrap">
         <span class="eyebrow"><b>04</b> · För föräldrar</span>
-        <h2>Hjälp ditt barn att plugga</h2>
-        <div class="prose" style="margin-top:20px">
-          <p>Det svåra är att göra en bra kortlek, och det går lättare för dig än för barnet. Gör den från barnets läxa – här på en dator, eller i Facit på din egen iPhone. Barnet pluggar på sin telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
-          <p>I en familjegrupp kan du följa med: barnets streak, dagens kort och hur redo hen är inför provet. Aldrig barnets kort, och inget du kan ändra på barnets telefon.</p>
+        <h2>Öva med barnet inför provet</h2>
+        <div class="parent-split">
+          <div class="prose">
+            <p>Det svåra är att göra en bra kortlek, och det går lättare för dig än för barnet. Gör den av läxan – veckans glosor, ett kapitel inför provet – här på en dator, eller i Facit på din egen iPhone. Barnet pluggar på sin telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
+            <p>I en familjegrupp kan du följa med: barnets streak, dagens kort och hur redo hen är inför provet. Aldrig barnets kort, och inget du kan ändra på barnets telefon.</p>
+          </div>
+          <figure class="family">
+            <div class="family-card">
+              <div class="family-row">
+                <span class="family-avatar" aria-hidden="true">🦊</span>
+                <div class="family-who">
+                  <b>Elsa</b>
+                  <span class="family-streak">🔥 12 dagar i rad</span>
+                </div>
+                <span class="family-cheer-wrap">
+                  <button type="button" class="btn family-cheer" data-done="Hejat!">Heja</button>
+                </span>
+              </div>
+              <div class="family-subject">
+                <div class="family-subject-top">
+                  <span>🇪🇸 Spanska</span>
+                  <span class="family-due">Prov på fredag</span>
+                </div>
+                <div class="family-bar" aria-hidden="true"><i style="width:80%"></i></div>
+                <span class="family-ready">80 % redo</span>
+              </div>
+            </div>
+            <figcaption class="try-caption">Elsa har gjort dagens kort. Tryck på Heja – i appen ser hen det högst upp i gruppen.</figcaption>
+          </figure>
         </div>
         <ol class="steps">
           <li>
@@ -620,7 +668,7 @@ Svara bara med detta, utan någon annan text:
         <div class="faq">
           <details open>
             <summary>Är Facit gratis?</summary>
-            <p>Det är gratis att ladda ned Facit och att importera kortlekar från en QR-kod.</p>
+            <p>Ja. Facit är gratis: inga annonser, ingen prenumeration, inga köp i appen och inget konto. Allt i appen ingår.</p>
           </details>
           <details>
             <summary>Behöver jag ett konto?</summary>

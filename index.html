@@ -11,8 +11,8 @@
       if (sv && location.protocol.startsWith('http')) location.replace('/sv' + location.pathname + location.search + location.hash);
     } catch (e) { }
   </script>
-  <title>Facit Flashcards</title>
-  <meta name="description" content="Facit turns your notes — or a table from ChatGPT — into spaced-repetition flashcards, and beams them to your phone with an animated QR code.">
+  <title>Facit – Homework and Vocabulary Flashcards. Help Your Child Study</title>
+  <meta name="description" content="Snap a photo of the homework, let an AI turn it into vocabulary flashcards, and your child scans them into Facit. Help your child study for the test — free, with no account, ads or tracking.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,12 +58,33 @@
   </header>
 
   <main>
-    <section class="hero" id="top">
+    <section class="phero" id="top">
+      <div class="wrap">
+        <div class="kicker">For parents</div>
+        <h1>Turn homework into flashcards for your child — in two&nbsp;minutes</h1>
+        <p class="lead">Snap a photo of this week's vocabulary or the chapter for Friday's test. An AI turns it into cards, and your child studies them on their own phone — each card comes back just before they'd forget it.</p>
+        <ol class="phero-steps">
+          <li><span class="phero-icon" aria-hidden="true">📸</span><b>Take a photo of the homework</b><span>A word list, a page from the book, a worksheet.</span></li>
+          <li><span class="phero-icon" aria-hidden="true">🤖</span><b>Let an AI make the cards</b><span>Paste a <a href="#prompts">ready-made prompt</a> into ChatGPT, Claude or Gemini, then paste its table here.</span></li>
+          <li><span class="phero-icon" aria-hidden="true">📱</span><b>Your child scans it</b><span>Point Facit at the QR code on your screen. No account for either of you.</span></li>
+        </ol>
+        <div class="cta-row">
+          <a class="btn phero-go" href="#builder">Make a deck now ↓</a>
+          <a class="store-btn" href="https://apps.apple.com/app/id6809219720">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.13-.46 2.26-1.22 3.07-.81.9-2.16 1.6-3.28 1.5-.14-1.08.42-2.24 1.15-3.01.82-.86 2.26-1.5 3.35-1.56zM20.5 17c-.55 1.27-.82 1.84-1.53 2.96-1 1.56-2.4 3.5-4.14 3.52-1.55.02-1.95-1.01-4.05-1-2.1.02-2.53 1.02-4.08 1-1.74-.03-3.07-1.78-4.07-3.34C-.02 17.87-.3 13.17 1.35 10.67c1.13-1.73 2.9-2.73 4.56-2.73 1.7 0 2.76 1.03 4.17 1.03 1.36 0 2.19-1.03 4.18-1.03 1.5 0 3.07.82 4.2 2.24-3.69 2.02-3.09 7.31.84 8.82z"/></svg>
+            <span class="t"><small>Download on the</small><b>App Store</b></span>
+          </a>
+        </div>
+        <p class="note">Free. No ads, no subscription.</p>
+      </div>
+    </section>
+
+    <section class="hero" id="start">
       <div class="wrap">
         <div class="hero-grid">
           <div class="hero-copy">
             <div class="kicker">Flashcards, made smarter</div>
-            <h1>Facit remembers what you're about&nbsp;to forget.</h1>
+            <h2 class="hero-title">Facit remembers what you're about&nbsp;to forget.</h2>
             <p class="lead">Flashcards that schedule themselves. Build a deck from your notes — or a table from <b>ChatGPT</b> — and beam it to your phone with a single animated QR&nbsp;code.</p>
             <div class="try try--hero" id="try" aria-label="Try it"></div>
           </div>
@@ -130,19 +151,21 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
                 <summary><span>🎧 Prompt for a listening exercise<small>A text read aloud, then questions about it</small></span></summary>
                 <div class="prompt-body">
                   <button type="button" class="copy-prompt" data-target="promptListening" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
-                  <pre id="promptListening">Make a listening exercise for a language student.
-If I haven't said which language, which school year and what topic, ask me first.
+                  <pre id="promptListening">Make a listening exercise for a language student from the material I've attached or pasted below.
+If there's no material, ask me first which language, which school year and what topic I want. If there is material, don't ask — go by its language and level.
 
-- Write a short text in the language I'm learning: about 80 words for year 4–6, 150 for year 7–9, 250 for upper secondary.
+- If the material is a text in the language I'm learning, use it as the text, word for word. If it's much longer than the lengths below, use a part of it that makes sense on its own.
+- Otherwise, write a short text in the language I'm learning, built on the material: use the words from a word list (like vocabulary), or the content of notes or a chapter.
+- Length: about 80 words for year 4–6, 150 for year 7–9, 250 for upper secondary.
 - If I ask for a dialogue, write one between two people, each line starting with the speaker's name and a colon, like "Ana: …".
-- Use words and grammar that fit my school year.
+- When you write the text yourself, use words and grammar that fit the school year.
 
 Reply with only this, and no other text:
 - A short title as "# Title".
 - The text under the heading "## Text".
 - A Markdown table with 5 questions about the text, in the language of this message (or in the language I'm learning, if I ask for that), with the columns Question | Correct answer | Wrong answer 1 | Wrong answer 2.
 - Never use the | character inside a cell.</pre>
-                  <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini and add the language, year and topic — like “Spanish, year 7, a day at the beach”. Copy the whole answer, text and all, then hit Paste from AI.</p>
+                  <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini and attach the homework — a text, a word list or a photo of the page. No material? Add the language, year and topic instead, like “Spanish, year 7, a day at the beach”. Copy the whole answer, text and all, then hit Paste from AI.</p>
                 </div>
               </details>
             </div>
@@ -157,7 +180,7 @@ Reply with only this, and no other text:
                 <span class="t"><small>Download on the</small><b>App Store</b></span>
               </a>
             </div>
-            <p class="note">Free to download.</p>
+            <p class="note">Free. No ads, no subscription.</p>
           </div>
           <ul class="promises">
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 21v-1a7 7 0 0 1 11-5.7"/><path d="M17 15l4 4M21 15l-4 4"/></svg><span><b>No account</b>Nothing to sign up for. Just open and study.</span></li>
@@ -340,10 +363,35 @@ Reply with only this, and no other text:
     <section class="band" id="parents">
       <div class="wrap">
         <span class="eyebrow"><b>04</b> · For parents</span>
-        <h2>Help your child study</h2>
-        <div class="prose" style="margin-top:20px">
-          <p>Making a good deck is the hard part, and it's easier for you than for them. Make it from your child's homework — here on a computer, or in Facit on your own iPhone. They study it on their phone, and Facit brings each card back just before they'd forget it.</p>
-          <p>In a family group you can follow along: their streak, today's cards and how ready they are for the test. Never their cards, and nothing you can change on their phone.</p>
+        <h2>Help your child study for the test</h2>
+        <div class="parent-split">
+          <div class="prose">
+            <p>Making a good deck is the hard part, and it's easier for you than for them. Make it from your child's homework — this week's vocabulary, a chapter before the test — here on a computer, or in Facit on your own iPhone. They study it on their phone, and Facit brings each card back just before they'd forget it.</p>
+            <p>In a family group you can follow along: their streak, today's cards and how ready they are for the test. Never their cards, and nothing you can change on their phone.</p>
+          </div>
+          <figure class="family">
+            <div class="family-card">
+              <div class="family-row">
+                <span class="family-avatar" aria-hidden="true">🦊</span>
+                <div class="family-who">
+                  <b>Elsa</b>
+                  <span class="family-streak">🔥 12-day streak</span>
+                </div>
+                <span class="family-cheer-wrap">
+                  <button type="button" class="btn family-cheer" data-done="Cheered!">Cheer</button>
+                </span>
+              </div>
+              <div class="family-subject">
+                <div class="family-subject-top">
+                  <span>🇪🇸 Spanish</span>
+                  <span class="family-due">Test on Friday</span>
+                </div>
+                <div class="family-bar" aria-hidden="true"><i style="width:80%"></i></div>
+                <span class="family-ready">80% ready</span>
+              </div>
+            </div>
+            <figcaption class="try-caption">Elsa has done today's cards. Tap Cheer — in the app, they see it at the top of the group.</figcaption>
+          </figure>
         </div>
         <ol class="steps">
           <li>
@@ -628,7 +676,7 @@ Reply with only this, and no other text:
         <div class="faq">
           <details open>
             <summary>Is Facit free?</summary>
-            <p>Downloading Facit and importing decks from a QR code is free.</p>
+            <p>Yes. Facit is free: no ads, no subscription, no in-app purchases and no account. Everything in the app is included.</p>
           </details>
           <details>
             <summary>Do I need an account?</summary>

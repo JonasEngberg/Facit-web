@@ -366,3 +366,28 @@
 
   flashcard();
 })();
+
+// For parents: the Cheer button on the family-group row. Its labels are in the
+// page (data-done holds the "cheered" label). It animates once and sends nothing.
+(() => {
+  const btn = document.querySelector('.family-cheer');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('is-cheered')) return;
+    btn.classList.add('is-cheered');
+    btn.setAttribute('aria-disabled', 'true');
+    btn.textContent = btn.dataset.done;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const wrap = btn.parentElement;
+    ['🎉', '👏', '⭐', '🎉', '👏'].forEach((e, i) => {
+      const s = document.createElement('span');
+      s.className = 'family-burst';
+      s.textContent = e;
+      s.setAttribute('aria-hidden', 'true');
+      s.style.setProperty('--dx', `${(i - 2) * 18}px`);
+      s.style.animationDelay = `${i * 40}ms`;
+      wrap.appendChild(s);
+      setTimeout(() => s.remove(), 1200);
+    });
+  });
+})();
