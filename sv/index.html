@@ -70,7 +70,7 @@
             </div>
 
             <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Klistra in en tabell (fråga, svar, ev. fel svar) från ChatGPT, ett kalkylark eller en webbsida">Klistra in från AI</button>
-            <p class="builder-hint">Fyll kortleken snabbt: kopiera en tabell — en fråga i första kolumnen och svaret i den andra — från ChatGPT, ett kalkylark eller en webbsida, och tryck på Klistra in från AI. Lägg till fler kolumner med <b>fel svar</b> så blir raden ett <b>quizkort</b>. QR-koden uppdateras medan du redigerar.</p>
+            <p class="builder-hint">Fyll kortleken snabbt: kopiera en tabell — en fråga i första kolumnen och svaret i den andra — från ChatGPT, ett kalkylark eller en webbsida, och tryck på Klistra in från AI. Lägg till fler kolumner med <b>fel svar</b> så blir raden ett <b>quizkort</b>. En text ovanför tabellen gör en <b>hörförståelse</b>. QR-koden uppdateras medan du redigerar.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
             <div class="prompts" id="prompts">
               <details class="prompt" name="ai-prompt">
@@ -116,6 +116,25 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
 - Använd $…$ för all matematik (LaTeX).
 - Använd aldrig tecknet | inuti en cell, inte ens i matematik (skriv \lvert x \rvert i stället).</pre>
                   <p class="prompt-hint">Klistra in den i ChatGPT, Claude eller Gemini och bifoga sedan dina anteckningar, ett foto eller en fil — eller skriv bara ett ämne.</p>
+                </div>
+              </details>
+              <details class="prompt" name="ai-prompt">
+                <summary><span>🎧 Prompt för hörförståelse<small>En text som läses upp, sedan frågor om den</small></span></summary>
+                <div class="prompt-body">
+                  <button type="button" class="copy-prompt" data-target="promptListening" aria-label="Kopiera prompt" title="Kopiera prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+                  <pre id="promptListening">Gör en hörförståelseövning för en elev som lär sig ett språk.
+Om jag inte har sagt vilket språk, vilken årskurs och vilket ämne, fråga mig först.
+
+- Skriv en kort text på språket jag lär mig: ungefär 80 ord för åk 4–6, 150 för åk 7–9, 250 för gymnasiet.
+- Om jag ber om en dialog, skriv en mellan två personer där varje rad börjar med talarens namn och ett kolon, som ”Ana: …”.
+- Använd ord och grammatik som passar min årskurs.
+
+Svara bara med detta, utan någon annan text:
+- En kort rubrik som ”# Rubrik”.
+- Texten under rubriken ”## Text”.
+- En Markdown-tabell med 5 frågor om texten, på svenska (eller på språket jag lär mig, om jag ber om det), med kolumnerna Fråga | Rätt svar | Fel svar 1 | Fel svar 2.
+- Använd aldrig tecknet | inuti en cell.</pre>
+                  <p class="prompt-hint">Klistra in den i ChatGPT, Claude eller Gemini och lägg till språk, årskurs och ämne — till exempel ”spanska, åk 7, en dag på stranden”. Kopiera hela svaret, med texten, och tryck på Klistra in från AI.</p>
                 </div>
               </details>
             </div>
@@ -179,6 +198,37 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
                 <input id="dueDate" type="date" />
                 <label id="dueKindLabel">Typ</label>
                 <div class="due-kinds" id="dueKinds" role="group" aria-labelledby="dueKindLabel"></div>
+              </div>
+
+              <label class="switch switch--field" for="useListening">
+                <input type="checkbox" id="useListening" role="switch" />
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+                <span>Hörförståelsetext</span>
+              </label>
+              <div id="listeningField" hidden>
+                <label for="passage">Text</label>
+                <textarea id="passage" class="passage" rows="6" placeholder="Läses upp före frågorna"></textarea>
+                <label for="passageLanguage">Textens språk</label>
+                <select id="passageLanguage">
+                  <option value="">Låt Facit känna igen det</option>
+                  <option value="en">Engelska</option>
+                  <option value="es">Spanska</option>
+                  <option value="fr">Franska</option>
+                  <option value="de">Tyska</option>
+                  <option value="it">Italienska</option>
+                  <option value="sv">Svenska</option>
+                  <option value="nb">Norska</option>
+                  <option value="da">Danska</option>
+                  <option value="fi">Finska</option>
+                  <option value="nl">Nederländska</option>
+                  <option value="pt">Portugisiska</option>
+                  <option value="pl">Polska</option>
+                  <option value="ru">Ryska</option>
+                  <option value="zh">Kinesiska</option>
+                  <option value="ja">Japanska</option>
+                  <option value="ar">Arabiska</option>
+                </select>
+                <p class="builder-hint">En text gör det här till en <b>hörförståelse</b>: Facit 2.1 läser upp den, ställer sedan korten som frågor och visar sist texten. Äldre Facit får bara frågorna.</p>
               </div>
 
               <div class="cards-list" id="cardsList"></div>
@@ -336,7 +386,7 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
         <span class="eyebrow"><b>06</b> · Guide</span>
         <h2>Så använder du Facit</h2>
         <div class="prose" style="margin-top:20px">
-          <p>Ämnen, kortlekar, dagens kort, datum, grupper – och hur en förälder eller lärare gör kortlekar åt någon annan. Korta steg, med orden som står i appen. Öppna ett ämne.</p>
+          <p>Ämnen, kortlekar, dagens kort, datum, grupper, hörförståelse – och hur en förälder eller lärare gör kortlekar åt någon annan. Korta steg, med orden som står i appen. Öppna ett ämne.</p>
         </div>
         <div class="topics">
           <details class="topic" id="guide-subjects">
@@ -483,8 +533,29 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
             <p class="tip">Ett quizkort är ett kort med fel svar. Be en AI om extra kolumner med fel svar, eller lägg till dem på ett kort själv. Ett spel ändrar aldrig någons pluggschema.</p>
             </div>
           </details>
+          <details class="topic" id="guide-listening">
+            <summary><span class="num">08</span><span>Hörförståelse</span></summary>
+            <div class="topic-body">
+            <p>En <b>hörförståelse</b> är en kortlek med en text. Facit läser upp texten, ställer frågor om den och visar sedan texten så att du ser vad du missade. Den är gjord för språkämnen och fungerar som läsförståelse också. Hörförståelse kräver Facit 2.1.</p>
+            <h3>Gör en</h3>
+            <ol class="topic-steps">
+              <li>Kopiera <a href="#prompts">prompten för hörförståelse</a> — eller tryck på <b>Hörförståelse med AI</b> i Facit, välj språk, nivå och frågornas språk och tryck på <b>Kopiera prompten</b>.</li>
+              <li>Klistra in den i ChatGPT, Claude eller Gemini och kopiera hela svaret: texten och tabellen.</li>
+              <li>Tryck på <b>Klistra in från AI</b>. Texten ovanför frågorna blir kortlekens text, och Facit känner igen språket. Kolla den på <b>Lägg till kortlek</b> och tryck på <b>Klar</b>.</li>
+            </ol>
+            <p>Har du en egen text? Slå på <b>Hörförståelsetext</b> i <a href="#builder">kortleksbyggaren</a> och klistra in den där, eller tryck på <b>Lägg till hörförståelsetext</b> på <b>Lägg till kortlek</b> i appen.</p>
+            <h3>Gör övningen</h3>
+            <ul>
+              <li><b>Lyssna.</b> Tryck på <b>Lyssna</b> på ämnet och välj en övning. Spela upp, hoppa en mening bakåt eller framåt, upprepa en mening eller sakta ned. Fastnar du? <b>Visa texten</b>.</li>
+              <li><b>Svara.</b> Frågorna kommer som quizkort eller som kort där du skriver svaret. <b>Lyssna igen</b> när du vill.</li>
+              <li><b>Läs.</b> Texten visas, med meningen som läses upplyst, så att du ser vad du missade.</li>
+              <li><b>Resultat.</b> ”4 av 5”, och ditt bästa sparas. <b>Försök igen</b> ställer frågorna i ny ordning.</li>
+            </ul>
+            <p class="tip">Frågorna hör inte till dagens kort, men en avklarad övning räknas för din streak. Slå på <b>Läs först</b> i övningens ⋯-meny för att läsa texten i stället för att höra den. För en bättre röst, ladda ned en under Inställningar › Tillgänglighet › Uppläst innehåll › Röster på iPhone.</p>
+            </div>
+          </details>
           <details class="topic" id="guide-stats">
-            <summary><span class="num">08</span><span>Din statistik</span></summary>
+            <summary><span class="num">09</span><span>Din statistik</span></summary>
             <div class="topic-body">
             <p>Tryck på din streak, eller på <b>Din statistik</b> på startskärmen: din streak och längsta streak, de senaste 12 veckorna, idag per ämne och kommande datum. <b>Så funkar Facit</b>, bredvid, har den korta versionen av den här sidan.</p>
             </div>
@@ -529,6 +600,11 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
             <p>Ange dagen för provet, förhöret eller läxan. Ämnet visar datumet och hur redo du är, och ett tryck pluggar alla kort inför den.</p>
           </div>
           <div class="feature">
+            <div class="fi">// listen</div>
+            <h3>Hörförståelse<span class="new-tag">2.1</span></h3>
+            <p>En text som läses upp på språket du lär dig, frågor om den, och sedan texten att läsa. Be en AI om en med prompten för hörförståelse, klistra in den, så väljer Facit rösten.</p>
+          </div>
+          <div class="feature">
             <div class="fi">// offline</div>
             <h3>Offline som standard</h3>
             <p>Kortlekarna finns på enheten. Plugga på tåget, på planet eller i en föreläsningssal i källaren.</p>
@@ -565,6 +641,10 @@ Svara bara med en Markdown-tabell med fem kolumner: Fråga | Rätt svar | Fel sv
           <details>
             <summary>Kan jag göra quizkort?</summary>
             <p>Ja. Lägg till fel svar på ett kort, så visar Facit det rätta svaret och de felaktiga som knappar i slumpad ordning — väljer du rätt räknas kortet som kan, väljer du fel kommer det tillbaka för repetition. Be en AI om en tabell som: <code>Fråga | Rätt svar | Fel svar 1 | Fel svar 2 | Fel svar 3</code>. Kolumn 2 är alltid det rätta svaret. Flashkort och quizkort kan finnas i samma kortlek. Äldre versioner av appen importerar quizkort som vanliga flashkort.</p>
+          </details>
+          <details>
+            <summary>Kan Facit läsa upp en text?</summary>
+            <p>Ja, från Facit 2.1. En kortlek med en text är en hörförståelse: Facit läser texten med iPhonens egna röster, på telefonen, ställer sedan kortlekens frågor och visar texten. Klistra in ett AI-svar med en text ovanför tabellen, eller använd prompten för hörförståelse ovan. Äldre versioner av appen importerar frågorna utan texten.</p>
           </details>
           <details>
             <summary>Hur stor kan en kortlek vara?</summary>

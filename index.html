@@ -78,7 +78,7 @@
             </div>
 
             <button id="pasteBtn" class="btn btn--ai" data-msg="pasteMsg" title="Paste a table (question, answer, optional wrong answers) from ChatGPT, a spreadsheet or a web page">Paste from AI</button>
-            <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit Paste from AI. Add more columns of <b>wrong answers</b> and a row becomes a <b>quiz card</b>. The QR updates as you edit.</p>
+            <p class="builder-hint">Fill the deck fast: copy a table — a question in the first column, its answer in the second — from ChatGPT, a spreadsheet or a web page, then hit Paste from AI. Add more columns of <b>wrong answers</b> and a row becomes a <b>quiz card</b>. A text above the table makes a <b>listening exercise</b>. The QR updates as you edit.</p>
             <div id="pasteMsg" class="paste-msg" role="status" aria-live="polite" hidden></div>
             <div class="prompts" id="prompts">
               <details class="prompt" name="ai-prompt">
@@ -124,6 +124,25 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
 - Use $…$ for any math (LaTeX).
 - Never use the | character inside a cell, not even in math (write \lvert x \rvert instead).</pre>
                   <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini, then attach your notes, a photo or a file — or just name a topic.</p>
+                </div>
+              </details>
+              <details class="prompt" name="ai-prompt">
+                <summary><span>🎧 Prompt for a listening exercise<small>A text read aloud, then questions about it</small></span></summary>
+                <div class="prompt-body">
+                  <button type="button" class="copy-prompt" data-target="promptListening" aria-label="Copy prompt" title="Copy prompt"><svg class="i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+                  <pre id="promptListening">Make a listening exercise for a language student.
+If I haven't said which language, which school year and what topic, ask me first.
+
+- Write a short text in the language I'm learning: about 80 words for year 4–6, 150 for year 7–9, 250 for upper secondary.
+- If I ask for a dialogue, write one between two people, each line starting with the speaker's name and a colon, like "Ana: …".
+- Use words and grammar that fit my school year.
+
+Reply with only this, and no other text:
+- A short title as "# Title".
+- The text under the heading "## Text".
+- A Markdown table with 5 questions about the text, in the language of this message (or in the language I'm learning, if I ask for that), with the columns Question | Correct answer | Wrong answer 1 | Wrong answer 2.
+- Never use the | character inside a cell.</pre>
+                  <p class="prompt-hint">Paste it into ChatGPT, Claude or Gemini and add the language, year and topic — like “Spanish, year 7, a day at the beach”. Copy the whole answer, text and all, then hit Paste from AI.</p>
                 </div>
               </details>
             </div>
@@ -187,6 +206,37 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
                 <input id="dueDate" type="date" />
                 <label id="dueKindLabel">Type</label>
                 <div class="due-kinds" id="dueKinds" role="group" aria-labelledby="dueKindLabel"></div>
+              </div>
+
+              <label class="switch switch--field" for="useListening">
+                <input type="checkbox" id="useListening" role="switch" />
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+                <span>Listening text</span>
+              </label>
+              <div id="listeningField" hidden>
+                <label for="passage">Text</label>
+                <textarea id="passage" class="passage" rows="6" placeholder="Read aloud before the questions"></textarea>
+                <label for="passageLanguage">Text language</label>
+                <select id="passageLanguage">
+                  <option value="">Let Facit work it out</option>
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                  <option value="it">Italian</option>
+                  <option value="sv">Swedish</option>
+                  <option value="nb">Norwegian</option>
+                  <option value="da">Danish</option>
+                  <option value="fi">Finnish</option>
+                  <option value="nl">Dutch</option>
+                  <option value="pt">Portuguese</option>
+                  <option value="pl">Polish</option>
+                  <option value="ru">Russian</option>
+                  <option value="zh">Chinese</option>
+                  <option value="ja">Japanese</option>
+                  <option value="ar">Arabic</option>
+                </select>
+                <p class="builder-hint">A text makes this a <b>listening exercise</b>: Facit 2.1 reads it aloud, then asks the cards as questions, then shows the text. Older Facit gets the questions only.</p>
               </div>
 
               <div class="cards-list" id="cardsList"></div>
@@ -344,7 +394,7 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
         <span class="eyebrow"><b>06</b> · Guide</span>
         <h2>How to use Facit</h2>
         <div class="prose" style="margin-top:20px">
-          <p>Subjects, decks, today's cards, due dates, groups — and how a parent or teacher makes decks for someone else. Short steps, in the words the app uses. Open a topic.</p>
+          <p>Subjects, decks, today's cards, due dates, groups, listening — and how a parent or teacher makes decks for someone else. Short steps, in the words the app uses. Open a topic.</p>
         </div>
         <div class="topics">
           <details class="topic" id="guide-subjects">
@@ -491,8 +541,29 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
             <p class="tip">A quiz card is a card with wrong answers. Ask an AI for extra columns of wrong answers, or add them to a card yourself. A game never changes anyone's study schedule.</p>
             </div>
           </details>
+          <details class="topic" id="guide-listening">
+            <summary><span class="num">08</span><span>Listening exercises</span></summary>
+            <div class="topic-body">
+            <p>A <b>listening exercise</b> is a deck with a text. Facit reads the text aloud, asks questions about it, then shows the text so you can see what you missed. It's made for language subjects, and works as reading comprehension too. Listening needs Facit 2.1.</p>
+            <h3>Make one</h3>
+            <ol class="topic-steps">
+              <li>Copy the <a href="#prompts">listening prompt</a> — or in Facit, tap <b>Listening exercise with AI</b>, pick the language, the level and the questions' language, and tap <b>Copy prompt</b>.</li>
+              <li>Paste it into ChatGPT, Claude or Gemini, and copy the whole answer: the text and the table.</li>
+              <li>Tap <b>Paste from AI</b>. The text above the questions becomes the deck's text, and Facit recognises its language. Check it on <b>Add deck</b> and tap <b>Done</b>.</li>
+            </ol>
+            <p>Got a text of your own? In the <a href="#builder">deck builder</a>, turn on <b>Listening text</b> and paste it there, or tap <b>Add listening text</b> on <b>Add deck</b> in the app.</p>
+            <h3>Do one</h3>
+            <ul>
+              <li><b>Listen.</b> Tap <b>Listen</b> on the subject and pick an exercise. Play it, step a sentence back or forward, repeat a sentence, or slow it down. Stuck? <b>Show text</b>.</li>
+              <li><b>Answer.</b> The questions come as quiz cards, or as cards you type the answer to. <b>Listen again</b> any time.</li>
+              <li><b>Read.</b> The text appears, the sentence being read lit up, so you can check what you missed.</li>
+              <li><b>Score.</b> “4 of 5”, with your best kept. <b>Try again</b> asks the questions in a new order.</li>
+            </ul>
+            <p class="tip">The questions aren't part of today's cards, but finishing an exercise counts for your streak. Turn on <b>Read first</b> in the exercise's ⋯ menu to read the text instead of hearing it. For a better voice, download one in iPhone Settings › Accessibility › Spoken Content › Voices.</p>
+            </div>
+          </details>
           <details class="topic" id="guide-stats">
-            <summary><span class="num">08</span><span>Your stats</span></summary>
+            <summary><span class="num">09</span><span>Your stats</span></summary>
             <div class="topic-body">
             <p>Tap your streak, or <b>Your stats</b> on the main screen: your day streak and best streak, the last 12 weeks, today by subject and the due dates coming up. <b>How Facit works</b>, next to it, has the short version of this page.</p>
             </div>
@@ -537,6 +608,11 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
             <p>Set the day of the exam, test or homework. The subject shows the date and how ready you are, and one tap studies every card for it.</p>
           </div>
           <div class="feature">
+            <div class="fi">// listen</div>
+            <h3>Listening exercises<span class="new-tag">2.1</span></h3>
+            <p>A text read aloud in the language you're learning, questions about it, then the text to read. Ask an AI for one with the listening prompt, paste it, and Facit picks the voice.</p>
+          </div>
+          <div class="feature">
             <div class="fi">// offline</div>
             <h3>Offline by default</h3>
             <p>Decks live on the device. Study on a train, a plane, or a basement lecture hall.</p>
@@ -573,6 +649,10 @@ Reply with only a Markdown table with five columns: Question | Correct answer | 
           <details>
             <summary>Can I make quiz cards?</summary>
             <p>Yes. Add wrong answers to a card and Facit shows the correct answer and the wrong ones as buttons in random order — pick right and the card counts as known, pick wrong and it comes back to repeat. From an AI, ask for a table like: <code>Question | Correct answer | Wrong answer 1 | Wrong answer 2 | Wrong answer 3</code>. Column 2 is always the correct answer. Flashcards and quiz cards can share a deck. Older versions of the app import quiz cards as ordinary flashcards.</p>
+          </details>
+          <details>
+            <summary>Can Facit read a text aloud?</summary>
+            <p>Yes, from Facit 2.1. A deck with a text is a listening exercise: Facit reads the text with the iPhone's own voices, on the phone, then asks the deck's questions and shows the text. Paste an AI's answer with a text above the table, or use the listening prompt above. Older versions of the app import the questions without the text.</p>
           </details>
           <details>
             <summary>How large can a deck be?</summary>

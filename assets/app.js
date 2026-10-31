@@ -95,18 +95,28 @@ let deck = {
   dueDate: null,
   dueKind: '',
   subject: emptySubject(),
+  listening: false,
+  passage: '',
+  passageLanguage: '',
   cards: T.sampleDeck.cards
 };
 
 // Reset the deck to an empty slate (used before importing an AI-parsed deck)
 function clearDeck() {
-  deck = { name: '', dueDate: null, dueKind: '', subject: emptySubject(), cards: [] };
+  deck = { name: '', dueDate: null, dueKind: '', subject: emptySubject(), listening: false, passage: '', passageLanguage: '', cards: [] };
 }
 
-// Replace the whole deck with cards parsed from an AI table / clipboard
-function applyParsedCards(parsed) {
+// Replace the whole deck with cards parsed from an AI table / clipboard. A
+// text above the table (`source`) makes it a listening deck, as in the app.
+function applyParsedCards(parsed, source) {
   clearDeck();
   deck.cards = parsed;
+  const found = passageIn(source);
+  if (found.passage) {
+    deck.listening = true;
+    deck.passage = found.passage;
+    deck.name = found.title;
+  }
   syncForm();
   generateQRCodes();
   hidePasteMsg();
@@ -181,6 +191,14 @@ function encodeDeckText(deck) {
     parts.push(`s:${encodeMetadataValue(subjectTitle)}`);
     if (deck.subject.emoji) parts.push(`se:${encodeMetadataValue(deck.subject.emoji)}`);
     if (deck.subject.color) parts.push(`sc:${deck.subject.color}`);
+  }
+  // A listening deck's text, read aloud before the questions: p:<passage>
+  // (escaped like d:, newlines kept) and tl:<language>. Facit 2.0 skips them
+  // and imports the questions as a plain deck. Mirrors QrPayloadCodec (iOS).
+  const passage = deck.listening ? (deck.passage || '').trim() : '';
+  if (passage) {
+    parts.push(`p:${encodeMetadataValue(passage)}`);
+    if (deck.passageLanguage) parts.push(`tl:${deck.passageLanguage}`);
   }
   const cardValues = [];
   for (const c of deck.cards || []) {
@@ -430,13 +448,13 @@ async function readHtmlClipboard() {
             const blob = await item.getType('text/html');
             const html = await blob.text();
             const parsed = parseClipboardHtml(html);
-            if (parsed && parsed.length>0) { applyParsedCards(parsed); return; }
+            if (parsed && parsed.length>0) { applyParsedCards(parsed, html); return; }
           }
           if (item.types.includes('text/markdown')) {
             const blob = await item.getType('text/markdown');
             const md = await blob.text();
             const parsed = parseMarkdownTable(md);
-            if (parsed && parsed.length>0) { applyParsedCards(parsed); return; }
+            if (parsed && parsed.length>0) { applyParsedCards(parsed, md); return; }
           }
         }
       } catch (e) {
@@ -452,7 +470,7 @@ async function readHtmlClipboard() {
     }
 
     const fromMd = parseMarkdownTable(text);
-    if (fromMd && fromMd.length>0) { applyParsedCards(fromMd); return; }
+    if (fromMd && fromMd.length>0) { applyParsedCards(fromMd, text); return; }
 
     const fromTsv = parseTSV(text);
     if (fromTsv && fromTsv.length>0) { applyParsedCards(fromTsv); return; }
@@ -543,6 +561,109 @@ function parseTSV(text) {
   return rows;
 }
 
+// --- A listening deck's text: the prose above a pasted table ---
+// Mirrors PassageParser (iOS): only the part before a Markdown table's first
+// `|` line or an HTML <table>; with headings (`## Text`, <h2>, a line that is
+// only bold) the longest section between them, else everything less a short
+// opening line ending in ":". Emphasis and rules dropped, paragraphs kept.
+// Fewer than 8 words is no text, so a stray line above a word list doesn't
+// make a listening deck.
+const PassageMinimumWords = 8;
+
+function passageIn(source) {
+  const none = { passage: '', title: '' };
+  if (!source) return none;
+  let prose;
+  const table = source.search(/<table/i);
+  if (table >= 0) prose = plainTextFromHtml(source.slice(0, table));
+  else if (/<tr/i.test(source)) return none;
+  else prose = beforeMarkdownTable(source);
+  const passage = cleanedPassage(passageSection(prose));
+  if (wordCount(passage) < PassageMinimumWords) return none;
+  return { passage, title: passageTitle(prose) };
+}
+
+function beforeMarkdownTable(text) {
+  const lines = text.split(/\r?\n/);
+  const first = lines.findIndex(l => { const t = l.trim(); return t.length > 1 && t.startsWith('|') && t.endsWith('|'); });
+  return first < 0 ? '' : lines.slice(0, first).join('\n');
+}
+
+function wordCount(s) { return (s || '').split(/\s+/).filter(Boolean).length; }
+
+function isPassageHeading(line) {
+  const t = line.trim();
+  if (!t) return false;
+  if (t.startsWith('#')) return true;
+  for (const mark of ['**', '__']) {
+    if (t.startsWith(mark) && t.endsWith(mark) && t.length > 4) return !t.slice(2, -2).includes(mark);
+  }
+  return t.endsWith(':') && wordCount(t) <= 4;
+}
+
+function passageSection(prose) {
+  const lines = prose.split(/\r?\n/);
+  const sections = [[]];
+  let sawHeading = false;
+  for (const line of lines) {
+    if (isPassageHeading(line)) { sawHeading = true; sections.push([]); }
+    else sections[sections.length - 1].push(line);
+  }
+  if (sawHeading) {
+    let best = sections[0];
+    for (const s of sections) if (wordCount(s.join(' ')) > wordCount(best.join(' '))) best = s;
+    return best.join('\n');
+  }
+  const start = lines.findIndex(l => l.trim());
+  let body = start < 0 ? [] : lines.slice(start);
+  if (body.length && body[0].trim().endsWith(':') && body[0].trim().length <= 80) body = body.slice(1);
+  return body.join('\n');
+}
+
+function cleanedPassage(text) {
+  const paragraphs = []; let current = [];
+  for (const raw of text.split(/\r?\n/)) {
+    let line = raw.trim();
+    if (/^[-*_=]*$/.test(line)) line = '';          // a rule
+    if (line.startsWith('>')) line = line.slice(1).trim();
+    line = line.split('**').join('').split('__').join('');
+    if (!line) { if (current.length) { paragraphs.push(current.join('\n')); current = []; } }
+    else current.push(line);
+  }
+  if (current.length) paragraphs.push(current.join('\n'));
+  return paragraphs.join('\n\n');
+}
+
+// A title the AI gave the text: the first heading, when the text isn't right
+// under it ("# Lucía en Sevilla" over "## Text").
+function passageTitle(prose) {
+  const lines = prose.split(/\r?\n/);
+  // "Here is your exercise:" above it all only announces what follows.
+  const start = lines.findIndex(l => l.trim());
+  if (start >= 0 && !lines[start].trim().startsWith('#') && lines[start].trim().endsWith(':')) lines[start] = '';
+  const first = lines.findIndex(isPassageHeading);
+  if (first < 0) return '';
+  const after = lines.slice(first + 1);
+  const end = after.findIndex(isPassageHeading);
+  const section = end < 0 ? after : after.slice(0, end);
+  if (wordCount(section.join(' ')) >= PassageMinimumWords) return '';
+  return cleanedPassage(lines[first]).replace(/^[#:*_\s]+|[#:*_\s]+$/g, '');
+}
+
+// Block tags to line breaks (headings kept as `#` lines), other tags out,
+// entities decoded.
+function plainTextFromHtml(html) {
+  let s = html
+    .replace(/<h[1-6][^>]*>/gi, '\n# ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|h[1-6]|li|blockquote)>/gi, '\n\n')
+    .replace(/<(head|style|script)[^>]*>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<[^>]+>/g, '');
+  const decoder = document.createElement('textarea');
+  decoder.innerHTML = s;
+  return decoder.value;
+}
+
 function parseClipboardHtml(html) {
   const cards = [];
   if (!html) return cards;
@@ -617,6 +738,15 @@ DueKinds.forEach(kind => {
 function renderDueKinds() {
   document.querySelectorAll('.due-kind').forEach(b => b.setAttribute('aria-pressed', b.dataset.kind === deck.dueKind));
 }
+
+// Listening text: a switch, then the text and the language it's read in
+document.getElementById('useListening').addEventListener('change', (e) => {
+  deck.listening = e.target.checked;
+  document.getElementById('listeningField').hidden = !deck.listening;
+  generateQRCodes();
+});
+document.getElementById('passage').addEventListener('input', (e) => { deck.passage = e.target.value; generateQRCodes(); });
+document.getElementById('passageLanguage').addEventListener('change', (e) => { deck.passageLanguage = e.target.value; generateQRCodes(); });
 
 // Subject: name, emoji and colour. The emoji and colour pickers show once
 // there's a name, since the QR code only carries them with one.
@@ -728,6 +858,10 @@ function syncForm() {
   document.getElementById('dueDateField').hidden = !use;
   document.getElementById('dueDate').value = formatDueDateForInput(deck.dueDate);
   renderDueKinds();
+  document.getElementById('useListening').checked = deck.listening;
+  document.getElementById('listeningField').hidden = !deck.listening;
+  document.getElementById('passage').value = deck.passage || '';
+  document.getElementById('passageLanguage').value = deck.passageLanguage || '';
   document.getElementById('subjectTitle').value = deck.subject.title;
   renderSubject();
   renderCards();
