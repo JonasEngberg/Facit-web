@@ -55,10 +55,36 @@
         <div class="kicker">För föräldrar</div>
         <h1>Gör läxan till glosor och flashkort åt ditt barn – på två&nbsp;minuter</h1>
         <p class="lead">Fota veckans glosor eller kapitlet till fredagens prov. En AI gör kort av det, och barnet övar på sin egen telefon – varje kort kommer tillbaka precis innan det glöms bort.</p>
-        <ol class="phero-steps">
-          <li><span class="phero-icon" aria-hidden="true">📸</span><b>Fota läxan</b><span>En glosläxa, en sida i boken, ett arbetsblad.</span></li>
-          <li><span class="phero-icon" aria-hidden="true">🤖</span><b>Låt en AI göra korten</b><span>Klistra in en <a href="#prompts">färdig prompt</a> i ChatGPT, Claude eller Gemini, och sedan tabellen du får tillbaka här.</span></li>
-          <li><span class="phero-icon" aria-hidden="true">📱</span><b>Barnet skannar</b><span>Rikta Facit mot QR-koden på din skärm. Inget konto för någon av er.</span></li>
+        <ol class="journey" aria-label="Så funkar det">
+          <li class="jstep">
+            <div class="jvis" aria-hidden="true">
+              <div class="jpaper"><span class="jpaper-h">Spanska · vecka 12</span><span>el perro — hunden</span><span>el gato — katten</span><span>la casa — huset</span></div>
+              <i class="jframe"></i>
+            </div>
+            <div class="jmeta"><span class="jnum">1</span><span class="jwho">Du · 10 sek</span></div>
+            <h3>Fota läxan</h3>
+            <p>En glosläxa, en sida i boken, ett arbetsblad.</p>
+          </li>
+          <li class="jstep">
+            <div class="jvis" aria-hidden="true">
+              <span class="jbadge">Klistra in från AI</span>
+              <div class="jtable"><span class="th">Fråga</span><span class="th">Svar</span><span>el perro</span><span>hunden</span><span>el gato</span><span>katten</span><span>la casa</span><span>huset</span></div>
+            </div>
+            <div class="jmeta"><span class="jnum">2</span><span class="jwho">Du · ca 1 min</span></div>
+            <h3>Låt en AI göra korten</h3>
+            <p>Kopiera prompten till ChatGPT, Claude eller Gemini och bifoga bilden. Tryck på <b>Klistra in från AI</b> här nedanför med tabellen du får tillbaka.</p>
+            <a class="jlink" href="#prompts">Hämta prompten ↓</a>
+          </li>
+          <li class="jstep jstep--child">
+            <div class="jvis jvis--scan" aria-hidden="true">
+              <svg class="jqr" viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM6 6h2v2H6zM6 16h2v2H6zM16 6h2v2h-2zM19 19h2v2h-2zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2z"/></svg>
+              <span class="jok">✓ 3 kort tillagda</span>
+              <div class="jphone"><span class="jphone-sub">Spanska · 3 kort</span><span class="jcard">el gato</span></div>
+            </div>
+            <div class="jmeta"><span class="jnum">3</span><span class="jwho">Barnet · 10 sek</span></div>
+            <h3>Barnet skannar</h3>
+            <p>Barnet riktar Facit mot QR-koden på din skärm. Inget konto för någon av er.</p>
+          </li>
         </ol>
         <div class="cta-row">
           <a class="btn phero-go" href="#builder">Gör en kortlek nu ↓</a>
@@ -356,11 +382,17 @@ Svara bara med detta, utan någon annan text:
       <div class="wrap">
         <span class="eyebrow"><b>04</b> · För föräldrar</span>
         <h2>Öva med barnet inför provet</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Det svåra är att göra en bra kortlek, och det går lättare för dig än för barnet. Tre steg, sedan övar barnet på sin egen telefon medan Facit visar varje kort igen precis innan det glöms bort.</p>
+        </div>
         <div class="parent-split">
-          <div class="prose">
-            <p>Det svåra är att göra en bra kortlek, och det går lättare för dig än för barnet. Gör den av läxan – veckans glosor, ett kapitel inför provet – här på en dator, eller i Facit på din egen iPhone. Barnet pluggar på sin telefon, och Facit visar varje kort igen precis innan det glöms bort.</p>
-            <p>I en familjegrupp kan du följa med: barnets streak, dagens kort och hur redo hen är inför provet. Aldrig barnets kort, och inget du kan ändra på barnets telefon.</p>
-          </div>
+          <ol class="timeline">
+            <li><span class="tl-num">1</span><div><h3>Fota läxan <span class="jwho">Du</span></h3><p>Veckans glosor, ett kapitel inför provet, ett arbetsblad.</p></div></li>
+            <li><span class="tl-num">2</span><div><h3>Låt en AI göra kortleken <span class="jwho">Du</span></h3><p>Kopiera en <a href="#prompts">färdig prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden. Tryck på <b>Klistra in från AI</b> med tabellen du får tillbaka – här, eller i Facit på din egen iPhone – och läs igenom korten.</p></div></li>
+            <li class="tl-child"><span class="tl-num">3</span><div><h3>Barnet skannar <span class="jwho">Barnet</span></h3><p>Barnet trycker på <b>Skanna QR-kod</b> och riktar telefonen mot din skärm. Kortleken är barnets, och ingen av er behöver ett konto.</p></div></li>
+            <li class="tl-done"><span class="tl-num" aria-hidden="true">✓</span><div><h3>Klart – mer än så behövs inte</h3><p>Härifrån säger Facit vilka kort barnet ska öva på varje dag, ända fram till provet.</p></div></li>
+            <li class="tl-opt"><span class="tl-num">4</span><div><h3>Följ hur det går <span class="tl-tag">Valfritt</span></h3><p>Skaffa Facit på din egen iPhone och gör en familjegrupp. Gör ämnet åt <b>Någon annan</b> och länka det till barnet: du ser dagens kort, streaken och hur redo hen är inför provet, och nästa kortlek går direkt till barnet utan att skanna. Aldrig barnets kort, och inget du kan ändra på barnets telefon.</p></div></li>
+          </ol>
           <figure class="family">
             <div class="family-card">
               <div class="family-row">
@@ -385,20 +417,6 @@ Svara bara med detta, utan någon annan text:
             <figcaption class="try-caption">Elsa har gjort dagens kort. Tryck på Heja – i appen ser hen det högst upp i gruppen.</figcaption>
           </figure>
         </div>
-        <ol class="steps">
-          <li>
-            <h3>Låt en AI göra kortleken</h3>
-            <p>Fota läxan, kopiera en <a href="#prompts">färdig prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden. Tryck på <b>Klistra in från AI</b> med tabellen du får tillbaka, här eller i Facit, och läs igenom korten.</p>
-          </li>
-          <li>
-            <h3>Ge den till barnet</h3>
-            <p>Barnet trycker på <b>Skanna QR-kod</b> och riktar telefonen mot din skärm – inget konto för någon av er. I en familjegrupp delar du den med barnet i stället: den hamnar direkt i barnets eget ämne.</p>
-          </li>
-          <li>
-            <h3>Följ hur det går</h3>
-            <p>Gör ämnet åt <b>Någon annan</b> i Facit och länka det till barnet i familjegruppen. Det räknas aldrig som ditt eget pluggande, och du ser hur det går: dagens kort, streaken och hur redo hen är inför provet. Heja när hen är klar.</p>
-          </li>
-        </ol>
         <a class="step-cta" href="#guide-parents">Steg för steg för föräldrar och lärare →</a>
       </div>
     </section>
@@ -542,13 +560,13 @@ Svara bara med detta, utan någon annan text:
 
             <h3>Det snabba sättet: ingen app för dig</h3>
             <ol class="topic-steps">
-              <li>Fota läxan, kopiera en <a href="#prompts">prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden.</li>
-              <li>Klistra in tabellen du får tillbaka i <a href="#builder">kortleksbyggaren</a> och läs igenom korten. Ställ in ämnet och provdatumet medan du ändå är där.</li>
+              <li>Fota läxan: en glosläxa, en sida i boken, ett arbetsblad.</li>
+              <li>Kopiera en <a href="#prompts">prompt</a> till ChatGPT, Claude eller Gemini och bifoga bilden. Klistra in tabellen du får tillbaka i <a href="#builder">kortleksbyggaren</a> och läs igenom korten. Ställ in ämnet och provdatumet medan du ändå är där.</li>
               <li>Barnet trycker på <b>Skanna QR-kod</b> i Facit och riktar telefonen mot din skärm. Kortleken är barnets, och ingen behöver ett konto.</li>
             </ol>
             <p>Mer än så behövs inte. Vill du följa hur det går, och skicka nästa kortlek utan att skanna, skaffar du Facit på din egen iPhone också.</p>
 
-            <h3>Med Facit på din egen iPhone</h3>
+            <h3>Steg 4, om du vill: Facit på din egen iPhone</h3>
             <ol class="topic-steps">
               <li><b>Gör en familjegrupp</b> och låt barnet gå med – se <a href="#guide-groups">Grupper</a>.</li>
               <li><b>Gör ett ämne åt barnet.</b> På <b>Lägg till kortlek</b>, tryck på <b>Ämne › Lägg till nytt ämne…</b>. Under <b>Vem pluggar på det här?</b> väljer du <b>Någon annan</b> och skriver barnets namn. När Facit föreslår <b>Länka till Elsa i 🏠 Familjen</b> trycker du på det – det är det som gör att du ser hur det går. Nästa gång finns namnet redan i listan.</li>

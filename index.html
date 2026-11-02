@@ -63,10 +63,36 @@
         <div class="kicker">For parents</div>
         <h1>Turn homework into flashcards for your child — in two&nbsp;minutes</h1>
         <p class="lead">Snap a photo of this week's vocabulary or the chapter for Friday's test. An AI turns it into cards, and your child studies them on their own phone — each card comes back just before they'd forget it.</p>
-        <ol class="phero-steps">
-          <li><span class="phero-icon" aria-hidden="true">📸</span><b>Take a photo of the homework</b><span>A word list, a page from the book, a worksheet.</span></li>
-          <li><span class="phero-icon" aria-hidden="true">🤖</span><b>Let an AI make the cards</b><span>Paste a <a href="#prompts">ready-made prompt</a> into ChatGPT, Claude or Gemini, then paste its table here.</span></li>
-          <li><span class="phero-icon" aria-hidden="true">📱</span><b>Your child scans it</b><span>Point Facit at the QR code on your screen. No account for either of you.</span></li>
+        <ol class="journey" aria-label="How it works">
+          <li class="jstep">
+            <div class="jvis" aria-hidden="true">
+              <div class="jpaper"><span class="jpaper-h">Spanish · week 12</span><span>el perro — the dog</span><span>el gato — the cat</span><span>la casa — the house</span></div>
+              <i class="jframe"></i>
+            </div>
+            <div class="jmeta"><span class="jnum">1</span><span class="jwho">You · 10 sec</span></div>
+            <h3>Take a photo of the homework</h3>
+            <p>A word list, a page from the book, a worksheet.</p>
+          </li>
+          <li class="jstep">
+            <div class="jvis" aria-hidden="true">
+              <span class="jbadge">Paste from AI</span>
+              <div class="jtable"><span class="th">Question</span><span class="th">Answer</span><span>el perro</span><span>the dog</span><span>el gato</span><span>the cat</span><span>la casa</span><span>the house</span></div>
+            </div>
+            <div class="jmeta"><span class="jnum">2</span><span class="jwho">You · about 1 min</span></div>
+            <h3>Let an AI make the cards</h3>
+            <p>Copy the prompt into ChatGPT, Claude or Gemini and attach the photo. Hit <b>Paste from AI</b> below with the table it answers.</p>
+            <a class="jlink" href="#prompts">Get the prompt ↓</a>
+          </li>
+          <li class="jstep jstep--child">
+            <div class="jvis jvis--scan" aria-hidden="true">
+              <svg class="jqr" viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM6 6h2v2H6zM6 16h2v2H6zM16 6h2v2h-2zM19 19h2v2h-2zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2z"/></svg>
+              <span class="jok">✓ 3 cards added</span>
+              <div class="jphone"><span class="jphone-sub">Spanish · 3 cards</span><span class="jcard">el gato</span></div>
+            </div>
+            <div class="jmeta"><span class="jnum">3</span><span class="jwho">Your child · 10 sec</span></div>
+            <h3>Your child scans it</h3>
+            <p>They point Facit at the QR code on your screen. No account for either of you.</p>
+          </li>
         </ol>
         <div class="cta-row">
           <a class="btn phero-go" href="#builder">Make a deck now ↓</a>
@@ -364,11 +390,17 @@ Reply with only this, and no other text:
       <div class="wrap">
         <span class="eyebrow"><b>04</b> · For parents</span>
         <h2>Help your child study for the test</h2>
+        <div class="prose" style="margin-top:20px">
+          <p>Making a good deck is the hard part, and it's easier for you than for them. Three steps, and they study on their own phone while Facit brings each card back just before they'd forget it.</p>
+        </div>
         <div class="parent-split">
-          <div class="prose">
-            <p>Making a good deck is the hard part, and it's easier for you than for them. Make it from your child's homework — this week's vocabulary, a chapter before the test — here on a computer, or in Facit on your own iPhone. They study it on their phone, and Facit brings each card back just before they'd forget it.</p>
-            <p>In a family group you can follow along: their streak, today's cards and how ready they are for the test. Never their cards, and nothing you can change on their phone.</p>
-          </div>
+          <ol class="timeline">
+            <li><span class="tl-num">1</span><div><h3>Take a photo of the homework <span class="jwho">You</span></h3><p>This week's vocabulary, a chapter before the test, a worksheet.</p></div></li>
+            <li><span class="tl-num">2</span><div><h3>Let an AI make the deck <span class="jwho">You</span></h3><p>Copy a <a href="#prompts">ready-made prompt</a> into ChatGPT, Claude or Gemini and attach the photo. Hit <b>Paste from AI</b> with the table it answers — here, or in Facit on your own iPhone — and read through the cards.</p></div></li>
+            <li class="tl-child"><span class="tl-num">3</span><div><h3>Your child scans it <span class="jwho">Your child</span></h3><p>They tap <b>Scan QR code</b> and point the phone at your screen. The deck is theirs, and neither of you needs an account.</p></div></li>
+            <li class="tl-done"><span class="tl-num" aria-hidden="true">✓</span><div><h3>Done — that's all it takes</h3><p>From here, Facit tells your child which cards to study each day, until the test.</p></div></li>
+            <li class="tl-opt"><span class="tl-num">4</span><div><h3>Follow how it goes <span class="tl-tag">Optional</span></h3><p>Put Facit on your own iPhone and make a family group. Make the subject for <b>Someone else</b> and link it to your child: you see today's cards, their streak and how ready they are for the test, and the next deck goes straight to them without scanning. Never their cards, and nothing you can change on their phone.</p></div></li>
+          </ol>
           <figure class="family">
             <div class="family-card">
               <div class="family-row">
@@ -393,20 +425,6 @@ Reply with only this, and no other text:
             <figcaption class="try-caption">Elsa has done today's cards. Tap Cheer — in the app, they see it at the top of the group.</figcaption>
           </figure>
         </div>
-        <ol class="steps">
-          <li>
-            <h3>Let an AI make the deck</h3>
-            <p>Take a photo of the homework, copy a <a href="#prompts">ready-made prompt</a> into ChatGPT, Claude or Gemini and attach the photo. Hit <b>Paste from AI</b> with the table it answers, here or in Facit, and read through the cards.</p>
-          </li>
-          <li>
-            <h3>Get it to your child</h3>
-            <p>Your child taps <b>Scan QR code</b> and points the phone at your screen — no account for either of you. In a family group, share it with them instead: it goes straight into their own subject.</p>
-          </li>
-          <li>
-            <h3>Follow how it goes</h3>
-            <p>In Facit, make the subject for <b>Someone else</b> and link it to your child in the family group. It never counts as your own studying, and you see how they're doing: today's cards, their streak and how ready they are for the test. Send a cheer when they're done.</p>
-          </li>
-        </ol>
         <a class="step-cta" href="#guide-parents">Step by step for parents and teachers →</a>
       </div>
     </section>
@@ -550,13 +568,13 @@ Reply with only this, and no other text:
 
             <h3>The quick way: no app for you</h3>
             <ol class="topic-steps">
-              <li>Take a photo of the homework, copy a <a href="#prompts">prompt</a> into ChatGPT, Claude or Gemini and attach the photo.</li>
-              <li>Paste the table it gives you into the <a href="#builder">deck builder</a> and read through the cards. Set the subject and the test date while you're there.</li>
+              <li>Take a photo of the homework: a word list, a page from the book, a worksheet.</li>
+              <li>Copy a <a href="#prompts">prompt</a> into ChatGPT, Claude or Gemini and attach the photo. Paste the table it gives you into the <a href="#builder">deck builder</a> and read through the cards. Set the subject and the test date while you're there.</li>
               <li>Your child taps <b>Scan QR code</b> in Facit and points their phone at your screen. The deck is theirs, and nobody needs an account.</li>
             </ol>
             <p>That's all it takes. To follow how it goes, and send the next deck without scanning, put Facit on your own iPhone too.</p>
 
-            <h3>With Facit on your own iPhone</h3>
+            <h3>Step 4, if you like: Facit on your own iPhone</h3>
             <ol class="topic-steps">
               <li><b>Make a family group</b> and let your child join it — see <a href="#guide-groups">Groups</a>.</li>
               <li><b>Make a subject for your child.</b> On <b>Add deck</b>, tap <b>Subject › Add new subject…</b>. Under <b>Who studies this?</b>, choose <b>Someone else</b> and type their name. When Facit suggests <b>Link to Elsa in 🏠 Family</b>, tap it — that's what lets you see how they're doing. Next time, their name is already in the list.</li>
