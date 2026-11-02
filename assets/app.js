@@ -116,6 +116,8 @@ function applyParsedCards(parsed, source) {
     deck.listening = true;
     deck.passage = found.passage;
     deck.name = found.title;
+  } else {
+    deck.name = deckTitleIn(source);
   }
   syncForm();
   generateQRCodes();
@@ -572,15 +574,27 @@ const PassageMinimumWords = 8;
 
 function passageIn(source) {
   const none = { passage: '', title: '' };
-  if (!source) return none;
-  let prose;
-  const table = source.search(/<table/i);
-  if (table >= 0) prose = plainTextFromHtml(source.slice(0, table));
-  else if (/<tr/i.test(source)) return none;
-  else prose = beforeMarkdownTable(source);
+  const prose = proseAbove(source);
+  if (!prose) return none;
   const passage = cleanedPassage(passageSection(prose));
   if (wordCount(passage) < PassageMinimumWords) return none;
   return { passage, title: passageTitle(prose) };
+}
+
+// The text above the table: from HTML (headings kept as `#` lines) or Markdown.
+function proseAbove(source) {
+  if (!source) return '';
+  const table = source.search(/<table/i);
+  if (table >= 0) return plainTextFromHtml(source.slice(0, table));
+  if (/<tr/i.test(source)) return '';
+  return beforeMarkdownTable(source);
+}
+
+// A flashcard or quiz deck's title: the first `#` heading above the table,
+// as the prompts ask for ("# Spanish: animals").
+function deckTitleIn(source) {
+  const line = proseAbove(source).split(/\r?\n/).find(l => /^#{1,6}\s/.test(l.trim()));
+  return line ? cleanedPassage(line).replace(/^[#:*_\s]+|[#:*_\s]+$/g, '').slice(0, 80) : '';
 }
 
 function beforeMarkdownTable(text) {
