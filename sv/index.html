@@ -232,7 +232,10 @@ Svara bara med detta, utan någon annan text:
               <label for="subjectTitle">Ämne</label>
               <div class="subject-row">
                 <span class="subject-badge" id="subjectBadge" aria-hidden="true"></span>
-                <input id="subjectTitle" type="text" placeholder="Valfritt — t.ex. Spanska eller Biologi" />
+                <div class="subject-input">
+                  <input id="subjectTitle" type="text" placeholder="Valfritt — t.ex. Spanska eller Biologi" />
+                  <button type="button" class="subject-clear" id="subjectClear" aria-label="Rensa ämne" title="Rensa ämne" hidden>×</button>
+                </div>
               </div>
               <div id="subjectStyle" hidden>
                 <div>

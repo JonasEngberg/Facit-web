@@ -240,7 +240,10 @@ Reply with only this, and no other text:
               <label for="subjectTitle">Subject</label>
               <div class="subject-row">
                 <span class="subject-badge" id="subjectBadge" aria-hidden="true"></span>
-                <input id="subjectTitle" type="text" placeholder="Optional — like Spanish or Biology" />
+                <div class="subject-input">
+                  <input id="subjectTitle" type="text" placeholder="Optional — like Spanish or Biology" />
+                  <button type="button" class="subject-clear" id="subjectClear" aria-label="Clear subject" title="Clear subject" hidden>×</button>
+                </div>
               </div>
               <div id="subjectStyle" hidden>
                 <div>

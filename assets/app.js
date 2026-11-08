@@ -101,9 +101,11 @@ let deck = {
   cards: T.sampleDeck.cards
 };
 
-// Reset the deck to an empty slate (used before importing an AI-parsed deck)
+// Reset the deck to an empty slate (used before importing an AI-parsed deck).
+// The subject stays: a clipboard never carries one, and several decks in a row
+// often go in the same subject.
 function clearDeck() {
-  deck = { name: '', dueDate: null, dueKind: '', subject: emptySubject(), listening: false, passage: '', passageLanguage: '', cards: [] };
+  deck = { name: '', dueDate: null, dueKind: '', subject: deck.subject, listening: false, passage: '', passageLanguage: '', cards: [] };
 }
 
 // Replace the whole deck with cards parsed from an AI table / clipboard. A
@@ -812,6 +814,13 @@ SubjectColors.forEach((color, i) => {
   document.getElementById('colorDots').append(b);
 });
 document.getElementById('subjectTitle').addEventListener('input', (e) => setSubject({ title: e.target.value }));
+// Clearing starts over, so the next subject doesn't inherit this one's emoji and colour
+document.getElementById('subjectClear').addEventListener('click', () => {
+  const input = document.getElementById('subjectTitle');
+  input.value = '';
+  setSubject(emptySubject());
+  input.focus();
+});
 
 function renderSubject() {
   const s = deck.subject;
@@ -820,6 +829,7 @@ function renderSubject() {
   badge.classList.toggle('subject-badge--empty', !s.emoji);
   badge.style.setProperty('--subject', s.color);
   document.getElementById('subjectStyle').hidden = !s.title.trim();
+  document.getElementById('subjectClear').hidden = !s.title;
   const custom = !!s.emoji && !SubjectEmojis.includes(s.emoji);
   document.querySelectorAll('#emojiGrid button').forEach(b => {
     b.classList.toggle('is-selected', b.dataset.emoji === s.emoji);

@@ -240,7 +240,11 @@ section{scroll-margin-top:80px}
 /* subject: a badge beside its name, then emoji and colour pickers — like the
    iOS subject editor. Due date type: a row of buttons, tap again for none. */
 .subject-row{display:flex;align-items:center;gap:10px;max-width:420px;margin-top:6px}
-.builder .subject-row input[type=text]{margin-top:0}
+.builder .subject-row input[type=text]{margin-top:0;padding-right:38px}
+.subject-input{position:relative;flex:1;min-width:0}
+.subject-clear{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;color:var(--muted);background:transparent;border:none;border-radius:7px;cursor:pointer}
+.subject-clear:hover{color:var(--ink);background:color-mix(in srgb, var(--ink) 8%, transparent)}
+.subject-clear[hidden]{display:none}
 .subject-badge{flex:none;width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;line-height:1;background:color-mix(in srgb, var(--subject) 30%, var(--raise));border:2px solid var(--subject)}
 .subject-badge--empty{opacity:.4}
 /* emoji and colours side by side when there's room, else stacked */
